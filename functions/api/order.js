@@ -6,7 +6,7 @@
 //   SHIPPING_CHARGE     - delivery charge in rupees (default 0)
 //   FREE_SHIPPING_ABOVE - waive delivery above this amount (default 0 = no rule)
 
-const PRICE = 499;
+const PRICE = 399;
 const MAX_QTY = 10;
 
 const json = (body, status = 200) =>
