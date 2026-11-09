@@ -55,7 +55,7 @@ export async function onRequestPost({ request, env }) {
   const total = subtotal + shipping;
 
   if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) {
-    return json({ ok: false, error: 'Order service is not set up yet.' }, 500);
+    return json({ ok: false, error: 'Order service is not set up yet. Add TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in Cloudflare.' }, 500);
   }
 
   const orderId = 'IC' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase();
@@ -85,6 +85,13 @@ export async function onRequestPost({ request, env }) {
     body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text })
   });
 
-  if (!res.ok) return json({ ok: false, error: 'We could not place your order. Please try again.' }, 502);
+  if (!res.ok) {
+    // Explain the likely cause so the owner can fix the settings quickly.
+    const hint = res.status === 401 ? 'The bot token is wrong. Check TELEGRAM_BOT_TOKEN.'
+      : res.status === 400 ? 'The chat ID is wrong. Check TELEGRAM_CHAT_ID.'
+      : res.status === 403 ? 'Open your bot in Telegram and tap Start, then try again.'
+      : 'Please try again.';
+    return json({ ok: false, error: 'Your order could not be sent. ' + hint }, 502);
+  }
   return json({ ok: true, orderId });
 }
