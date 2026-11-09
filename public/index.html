@@ -198,6 +198,42 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   .site-footer{padding:44px 20px 24px}
   .hero-media::before{display:none}
 }
+
+/* home hero v2 */
+.hero2{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center;padding:72px 48px 56px;max-width:1240px;margin:0 auto}
+.perks{list-style:none;padding:0;display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 0}
+.perks li{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font-size:13px}
+.strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0;overflow:hidden;white-space:nowrap;background:#fff}
+.strip .track2{display:inline-block;animation:slide 32s linear infinite;font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600}
+.strip span{margin-right:44px}
+.strip em{color:var(--gold)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.quote{font-family:'Cormorant Garamond',serif;font-size:30px;line-height:1.25;margin:0;color:var(--ink)}
+.quote-by{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-top:14px}
+/* sticky buy bar */
+.sticky-buy{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 22px;background:rgba(20,17,15,.96);color:#fff;transform:translateY(110%);visibility:hidden;transition:transform .45s cubic-bezier(.2,.9,.3,1.05),visibility .45s;z-index:30;box-shadow:0 -12px 30px rgba(0,0,0,.18)}
+.sticky-buy.show{transform:none;visibility:visible}
+.sticky-buy strong{display:block;font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;line-height:1.2}
+.sticky-buy span{color:#e7d3a8;font-size:13px}
+.sticky-buy .btn{background:var(--gold);border-color:var(--gold);min-height:46px;padding:12px 26px;flex-shrink:0}
+.sticky-buy .btn:hover{background:#8f6d37;border-color:#8f6d37}
+.toast{bottom:96px}
+@media (max-width:900px){
+  .hero2,.split{grid-template-columns:1fr;gap:36px;padding:40px 20px}
+  .strip span{margin-right:28px}
+  .strip .track2{font-size:26px}
+}
+
+
+/* swipeable gallery */
+.main-wrap{touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.main-wrap:active{cursor:grabbing}
+.main-wrap img{pointer-events:none}
+.arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.92);color:var(--ink);font-size:28px;line-height:1;display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 20px -10px rgba(0,0,0,.4);transition:transform .2s,background .2s;z-index:2;opacity:.9}
+.arrow:hover{background:#fff;transform:translateY(-50%) scale(1.08)}
+.arrow.prev{left:14px}.arrow.next{right:14px}
+.main-wrap img{transition:opacity .45s ease,transform 1.2s ease}
+
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
@@ -270,6 +306,10 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   var QTY_KEY = 'ic_qty', DRAFT_KEY = 'ic_draft', CUSTOMER_KEY = 'ic_customer', ORDER_KEY = 'ic_last_order';
   var app = document.getElementById('app');
   var formErrors = {};
+  var stickyIO = ('IntersectionObserver' in window) ? new IntersectionObserver(function (es) {
+    var sb = document.getElementById('sticky-buy');
+    if (sb) sb.classList.toggle('show', !es[0].isIntersecting);
+  }, { threshold: 0 }) : null;
   var observer = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
     entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); observer.unobserve(en.target); } });
   }, { threshold: 0.12 }) : null;
@@ -341,10 +381,42 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       return '<button class="thumb' + (i === 0 ? ' on' : '') + '" type="button" data-thumb="/' + f + '" aria-label="Show photo ' + (i + 1) + '"><img data-hide src="/' + f + '" alt="" loading="lazy"></button>';
     }).join('');
     return '<div class="gallery">' +
-      '<div class="main-wrap"><img id="main-photo" src="/' + list[0] + '" alt="' + esc(CONFIG.product.name) + '" data-hide><div class="placeholder">Photo coming soon</div></div>' +
-      '<div class="thumbs">' + thumbs + '</div></div>';
+      '<div class="main-wrap" id="main-wrap">' +
+        '<img id="main-photo" src="/' + list[0] + '" alt="' + esc(CONFIG.product.name) + '" data-hide draggable="false">' +
+        '<button class="arrow prev" type="button" data-step="-1" aria-label="Previous photo">&#8249;</button>' +
+        '<button class="arrow next" type="button" data-step="1" aria-label="Next photo">&#8250;</button>' +
+      '</div>' +
+      '<div class="thumbs">' + thumbs + '</div>' +
+    '</div>';
   }
-  function emptyBag() {
+  var galleryIndex = 0;
+  function thumbList() { return Array.prototype.slice.call(document.querySelectorAll('.thumb')); }
+  function showPhoto(i) {
+    var list = thumbList();
+    if (!list.length) return;
+    galleryIndex = (i + list.length) % list.length;
+    list.forEach(function (x, k) { x.classList.toggle('on', k === galleryIndex); });
+    var main = document.getElementById('main-photo');
+    if (!main) return;
+    var src = list[galleryIndex].getAttribute('data-thumb');
+    if (main.getAttribute('src') === src) return;
+    main.classList.add('fade');
+    setTimeout(function () { main.src = src; main.classList.remove('fade'); }, 220);
+  }
+  function bindSwipe() {
+    var wrap = document.getElementById('main-wrap');
+    if (!wrap) return;
+    var startX = null, startY = null;
+    wrap.addEventListener('pointerdown', function (e) { startX = e.clientX; startY = e.clientY; });
+    wrap.addEventListener('pointerup', function (e) {
+      if (startX === null) return;
+      var dx = e.clientX - startX, dy = e.clientY - startY;
+      startX = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) showPhoto(galleryIndex + (dx < 0 ? 1 : -1));
+    });
+    wrap.addEventListener('pointercancel', function () { startX = null; });
+  }
+    function emptyBag() {
     return '<section class="narrow center page"><h1>Your bag is empty</h1><p>Add the pen to your bag to continue.</p>' +
       '<a class="btn" href="#/product">Shop the pen</a></section>';
   }
@@ -357,17 +429,20 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 
   // ===== Pages =====
   function homeView() {
+    var words = ['Handmade in India', 'Ink included', 'Packed in a gift box', 'Cash on delivery', 'Free delivery'];
+    var run = words.map(function (w, i) { return '<span>' + (i % 2 ? '<em>&#9671;</em> ' : '') + esc(w) + '</span>'; }).join('');
     return '<div class="page">' +
-      '<section class="hero">' +
+      '<section class="hero2">' +
         '<div class="reveal">' +
           '<p class="eyebrow">Handmade in India</p>' +
           '<h1>Write with <em>glass.</em></h1>' +
-          '<p class="lead">A handcrafted glass dip pen with a smooth, elegant finish, packed in a gift box with a bottle of ink. Made for calligraphy, journaling and thoughtful gifts.</p>' +
-          '<div class="cta"><button class="btn" data-action="buy">Buy now</button><a class="btn ghost" href="#/product">See details</a></div>' +
-          '<p class="micro">Cash on delivery available</p>' +
+          '<p class="lead">A handcrafted glass dip pen with a smooth, elegant finish, packed with a bottle of ink in a gift box. Made for calligraphy, journaling and gifting.</p>' +
+          '<div class="cta"><button class="btn" data-action="buy">Buy now &middot; ' + money(CONFIG.product.price) + '</button><a class="btn ghost" href="#/product">See the pen</a></div>' +
+          '<ul class="perks"><li>Cash on delivery</li><li>Free delivery in 4 to 5 days</li><li>Ink included</li></ul>' +
         '</div>' +
-        '<div class="hero-media reveal d1 float">' + gallery() + '</div>' +
+        '<div class="reveal d1 float">' + gallery() + '</div>' +
       '</section>' +
+      '<div class="strip" aria-hidden="true"><div class="track2">' + run + run + '</div></div>' +
       '<section class="band">' +
         '<div class="grid3">' +
           '<div class="card reveal"><div class="icon">' + ICON.hand + '</div><h3>Handmade</h3><p>Each pen is shaped by hand, so no two are exactly alike.</p></div>' +
@@ -375,21 +450,26 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
           '<div class="card reveal d2"><div class="icon">' + ICON.gift + '</div><h3>Gift ready</h3><p>Packed in a gift box, ready to give to someone you love.</p></div>' +
         '</div>' +
       '</section>' +
-      '<section class="band">' +
-        '<div class="feature-card reveal">' +
-          '<div><p class="eyebrow">The pen</p><h2>Glass Dip Pen with Ink Bottle</h2>' +
-            '<div><span class="tag">Twisted glass body</span><span class="tag">Ink included</span><span class="tag">Gift box</span></div>' +
-            '<div class="price">' + money(CONFIG.product.price) + '</div>' +
-            '<div class="cta"><button class="btn" data-action="buy">Buy now</button><a class="btn ghost" href="#/product">View the pen</a></div>' +
-          '</div>' +
-          '<div><p class="lead" style="font-size:16px">Dip the tip into the ink, write, and dip again when the ink runs low. Keep it in its box away from direct sunlight, and clean the tip gently after each use.</p></div>' +
+      '<section class="band split">' +
+        '<div class="reveal">' +
+          '<p class="eyebrow">The pen</p>' +
+          '<h2>Glass Dip Pen with Ink Bottle</h2>' +
+          '<p class="lead" style="font-size:17px">Twisted glass that catches the light, a tip made for fine strokes, and a bottle of ink to start writing straight away.</p>' +
+          '<div style="margin:6px 0 22px"><span class="tag">Twisted glass body</span><span class="tag">Ink included</span><span class="tag">Gift box</span></div>' +
+          '<div class="price">' + money(CONFIG.product.price) + '</div>' +
+          '<div class="cta"><button class="btn" data-action="buy">Buy now</button><a class="btn ghost" href="#/product">Full product details</a></div>' +
         '</div>' +
+        '<div class="reveal d1"><div class="feature-card" style="grid-template-columns:1fr;padding:36px">' +
+          '<p class="quote">&ldquo;Dip the tip into the ink, write, and dip again when the ink runs low.&rdquo;</p>' +
+          '<p class="quote-by">How to use it</p>' +
+          '<p style="margin:0;color:var(--muted)">Store it in the gift box away from direct sunlight, and clean the tip gently with a soft dry cloth after each use.</p>' +
+        '</div></div>' +
       '</section>' +
       '<section class="band">' +
         '<h2 class="center reveal">How it works</h2>' +
         '<p class="lead-center reveal">Ordering takes about two minutes, and you pay when your order arrives.</p>' +
         '<div class="steps">' +
-          '<div class="step reveal"><h3>Choose your pen</h3><p>Add it to your bag and check your order.</p></div>' +
+          '<div class="step reveal"><h3>Add to bag</h3><p>Add the pen to your bag and check your order.</p></div>' +
           '<div class="step reveal d1"><h3>Share your details</h3><p>Enter your delivery address and mobile number.</p></div>' +
           '<div class="step reveal d2"><h3>Pay on delivery</h3><p>Pay the delivery person in cash when your order arrives.</p></div>' +
         '</div>' +
@@ -397,34 +477,48 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       '<section class="band">' +
         '<div class="cta-band reveal">' +
           '<h2>Ready to write?</h2>' +
-          '<p>Choose your pen and place your order in a few taps.</p>' +
-          '<button class="btn" data-action="buy">Buy now</button>' +
+          '<p>Free delivery in 4 to 5 days. Pay in cash when it arrives.</p>' +
+          '<button class="btn" data-action="buy">Buy now &middot; ' + money(CONFIG.product.price) + '</button>' +
         '</div>' +
       '</section>' +
     '</div>';
   }
-  function productView() {
-    return '<div class="page product">' +
-      '<div class="reveal">' + gallery() + '</div>' +
-      '<div class="reveal d1">' +
-        '<p class="crumbs"><a href="#/">Home</a> / ' + esc(CONFIG.product.name) + '</p>' +
-        '<p class="eyebrow">The pen</p>' +
-        '<h1 style="font-size:clamp(36px,5vw,52px)">' + esc(CONFIG.product.name) + '</h1>' +
-        '<div class="price">' + money(CONFIG.product.price) + '</div>' +
-        '<p>A handcrafted glass dip pen with a smooth, elegant finish, packed in a gift box with a bottle of ink. Ideal for calligraphy, journaling, sketching and gifting.</p>' +
-        '<ul class="bullets"><li>Glass dip pen with a twisted, colourful body</li><li>Includes one bottle of ink</li><li>Presented in a gift box</li></ul>' +
-        '<p><span class="stock">In stock</span></p>' +
-        '<div class="buy"><button class="btn" data-action="buy">Buy now</button><button class="btn ghost" data-action="add">Add to bag</button></div>' +
-        '<p class="note">Cash on delivery available. Pay in cash when your order arrives.</p>' +
-        '<div style="margin-top:28px">' +
-          '<details class="fold" open><summary>Description</summary><p>Smooth, elegant glass with a twisted body. Packed in a gift box with one bottle of ink.</p></details>' +
-          '<details class="fold"><summary>Care</summary><p>Store in the gift box away from direct sunlight. Clean the tip gently with a soft dry cloth after each use. Handle with care, as glass can break if dropped.</p></details>' +
-          '<details class="fold"><summary>Delivery and returns</summary><p>See our <a href="#/policy/shipping">shipping and delivery</a> and <a href="#/policy/returns">returns and refunds</a> policies.</p></details>' +
+    function productView() {
+    var name = esc(CONFIG.product.name), price = money(CONFIG.product.price);
+    return '<div class="page">' +
+      '<section class="product">' +
+        '<div class="reveal">' + gallery() + '</div>' +
+        '<div class="reveal d1" id="buy-block">' +
+          '<p class="crumbs"><a href="#/">Home</a> / ' + name + '</p>' +
+          '<p class="eyebrow">The pen</p>' +
+          '<h1 style="font-size:clamp(36px,5vw,52px)">' + name + '</h1>' +
+          '<div class="price">' + price + '</div>' +
+          '<p>A handcrafted glass dip pen with a smooth, elegant finish, packed in a gift box with a bottle of ink. Ideal for calligraphy, journaling, sketching and gifting.</p>' +
+          '<ul class="bullets"><li>Glass dip pen with a twisted, colourful body</li><li>Includes one bottle of ink</li><li>Presented in a gift box</li></ul>' +
+          '<p><span class="stock">In stock</span></p>' +
+          '<div class="buy"><button class="btn" data-action="buy">Buy now</button><button class="btn ghost" data-action="add">Add to bag</button></div>' +
+          '<p class="note">Cash on delivery. Free delivery, usually in 4 to 5 days.</p>' +
+          '<div style="margin-top:28px">' +
+            '<details class="fold" open><summary>Description</summary><p>Smooth, elegant glass with a twisted body. Packed in a gift box with one bottle of ink.</p></details>' +
+            '<details class="fold"><summary>Care</summary><p>Store in the gift box away from direct sunlight. Clean the tip gently with a soft dry cloth after each use. Handle with care, as glass can break if dropped.</p></details>' +
+            '<details class="fold"><summary>Delivery and returns</summary><p>See our <a href="#/policy/shipping">shipping and delivery</a> and <a href="#/policy/returns">returns and refunds</a> policies.</p></details>' +
+          '</div>' +
         '</div>' +
+      '</section>' +
+      '<section class="band">' +
+        '<div class="grid3">' +
+          '<div class="card reveal"><div class="icon">' + ICON.pen + '</div><h3>Made to write</h3><p>A smooth glass tip that holds ink for fine lines, sketches and calligraphy.</p></div>' +
+          '<div class="card reveal d1"><div class="icon">' + ICON.ink + '</div><h3>Ink included</h3><p>A bottle of ink comes with every pen, so you can start writing straight away.</p></div>' +
+          '<div class="card reveal d2"><div class="icon">' + ICON.gift + '</div><h3>Gift box</h3><p>Presented in a gift box, ready to give or keep for yourself.</p></div>' +
+        '</div>' +
+      '</section>' +
+      '<div class="sticky-buy" id="sticky-buy" aria-hidden="true">' +
+        '<div><strong>' + name + '</strong><span>' + price + ' &middot; Free delivery</span></div>' +
+        '<button class="btn" data-action="buy">Buy now</button>' +
       '</div>' +
     '</div>';
   }
-  function cartView() {
+    function cartView() {
     var t = totals();
     if (t.qty === 0) return emptyBag();
     return '<section class="narrow wide page"><p class="steps-bar">Your bag</p><h1>Your bag</h1>' +
@@ -609,7 +703,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       body: JSON.stringify({ customer: c, items: [{ id: CONFIG.product.id, name: CONFIG.product.name, qty: t.qty }], payment: 'cod', website: '' })
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (data) {
-        if (!r.ok || !data.ok) throw new Error(data.error || 'We could not place your order. Please try again.');
+        if (!r.ok || !data.ok) throw new Error(data.error || ('We could not place your order (error ' + r.status + '). Please try again.'));
         return data;
       });
     }).then(function (data) {
@@ -667,6 +761,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       default: html = notFoundView();
     }
     setNav(r.name);
+    galleryIndex = 0;
     app.innerHTML = html;
     app.querySelectorAll('img[data-hide]').forEach(function (img) {
       img.addEventListener('error', function () {
@@ -678,21 +773,21 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     app.querySelectorAll('.reveal').forEach(function (el) {
       if (observer) observer.observe(el); else el.classList.add('in');
     });
+
+    bindSwipe();
+    if (stickyIO) stickyIO.disconnect();
+    var bb = document.getElementById('buy-block');
+    if (bb && stickyIO) stickyIO.observe(bb);
+    else { var sb0 = document.getElementById('sticky-buy'); if (sb0) sb0.classList.add('show'); }
     updateBadge(false);
     window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
   }
 
   document.addEventListener('click', function (e) {
     var t = e.target.closest('[data-thumb]');
-    if (t) {
-      var main = document.getElementById('main-photo');
-      if (main) {
-        main.classList.add('fade');
-        setTimeout(function () { main.src = t.getAttribute('data-thumb'); main.classList.remove('fade'); }, 220);
-      }
-      document.querySelectorAll('.thumb').forEach(function (x) { x.classList.toggle('on', x === t); });
-      return;
-    }
+    if (t) { showPhoto(thumbList().indexOf(t)); return; }
+    var ar = e.target.closest('[data-step]');
+    if (ar) { showPhoto(galleryIndex + parseInt(ar.getAttribute('data-step'), 10)); return; }
     var b = e.target.closest('[data-action]');
     if (!b) return;
     var a = b.getAttribute('data-action');
