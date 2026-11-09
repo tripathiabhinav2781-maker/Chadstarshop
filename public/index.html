@@ -180,8 +180,8 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .site-footer p{font-size:14px;margin:0 0 10px}
 .legal{max-width:1240px;margin:44px auto 0;padding-top:22px;border-top:1px solid #2e2822;font-size:12px;color:#8f8474;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 
-.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,140%);background:var(--ink);color:#fff;padding:14px 22px;border-radius:999px;font-size:14px;box-shadow:0 14px 30px -12px rgba(0,0,0,.4);transition:transform .45s cubic-bezier(.2,.9,.3,1.2);z-index:60}
-.toast.show{transform:translate(-50%,0)}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,160%);opacity:0;visibility:hidden;background:var(--ink);color:#fff;padding:14px 22px;border-radius:999px;font-size:14px;box-shadow:0 14px 30px -12px rgba(0,0,0,.4);transition:transform .45s cubic-bezier(.2,.9,.3,1.2);z-index:60}
+.toast.show{transform:translate(-50%,0);opacity:1;visibility:visible}
 
 @media (max-width:900px){
   .site-header{padding:14px 20px}.nav{display:none}
@@ -233,6 +233,53 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .arrow:hover{background:#fff;transform:translateY(-50%) scale(1.08)}
 .arrow.prev{left:14px}.arrow.next{right:14px}
 .main-wrap img{transition:opacity .45s ease,transform 1.2s ease}
+
+
+/* button and motion polish */
+.btn.gold{position:relative;overflow:hidden;background:linear-gradient(120deg,#a8844a 0%,#c9a46a 50%,#a8844a 100%);background-size:200% 100%;animation:goldShift 6s ease infinite;border-color:#a8844a}
+.btn.gold::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:shine 3.6s ease-in-out infinite}
+@keyframes goldShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes shine{0%{left:-60%}55%,100%{left:130%}}
+.btn:not(.gold):not(.ghost){transition:transform .25s,box-shadow .25s,background .25s}
+.cta-band .btn.gold{background:linear-gradient(120deg,#a8844a,#c9a46a,#a8844a);background-size:200% 100%}
+.sticky-buy .btn.gold{animation:goldShift 6s ease infinite,softPulse 2.4s ease-in-out infinite}
+@keyframes softPulse{0%,100%{box-shadow:0 0 0 0 rgba(168,132,74,.45)}50%{box-shadow:0 0 0 10px rgba(168,132,74,0)}}
+.sticky-buy{backdrop-filter:blur(8px)}
+.card,.feature-card,.panel{will-change:transform}
+.thumb img,.main-wrap img{transition:transform .6s ease,opacity .45s ease}
+.main-wrap:hover img{transform:scale(1.03)}
+.perks li{transition:transform .25s,border-color .25s}
+.perks li:hover{transform:translateY(-2px);border-color:var(--gold)}
+.tag{transition:transform .25s,background .25s}
+.tag:hover{transform:translateY(-2px);background:#ecdcb8}
+.strip .track2 span:hover{color:var(--gold)}
+
+
+/* hero order: text, photo, then buttons */
+.hero2{grid-template-areas:"text media" "cta media";gap:28px 56px;align-items:start}
+.h-text{grid-area:text}.h-media{grid-area:media}.h-cta{grid-area:cta}
+.hero2 > *{min-width:0}
+.hero2 .cta{flex-wrap:wrap}
+.perks{margin-top:18px}
+/* floating Buy now: a small button, no full-width bar */
+.sticky-buy{top:auto;left:auto;right:18px;bottom:22px;width:auto;padding:0;background:none;box-shadow:none;backdrop-filter:none;transform:translateY(170%) scale(.8);display:block}
+.sticky-buy.show{transform:none}
+.sticky-buy > div{display:none}
+.sticky-buy .btn.gold{padding:14px 24px;min-height:52px;font-size:15px;box-shadow:0 16px 30px -12px rgba(168,132,74,.75)}
+.sticky-buy.show .btn.gold{animation:goldShift 6s ease infinite,softPulse 2.4s ease-in-out infinite,bob 3.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@media (max-width:900px){
+  .hero2{grid-template-columns:1fr;grid-template-areas:"text" "media" "cta";gap:24px}
+  .hero2 .cta .btn{flex:1 1 180px}
+  .sticky-buy{right:14px;bottom:16px}
+  .sticky-buy .btn.gold{padding:12px 20px;min-height:48px;font-size:14px}
+}
+
+
+/* photo in the pen section */
+.split-photo{overflow:hidden;border-radius:24px;margin-bottom:28px;box-shadow:0 30px 60px -34px rgba(20,17,15,.45)}
+.split-photo img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform 1s ease}
+.split-photo:hover img{transform:scale(1.05)}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 </style>
@@ -288,6 +335,10 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   <div class="legal"><span>&copy; <span id="year"></span> IndianChadstars. All rights reserved.</span><span>Made with care in India</span></div>
 </footer>
 
+<div class="sticky-buy" id="sticky-buy" aria-hidden="true">
+  <div><strong>Glass Dip Pen with Ink Bottle</strong><span>&#8377;499 &middot; Free delivery, 4 to 5 days</span></div>
+  <button class="btn gold" data-action="buy">Buy now</button>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -306,10 +357,6 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   var QTY_KEY = 'ic_qty', DRAFT_KEY = 'ic_draft', CUSTOMER_KEY = 'ic_customer', ORDER_KEY = 'ic_last_order';
   var app = document.getElementById('app');
   var formErrors = {};
-  var stickyIO = ('IntersectionObserver' in window) ? new IntersectionObserver(function (es) {
-    var sb = document.getElementById('sticky-buy');
-    if (sb) sb.classList.toggle('show', !es[0].isIntersecting);
-  }, { threshold: 0 }) : null;
   var observer = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
     entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); observer.unobserve(en.target); } });
   }, { threshold: 0.12 }) : null;
@@ -433,14 +480,16 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     var run = words.map(function (w, i) { return '<span>' + (i % 2 ? '<em>&#9671;</em> ' : '') + esc(w) + '</span>'; }).join('');
     return '<div class="page">' +
       '<section class="hero2">' +
-        '<div class="reveal">' +
+        '<div class="h-text reveal">' +
           '<p class="eyebrow">Handmade in India</p>' +
           '<h1>Write with <em>glass.</em></h1>' +
           '<p class="lead">A handcrafted glass dip pen with a smooth, elegant finish, packed with a bottle of ink in a gift box. Made for calligraphy, journaling and gifting.</p>' +
-          '<div class="cta"><button class="btn" data-action="buy">Buy now &middot; ' + money(CONFIG.product.price) + '</button><a class="btn ghost" href="#/product">See the pen</a></div>' +
+        '</div>' +
+        '<div class="h-media reveal d1 float">' + gallery() + '</div>' +
+        '<div class="h-cta reveal d2">' +
+          '<div class="cta"><button class="btn gold" data-action="buy">Buy now &middot; ' + money(CONFIG.product.price) + '</button><a class="btn ghost" href="#/product">See the pen</a></div>' +
           '<ul class="perks"><li>Cash on delivery</li><li>Free delivery in 4 to 5 days</li><li>Ink included</li></ul>' +
         '</div>' +
-        '<div class="reveal d1 float">' + gallery() + '</div>' +
       '</section>' +
       '<div class="strip" aria-hidden="true"><div class="track2">' + run + run + '</div></div>' +
       '<section class="band">' +
@@ -452,6 +501,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       '</section>' +
       '<section class="band split">' +
         '<div class="reveal">' +
+          '<div class="split-photo"><img data-hide src="/pen-1.jpg" alt="Glass Dip Pen with Ink Bottle" loading="lazy"></div>' +
           '<p class="eyebrow">The pen</p>' +
           '<h2>Glass Dip Pen with Ink Bottle</h2>' +
           '<p class="lead" style="font-size:17px">Twisted glass that catches the light, a tip made for fine strokes, and a bottle of ink to start writing straight away.</p>' +
@@ -512,10 +562,6 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
           '<div class="card reveal d2"><div class="icon">' + ICON.gift + '</div><h3>Gift box</h3><p>Presented in a gift box, ready to give or keep for yourself.</p></div>' +
         '</div>' +
       '</section>' +
-      '<div class="sticky-buy" id="sticky-buy" aria-hidden="true">' +
-        '<div><strong>' + name + '</strong><span>' + price + ' &middot; Free delivery</span></div>' +
-        '<button class="btn" data-action="buy">Buy now</button>' +
-      '</div>' +
     '</div>';
   }
     function cartView() {
@@ -775,11 +821,8 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     });
 
     bindSwipe();
-    if (stickyIO) stickyIO.disconnect();
-    var bb = document.getElementById('buy-block');
-    if (bb && stickyIO) stickyIO.observe(bb);
-    else { var sb0 = document.getElementById('sticky-buy'); if (sb0) sb0.classList.add('show'); }
     updateBadge(false);
+    updateChrome();
     window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
   }
 
@@ -792,7 +835,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     if (!b) return;
     var a = b.getAttribute('data-action');
     if (a === 'add') { setQty(getQty() + 1); toast('Added to your bag'); render(); }
-    else if (a === 'buy') { if (getQty() === 0) setQty(1); location.hash = '#/checkout'; }
+    else if (a === 'buy') { if (getQty() === 0) { setQty(1); toast('Added to your bag'); } location.hash = '#/checkout'; }
     else if (a === 'inc') { setQty(getQty() + 1); render(); }
     else if (a === 'dec') { setQty(getQty() - 1); render(); }
     else if (a === 'remove') { setQty(0); render(); }
@@ -813,10 +856,15 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     setJSON(sessionStorage, DRAFT_KEY, d);
   });
 
-  window.addEventListener('scroll', function () {
+  function updateChrome() {
     var h = document.querySelector('.site-header');
     if (h) h.classList.toggle('scrolled', window.scrollY > 8);
-  }, { passive: true });
+    var sb = document.getElementById('sticky-buy');
+    var r = route().name;
+    var hideOn = ['cart', 'checkout', 'payment', 'success'].indexOf(r) !== -1;
+    if (sb) sb.classList.toggle('show', !hideOn && window.scrollY > 520);
+  }
+  window.addEventListener('scroll', updateChrome, { passive: true });
 
   document.getElementById('year').textContent = new Date().getFullYear();
   window.addEventListener('hashchange', render);
