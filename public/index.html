@@ -281,6 +281,34 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .split-photo img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform 1s ease}
 .split-photo:hover img{transform:scale(1.05)}
 
+
+/* price and discount */
+.pricebox{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;margin:4px 0 18px}
+.pricebox .now{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:var(--ink);animation:priceIn .8s cubic-bezier(.2,.9,.3,1.1) both}
+.pricebox .was{position:relative;font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--muted);text-decoration:none}
+.pricebox .was::after{content:"";position:absolute;left:-4px;right:-4px;top:50%;height:2px;background:#b3261e;transform-origin:left;transform:scaleX(0);animation:strike .7s .5s ease forwards}
+.pricebox .off-badge{background:#b3261e;color:#fff;font-size:13px;font-weight:600;letter-spacing:.5px;padding:6px 12px;border-radius:999px;animation:badgePop .7s .9s cubic-bezier(.2,1.6,.4,1) both,badgePulse 2.2s 1.6s ease-in-out infinite}
+.pricebox.big .now{font-size:52px}
+.pricebox.big .was{font-size:28px}
+.pricebox.big .off-badge{font-size:15px;padding:8px 16px}
+@keyframes priceIn{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes strike{to{transform:scaleX(1)}}
+@keyframes badgePop{0%{transform:scale(0) rotate(-12deg);opacity:0}70%{transform:scale(1.15) rotate(3deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+@keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(179,38,30,.45)}50%{box-shadow:0 0 0 12px rgba(179,38,30,0)}}
+/* big discount stamp on the photo */
+.stamp{position:absolute;top:16px;left:16px;width:108px;height:108px;border-radius:50%;background:#b3261e;color:#fff;display:grid;place-items:center;text-align:center;font-family:'Cormorant Garamond',serif;font-weight:700;line-height:1;z-index:3;box-shadow:0 14px 30px -10px rgba(179,38,30,.6);animation:stampIn .9s .4s cubic-bezier(.2,1.6,.4,1) both,spin 14s linear 1.3s infinite}
+.stamp b{display:block;font-size:34px}
+.stamp span{display:block;font-family:Inter,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600}
+.stamp-inner{animation:spinBack 14s linear 1.3s infinite}
+@keyframes stampIn{from{transform:scale(0) rotate(-40deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spinBack{to{transform:rotate(-360deg)}}
+/* sale ribbon across the top of the home page */
+.sale-ribbon{background:#b3261e;color:#fff;overflow:hidden;white-space:nowrap;padding:10px 0;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;letter-spacing:1px}
+.sale-ribbon .track3{display:inline-block;animation:slide 18s linear infinite}
+.sale-ribbon span{margin-right:44px}
+.sale-ribbon em{color:#ffd9a0;font-style:normal}
+
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
@@ -336,7 +364,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 </footer>
 
 <div class="sticky-buy" id="sticky-buy" aria-hidden="true">
-  <div><strong>Glass Dip Pen with Ink Bottle</strong><span>&#8377;499 &middot; Free delivery, 4 to 5 days</span></div>
+  <div><strong>Glass Dip Pen with Ink Bottle</strong><span>&#8377;399 &middot; Free delivery, 4 to 5 days</span></div>
   <button class="btn gold" data-action="buy">Buy now</button>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -347,7 +375,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 
   // ===== Settings: change these =====
   var CONFIG = {
-    product: { id: 'glass-pen-ink', name: 'Glass Dip Pen with Ink Bottle', price: 499, maxQty: 10 },
+    product: { id: 'glass-pen-ink', name: 'Glass Dip Pen with Ink Bottle', price: 399, compareAt: 699, maxQty: 10 },
     photos: ['pen-1.jpg', 'pen-2.jpg', 'pen-3.jpg', 'pen-4.jpg', 'pen-5.jpg', 'pen-6.jpg'],
     currency: '₹',
     shippingCharge: 0,        // delivery charge in rupees (0 = free)
@@ -422,6 +450,13 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     pen: '<svg viewBox="0 0 24 24"><path d="M15 4l5 5L9 20H4v-5z" stroke-linejoin="round"/></svg>'
   };
 
+  function priceBlock(big) {
+    var c = CONFIG.product, off = Math.round((1 - c.price / c.compareAt) * 100);
+    return '<div class="pricebox' + (big ? ' big' : '') + '">' +
+      '<span class="now">' + money(c.price) + '</span>' +
+      '<s class="was">' + money(c.compareAt) + '</s>' +
+      '<span class="off-badge">' + off + '% OFF</span></div>';
+  }
   function gallery() {
     var list = CONFIG.photos;
     var thumbs = list.map(function (f, i) {
@@ -429,6 +464,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     }).join('');
     return '<div class="gallery">' +
       '<div class="main-wrap" id="main-wrap">' +
+        '<div class="stamp"><div class="stamp-inner"><b>' + Math.round((1 - CONFIG.product.price / CONFIG.product.compareAt) * 100) + '%</b><span>off today</span></div></div>' +
         '<img id="main-photo" src="/' + list[0] + '" alt="' + esc(CONFIG.product.name) + '" data-hide draggable="false">' +
         '<button class="arrow prev" type="button" data-step="-1" aria-label="Previous photo">&#8249;</button>' +
         '<button class="arrow next" type="button" data-step="1" aria-label="Next photo">&#8250;</button>' +
@@ -477,8 +513,11 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   // ===== Pages =====
   function homeView() {
     var words = ['Handmade in India', 'Ink included', 'Packed in a gift box', 'Cash on delivery', 'Free delivery'];
+    var sale = ['Huge sale: 43% off', 'Was &#8377;699, now &#8377;399', 'Limited time offer', 'Cash on delivery'];
+    var ribbonRun = sale.map(function (w) { return '<span>' + w + '</span>'; }).join('');
     var run = words.map(function (w, i) { return '<span>' + (i % 2 ? '<em>&#9671;</em> ' : '') + esc(w) + '</span>'; }).join('');
     return '<div class="page">' +
+      '<div class="sale-ribbon" aria-hidden="true"><div class="track3">' + ribbonRun + ribbonRun + '</div></div>' +
       '<section class="hero2">' +
         '<div class="h-text reveal">' +
           '<p class="eyebrow">Handmade in India</p>' +
@@ -506,7 +545,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
           '<h2>Glass Dip Pen with Ink Bottle</h2>' +
           '<p class="lead" style="font-size:17px">Twisted glass that catches the light, a tip made for fine strokes, and a bottle of ink to start writing straight away.</p>' +
           '<div style="margin:6px 0 22px"><span class="tag">Twisted glass body</span><span class="tag">Ink included</span><span class="tag">Gift box</span></div>' +
-          '<div class="price">' + money(CONFIG.product.price) + '</div>' +
+          priceBlock(false) +
           '<div class="cta"><button class="btn" data-action="buy">Buy now</button><a class="btn ghost" href="#/product">Full product details</a></div>' +
         '</div>' +
         '<div class="reveal d1"><div class="feature-card" style="grid-template-columns:1fr;padding:36px">' +
