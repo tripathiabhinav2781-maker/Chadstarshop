@@ -682,6 +682,61 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .pdp-demo-card:hover .stack i,.pdp-demo-card:focus-within .stack i{transform:translateY(calc(var(--n) * -11px - 4px))}
 .pop-btn{background:#111;color:#fff;border:none;border-radius:999px;padding:7px 16px;font-size:12px;cursor:pointer;transition:transform .2s,background .2s}
 .pop-btn:hover{transform:scale(1.06);background:#333}
+
+/* ===== Detailed product description ===== */
+.pdp-about{padding:34px 20px 8px;max-width:1040px;margin:0 auto}
+.pdp-about .eyebrow{margin-bottom:10px}
+.pdp-intro{font-size:17px;line-height:1.8;color:#1a1a1a;margin:0 0 26px;max-width:46em}
+.feats{display:grid;grid-template-columns:1fr;gap:16px}
+.feat{border:1px solid #ececec;border-radius:20px;padding:16px;background:#fff;cursor:pointer;transition:transform .4s cubic-bezier(.2,.9,.3,1),box-shadow .4s,border-color .4s;outline:none}
+.feat:hover,.feat.on,.feat:focus-visible{transform:translateY(-5px);border-color:#111;box-shadow:0 24px 40px -26px rgba(0,0,0,.45)}
+.fvis{height:130px;border-radius:16px;background:linear-gradient(160deg,#fbf9f4,#f3eee3);border:1px solid #efe9dc;display:grid;place-items:center;overflow:hidden;position:relative;margin-bottom:16px}
+.ftext h3{font-size:18px;font-weight:600;margin:0 0 8px;letter-spacing:-.01em}
+.ftext p{font-size:15px;line-height:1.7;color:#555;margin:0}
+/* visuals: ink draws, glass spins, ink drops, lid lifts, rings ripple, cards pop, card width breathes, tag pulses */
+.v-draw{width:72%;height:auto;overflow:visible}
+.v-draw path{fill:none;stroke:#8a6a32;stroke-width:2.4;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2.2s cubic-bezier(.4,0,.2,1)}
+.feat.in .v-draw path,.feat:hover .v-draw path,.feat.on .v-draw path{stroke-dashoffset:0}
+.v-spiral{width:72px;height:72px;animation:spin 7s linear infinite}
+.v-spiral path{fill:none;stroke:#8a6a32;stroke-width:2;stroke-linecap:round}
+.feat:hover .v-spiral,.feat.on .v-spiral{animation-duration:1.4s}
+@keyframes spin{to{transform:rotate(360deg)}}
+.v-drop{position:relative;width:90px;height:110px}
+.v-drop i{position:absolute;left:50%;top:0;width:14px;height:14px;margin-left:-7px;border-radius:50% 50% 50% 0;background:#8a6a32;transform:rotate(-45deg);animation:drop 2.6s ease-in infinite}
+.v-drop b{position:absolute;left:50%;bottom:6px;width:64px;height:16px;margin-left:-32px;border-radius:9px;background:#e8dcc4;overflow:hidden}
+.v-drop b::after{content:"";position:absolute;inset:0;background:#8a6a32;transform:scaleX(0);transform-origin:left;animation:fillBar 2.6s ease-in infinite}
+@keyframes drop{0%{transform:translateY(0) rotate(-45deg);opacity:1}70%{transform:translateY(54px) rotate(-45deg);opacity:1}78%,100%{transform:translateY(54px) rotate(-45deg);opacity:0}}
+@keyframes fillBar{0%,62%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+.v-box{position:relative;width:100px;height:64px}
+.v-box .body{position:absolute;bottom:0;left:0;right:0;height:46px;background:#111;border-radius:5px}
+.v-box .lid{position:absolute;top:0;left:-4px;right:-4px;height:20px;background:#2b2b2b;border-radius:5px;transform-origin:left center;transition:transform .8s cubic-bezier(.2,1.2,.4,1)}
+.feat.in .lid,.feat:hover .lid,.feat.on .lid{transform:translateY(-16px) rotate(-18deg)}
+.v-wave{position:relative;width:100px;height:100px}
+.v-wave i{position:absolute;inset:0;border-radius:50%;border:2px solid #8a6a32;opacity:0;animation:ripple 2.4s ease-out infinite}
+.v-wave i:nth-child(2){animation-delay:.8s}
+.v-wave i:nth-child(3){animation-delay:1.6s}
+.v-wave span{position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:#111}
+@keyframes ripple{0%{transform:scale(.3);opacity:.9}100%{transform:scale(1.5);opacity:0}}
+.v-pop{position:relative;width:120px;height:90px}
+.v-pop i{position:absolute;left:32px;bottom:6px;width:56px;height:34px;border-radius:6px;background:linear-gradient(135deg,#1c1c1c,#4a4a4a);box-shadow:0 6px 12px -6px rgba(0,0,0,.5);transition:transform .6s cubic-bezier(.2,1.5,.4,1);transition-delay:calc(var(--n) * 70ms)}
+.v-pop i:nth-child(1){left:24px}
+.v-pop i:nth-child(3){left:40px}
+.feat:hover .v-pop i,.feat.on .v-pop i{transform:translateY(calc(var(--n) * -15px - 8px))}
+.v-slim{width:100px;height:70px;display:grid;place-items:center}
+.v-slim span{display:block;height:62px;width:30px;border-radius:7px;background:#111;animation:slimAnim 3.2s ease-in-out infinite}
+@keyframes slimAnim{0%,100%{width:30px}50%{width:62px}}
+.v-gift span{display:inline-block;background:#1f5a2e;color:#fff;font-weight:600;font-size:15px;padding:12px 22px;border-radius:999px;animation:pulseTag 2.2s ease-in-out infinite}
+@keyframes pulseTag{50%{transform:scale(1.08)}}
+@media (min-width:900px){
+  .feats{grid-template-columns:repeat(2,1fr);gap:20px}
+  .pdp-intro{font-size:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  .v-draw path,.v-spiral,.v-drop i,.v-drop b::after,.v-wave i,.v-slim span,.v-gift span{animation:none!important}
+  .v-draw path{stroke-dashoffset:0}
+  .v-box .lid,.v-pop i{transition:none!important}
+}
+
 @media (prefers-reduced-motion:reduce){
   .ink-svg path{animation:none!important;stroke-dashoffset:0}
   .stack i{transition:none!important}
@@ -1082,6 +1137,43 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     var DEMO = pid === 'pen'
       ? '<div class="reveal pdp-demo"><svg class="ink-svg" viewBox="0 0 240 56" aria-hidden="true"><path pathLength="1" d="M8 38 C40 8 62 50 92 26 S140 8 168 34 S214 18 232 30"/></svg><span class="demo-cap">Glass tip for fine strokes</span></div>'
       : '<div class="reveal pdp-demo"><div class="stack" aria-hidden="true"><i style="--n:0"></i><i style="--n:1"></i><i style="--n:2"></i><i style="--n:3"></i></div><div><span class="demo-cap">One press, and your cards pop up</span><button type="button" class="pop-btn">Try it</button></div></div>';
+    var A = {
+      pen: {
+        intro: 'A handcrafted glass dip pen made to be used, not just displayed. The body and tip are shaped by hand, so every pen has its own quiet character. Dip the tip in the ink that comes with it, write a few lines, and dip again when the ink runs low. It is a calm, lasting way to write letters, keep a journal, practise calligraphy or sketch, and it arrives ready to give in a gift box.',
+        feats: [
+          ['draw', 'Smooth glass tip', 'The tip is made for fine, controlled strokes. Move slowly for thin lines, and press a little more for bolder ones.'],
+          ['spiral', 'Twisted, colourful body', 'The body is twisted by hand, so the light moves along the glass as you write. Each pen has a slightly different pattern.'],
+          ['drop', 'Ink included', 'Every set comes with a bottle of ink. Dip the tip, write, and dip again when the ink runs low.'],
+          ['box', 'Ready-to-give gift box', 'The pen is packed in a gift box, so it is ready to give or keep without any extra wrapping.']
+        ]
+      },
+      card: {
+        intro: 'A slim, premium card holder that keeps your everyday cards close and easy to reach. RFID protection is built in, and the pop-up button lifts your cards out with a single press, so you never have to dig through your wallet at the till.',
+        feats: [
+          ['wave', 'RFID protected', 'Premium RFID protection helps guard the cards you carry against RFID scanning.'],
+          ['pop', 'One-press pop-up', 'Press the button and your cards rise up, ready to take. Tap this card to see it.'],
+          ['slim', 'Slim design', 'A slim design that sits easily in a pocket, without the bulk of a full wallet.'],
+          ['gift', 'Free delivery', 'Delivery is free on every order. You pay in cash when it arrives.']
+        ]
+      }
+    }[pid];
+    var VIS = {
+      draw: '<svg viewBox="0 0 160 70" class="v-draw" aria-hidden="true"><path pathLength="1" d="M10 50 C35 15 55 60 85 32 S130 12 150 40"/></svg>',
+      spiral: '<svg viewBox="0 0 100 100" class="v-spiral" aria-hidden="true"><path d="M50 50 m0 -40 a40 40 0 1 1 -40 40 a30 30 0 1 1 30 -30 a18 18 0 1 1 -18 18"/></svg>',
+      drop: '<div class="v-drop" aria-hidden="true"><i></i><b></b></div>',
+      box: '<div class="v-box" aria-hidden="true"><span class="lid"></span><span class="body"></span></div>',
+      wave: '<div class="v-wave" aria-hidden="true"><i></i><i></i><i></i><span></span></div>',
+      pop: '<div class="v-pop" aria-hidden="true"><i style="--n:0"></i><i style="--n:1"></i><i style="--n:2"></i></div>',
+      slim: '<div class="v-slim" aria-hidden="true"><span></span></div>',
+      gift: '<div class="v-gift" aria-hidden="true"><span>Free</span></div>'
+    };
+    var feats = A.feats.map(function (f, i) {
+      return '<div class="feat reveal d' + i + '" data-feat tabindex="0" role="button" aria-label="' + esc(f[1]) + '">' +
+        '<div class="fvis">' + VIS[f[0]] + '</div>' +
+        '<div class="ftext"><h3>' + esc(f[1]) + '</h3><p>' + esc(f[2]) + '</p></div></div>';
+    }).join('');
+    var aboutSection = '<section class="band pdp-about"><p class="eyebrow">About this product</p>' +
+      '<p class="pdp-intro">' + esc(A.intro) + '</p><div class="feats">' + feats + '</div></section>';
     var badges = [['cash', 'Cash on delivery'], ['gift', 'Free delivery'], ['check', 'Damaged items covered'], ['lock', 'Details kept private']];
     var FAQS = {
       pen: [
@@ -1115,9 +1207,9 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
           '<p class="crumbs"><a href="#/shop">Shop</a> / ' + name + '</p>' +
           '<p class="eyebrow">' + esc(p.eyebrow) + '</p>' +
           '<h1>' + name + '</h1>' +
-          '<p class="tagline">' + esc(p.lead) + '</p>' +
-          '<p class="pdp-short">' + esc(SHORT[pid]) + '</p>' +
-          DEMO +
+
+
+
           priceBlock(pid, true) +
           stockLine(p) +
           '<div class="pdp-buy">' +
@@ -1131,11 +1223,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
           '<div class="spec">' + specs + '</div>' +
         '</div>' +
       '</section>' +
-      '<section class="band"><div class="grid3">' +
-        p.highlights.map(function (h, i) {
-          return '<div class="card reveal' + (i ? ' d' + i : '') + '"><div class="icon">' + ICON[h[0]] + '</div><h3>' + esc(h[1]) + '</h3><p>' + esc(h[2]) + '</p></div>';
-        }).join('') +
-      '</div></section>' +
+      aboutSection +
       '<section class="band pdp-how"><h2 class="rv-title">How to order</h2><div class="pdp-steps">' + steps + '</div></section>' +
       '<section class="band"><h2 class="rv-title">Questions</h2>' + faq + '</section>' +
       reviewSection(pid) +
@@ -1492,7 +1580,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     anim.onfinish = function () { dot.remove(); burst(ex, ey); };
   }
   function enhance() {
-    document.querySelectorAll('.m-info h1, .premium h1, .h-title').forEach(splitWords);
+    document.querySelectorAll('.m-info h1, .premium h1, .h-title, .pdp-intro').forEach(splitWords);
     document.querySelectorAll('.pricebox .now').forEach(countUp);
     if (!reduced) { sparks(); bindTilt(); }
   }
@@ -1669,6 +1757,8 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     }
     var ar = e.target.closest('[data-step]');
     if (ar) { var pid = ar.getAttribute('data-pid'); showPhoto(pid, galleryIndex[pid] + parseInt(ar.getAttribute('data-step'), 10)); return; }
+    var ft = e.target.closest('[data-feat]');
+    if (ft) { ft.classList.toggle('on'); return; }
     var star = e.target.closest('[data-star]');
     if (star) {
       var n = parseInt(star.getAttribute('data-star'), 10), group = star.parentNode;
@@ -1721,6 +1811,11 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   window.addEventListener('scroll', updateChrome, { passive: true });
   document.getElementById('year').textContent = new Date().getFullYear();
   window.addEventListener('hashchange', render);
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.hasAttribute && e.target.hasAttribute('data-feat')) {
+      e.preventDefault(); e.target.classList.toggle('on');
+    }
+  });
   initMotion();
   initPack();
   render();
