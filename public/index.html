@@ -482,9 +482,6 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .blob.b1{background:#e8cf98;top:-180px;left:-160px}
 .blob.b2{background:#cfd9e8;bottom:-220px;right:-180px;animation-duration:30s;animation-delay:-9s}
 @keyframes drift{50%{transform:translate(90px,70px) scale(1.12)}}
-#curtain{position:fixed;inset:0;background:#14110f;z-index:95;pointer-events:none;transform:scaleY(0)}
-#curtain.on{animation:curtain 1s cubic-bezier(.7,0,.2,1) both}
-@keyframes curtain{0%{transform:scaleY(0);transform-origin:bottom}45%{transform:scaleY(1);transform-origin:bottom}55%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(0);transform-origin:top}}
 #ring{position:fixed;left:0;top:0;width:34px;height:34px;border:1px solid rgba(168,132,74,.75);border-radius:50%;pointer-events:none;z-index:88;transition:width .35s cubic-bezier(.2,.9,.3,1),height .35s cubic-bezier(.2,.9,.3,1),background .35s,border-color .35s;mix-blend-mode:multiply}
 #ring.hot{width:58px;height:58px;background:rgba(168,132,74,.10);border-color:rgba(168,132,74,.9)}
 .bit{position:fixed;left:0;top:0;width:8px;height:5px;border-radius:2px;z-index:88;pointer-events:none}
@@ -658,9 +655,40 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .save-amt{animation:countGlow 1.6s ease-in-out infinite}
 @keyframes countGlow{50%{text-shadow:0 0 12px rgba(31,90,46,.35)}}
 
+
+/* calmer product page */
+.page.minimal .tagline{font-size:18px;line-height:1.45;color:#161616;font-weight:500;padding-bottom:12px;margin-bottom:8px}
+.pdp-short{font-size:15px;line-height:1.7;color:#666;margin:0 0 18px;max-width:34em}
+.pdp-buy{display:grid;grid-template-columns:112px 1fr 1fr;gap:8px;margin:0 0 14px;align-items:stretch}
+.pdp-qty{height:50px;border-radius:12px}
+.pdp-buy .btn{width:100%;min-height:50px;padding:0 10px;font-size:14px;border-radius:12px;margin:0;grid-column:auto}
+.pdp-buy .btn.gold,.pdp-buy .btn.ghost{grid-column:auto}
+.pdp-badges{margin:0 0 18px;gap:6px}
+.pb{padding:6px 11px;font-size:11.5px}
+.page.minimal .product{padding-top:14px}
+
+
+/* product interactions */
+.pdp-demo{display:flex;align-items:center;gap:16px;border:1px solid #ececec;border-radius:16px;padding:12px 16px;margin:0 0 18px;background:#fff;cursor:default}
+.ink-svg{width:150px;height:auto;flex-shrink:0;overflow:visible}
+.ink-svg path{fill:none;stroke:#8a6a32;stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.pdp-demo.in .ink-svg path{animation:writeIn 2.2s cubic-bezier(.4,0,.2,1) .3s forwards}
+.pdp-demo:hover .ink-svg path{animation:writeIn 1.8s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes writeIn{to{stroke-dashoffset:0}}
+.demo-cap{display:block;font-size:12px;color:#555;letter-spacing:.2px;margin-bottom:6px}
+.stack{position:relative;width:70px;height:50px;flex-shrink:0}
+.stack i{position:absolute;left:8px;bottom:0;width:54px;height:30px;border-radius:6px;background:linear-gradient(135deg,#1c1c1c,#4a4a4a);box-shadow:0 4px 10px -4px rgba(0,0,0,.45);transition:transform .55s cubic-bezier(.2,1.5,.4,1);transition-delay:calc(var(--n) * 60ms)}
+.stack i:nth-child(even){left:4px}
+.pdp-demo-card:hover .stack i,.pdp-demo-card:focus-within .stack i{transform:translateY(calc(var(--n) * -11px - 4px))}
+.pop-btn{background:#111;color:#fff;border:none;border-radius:999px;padding:7px 16px;font-size:12px;cursor:pointer;transition:transform .2s,background .2s}
+.pop-btn:hover{transform:scale(1.06);background:#333}
 @media (prefers-reduced-motion:reduce){
-  .blob,#ring,.bit,#curtain{display:none!important}
-  .reveal:nth-child(odd),.reveal:nth-child(even){transform:none}
+  .ink-svg path{animation:none!important;stroke-dashoffset:0}
+  .stack i{transition:none!important}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .blob,#ring,.bit,  .reveal:nth-child(odd),.reveal:nth-child(even){transform:none}
   .teaser .t-img,.shop-img{clip-path:none}
   .pricebox .now{background:none;-webkit-text-fill-color:#111;color:#111;animation:none}
   .seal::after{display:none}
@@ -770,7 +798,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       strip: [['shield', 'RFID protected'], ['pop', 'Pop-up design'], ['cash', 'Cash on delivery'], ['gift', 'Free delivery']],
       specs: [['Protection', 'RFID protected'], ['Opening', 'Pop-up button'], ['Delivery', 'Free']],
       lead: 'RFID protection with a one-press pop-up.',
-      desc: 'A premium wallet card holder with RFID protection. Its pop-up design lets you bring your cards up with one press of the button.',
+      desc: 'A slim, premium wallet card holder with RFID protection. Its pop-up design lets you bring your cards up with one press of the button.',
       tags: ['RFID protected', 'Pop-up design', 'Free delivery'],
       bullets: ['Premium RFID protected', 'Pop-up design: press the button and your cards pop up', 'Free delivery'],
       highlights: [
@@ -1047,6 +1075,13 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 
   function productPage(pid) {
     var p = PRODUCTS[pid], name = esc(p.name);
+    var SHORT = {
+      pen: 'Crafted from glass, with a twisted body and a smooth tip for fine lines, sketches and calligraphy. Ink and gift box included.',
+      card: 'A slim, premium card holder with RFID protection and a one-press pop-up, so your cards are always easy to reach.'
+    };
+    var DEMO = pid === 'pen'
+      ? '<div class="reveal pdp-demo"><svg class="ink-svg" viewBox="0 0 240 56" aria-hidden="true"><path pathLength="1" d="M8 38 C40 8 62 50 92 26 S140 8 168 34 S214 18 232 30"/></svg><span class="demo-cap">Glass tip for fine strokes</span></div>'
+      : '<div class="reveal pdp-demo"><div class="stack" aria-hidden="true"><i style="--n:0"></i><i style="--n:1"></i><i style="--n:2"></i><i style="--n:3"></i></div><div><span class="demo-cap">One press, and your cards pop up</span><button type="button" class="pop-btn">Try it</button></div></div>';
     var badges = [['cash', 'Cash on delivery'], ['gift', 'Free delivery'], ['check', 'Damaged items covered'], ['lock', 'Details kept private']];
     var FAQS = {
       pen: [
@@ -1075,12 +1110,14 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     }).join('');
     return '<div class="page premium minimal">' +
       '<section class="product">' +
-        '<div class="reveal">' + gallery(pid) + '<div class="ps-strip">' + strip + '</div></div>' +
+        '<div class="reveal">' + gallery(pid) + '</div>' +
         '<div class="reveal d1" id="buy-block">' +
           '<p class="crumbs"><a href="#/shop">Shop</a> / ' + name + '</p>' +
           '<p class="eyebrow">' + esc(p.eyebrow) + '</p>' +
           '<h1>' + name + '</h1>' +
           '<p class="tagline">' + esc(p.lead) + '</p>' +
+          '<p class="pdp-short">' + esc(SHORT[pid]) + '</p>' +
+          DEMO +
           priceBlock(pid, true) +
           stockLine(p) +
           '<div class="pdp-buy">' +
@@ -1525,14 +1562,6 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     var b1 = document.createElement('div'); b1.className = 'blob b1';
     var b2 = document.createElement('div'); b2.className = 'blob b2';
 
-    // page curtain between pages
-    var curtain = document.createElement('div'); curtain.id = 'curtain';
-    document.body.appendChild(curtain);
-    curtain.addEventListener('animationend', function () { curtain.classList.remove('on'); });
-    window.addEventListener('hashchange', function () {
-      if (reduced) return;
-      curtain.classList.remove('on'); void curtain.offsetWidth; curtain.classList.add('on');
-    });
     if (fine && !reduced) {
       // a ring that follows the cursor with a slight delay
       var ring = document.createElement('div'); ring.id = 'ring';
