@@ -328,7 +328,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .shop-info{padding:24px}
 .shop-info h3{font-size:26px;margin:4px 0 10px}
 .btn.small{padding:10px 18px;min-height:40px;font-size:14px;margin-top:14px;display:inline-flex}
-@media (max-width:900px){.ps-strip{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:900px){.ps-strip{grid-template-columns:repeat(4,1fr)}}
 
 
 /* minimal home page */
@@ -502,6 +502,108 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .btn:not(.gold):not(.ghost)::after{content:"";position:absolute;top:0;left:-70%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-20deg);transition:left .7s ease;pointer-events:none}
 .btn:not(.gold):not(.ghost):hover::after{left:130%}
 .pricebox .now{background:linear-gradient(90deg,#111 40%,#8a6a32 50%,#111 60%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:titleShine 7s ease-in-out infinite}
+
+/* ===== Compact, minimal product and home pages ===== */
+.page.minimal h1{font-family:Inter,system-ui,sans-serif;font-weight:600;letter-spacing:-.01em;line-height:1.25}
+.page.minimal .eyebrow{font-size:11px;letter-spacing:.6px;color:#888;margin:0 0 6px;font-weight:500}
+.page.minimal .crumbs{font-size:12px;margin-bottom:10px}
+.page.minimal .product{gap:24px;padding:20px 20px 36px;max-width:1040px}
+.page.minimal .product h1{font-size:22px;margin:0 0 8px}
+.page.minimal .tagline{font-family:Inter,system-ui,sans-serif;font-size:14px;line-height:1.55;color:#555;margin:0 0 14px}
+.page.minimal .pricebox{margin:0 0 10px;gap:4px 10px}
+.page.minimal .pricebox .now{font-family:Inter,system-ui,sans-serif;font-size:24px;font-weight:600}
+.page.minimal .pricebox .was{font-family:Inter,system-ui,sans-serif;font-size:14px}
+.page.minimal .pricebox .off-badge{font-size:11px;padding:4px 10px}
+.page.minimal .stock{font-size:13px}
+.page.minimal .buy{gap:10px;margin:16px 0 8px}
+.page.minimal .buy .btn{border-radius:12px;padding:14px 16px;min-height:48px;font-size:15px}
+.page.minimal .buy .btn.gold{background:#111;border-color:#111;box-shadow:none}
+.page.minimal .buy .btn.gold::after{display:none}
+.page.minimal .note{font-size:12px;margin:0}
+.page.minimal .spec{margin-top:14px}
+.page.minimal .spec-row{padding:9px 0;font-size:13px}
+.page.minimal .bullets{margin:14px 0}
+.page.minimal .bullets li{padding:7px 0 7px 20px;font-size:14px}
+.page.minimal .bullets li::before{top:14px;width:8px}
+.page.minimal details.fold{padding:11px 0}
+.page.minimal details.fold summary{font-size:14px}
+.page.minimal .ps-strip{grid-template-columns:repeat(4,1fr);gap:4px;margin-top:12px;padding-top:12px}
+.page.minimal .ps-item{font-size:10.5px;gap:4px;line-height:1.3}
+.page.minimal .ps-item svg{width:20px;height:20px}
+.page.minimal section.band{padding:20px 20px}
+.page.minimal .grid3{gap:12px}
+.page.minimal .card{padding:16px;border-radius:14px}
+.page.minimal .card h3{font-size:15px;font-family:Inter,system-ui,sans-serif;font-weight:600;margin:0 0 4px}
+.page.minimal .card p{font-size:13px}
+.page.minimal .card .icon{width:36px;height:36px;border-radius:10px;margin-bottom:12px}
+.page.minimal .card .icon svg{width:18px;height:18px}
+.page.minimal .cta-band{padding:28px 20px;border-radius:18px;background:#111}
+.page.minimal .cta-band h2{font-family:Inter,system-ui,sans-serif;font-size:18px;font-weight:600;margin:0 0 4px}
+.page.minimal .cta-band p{font-size:13px;margin:0 0 14px}
+.page.minimal .cta-band .btn{background:#fff;color:#111;border-color:#fff}
+.page.minimal .cta-band .btn:hover{background:#e8e8e8;color:#111}
+.page.minimal .rv-title{font-size:16px;font-weight:600;margin:0 0 12px}
+.page.minimal .reviews{padding:20px 20px}
+.page.minimal .rv-empty{padding:24px 16px;border-radius:16px}
+.page.minimal .rv-orb{width:52px;height:52px;font-size:22px;margin-bottom:10px}
+.page.minimal .rv-empty-title{font-size:15px}
+.page.minimal .rv-form-wrap.open{margin-top:12px}
+.page.minimal .panel{padding:20px;border-radius:16px}
+/* home page, lighter spacing */
+.minimal .h-showcase{padding:24px 20px 16px;gap:20px}
+.minimal .h-title{font-size:clamp(26px,7vw,40px)}
+.minimal .h-sub{font-size:14px;margin-bottom:16px}
+.minimal .h-collage{height:220px}
+.minimal .m-sec{padding:24px 20px}
+.minimal .m-trust{padding:0 20px 24px;gap:10px}
+.minimal .tb{padding:14px 12px}
+.minimal .tb svg{width:22px;height:22px;margin-bottom:8px}
+.minimal .teaser-grid{gap:10px}
+.minimal .t-info{padding:10px 12px 12px}
+.minimal .t-info h3{font-size:13px}
+.minimal .m-steps{gap:16px}
+.minimal .m-steps h2{font-size:15px}
+
+
+/* ===== Checkout with order summary ===== */
+.co{padding:20px 20px 48px;max-width:1040px}
+.co-steps{display:flex;align-items:center;gap:10px;font-size:12px;color:#888;margin-bottom:18px}
+.co-step{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.co-step span{width:22px;height:22px;border-radius:50%;background:#ececec;display:grid;place-items:center;font-size:11px;color:#555}
+.co-step.on{color:#111;font-weight:600}
+.co-step.on span{background:#111;color:#fff}
+.co-bar{flex:1;height:2px;background:#e4e4e4;position:relative;overflow:hidden;border-radius:2px}
+.co-bar i{position:absolute;left:0;top:0;bottom:0;width:50%;background:#111;animation:barGrow 1.1s cubic-bezier(.2,.9,.3,1) both}
+@keyframes barGrow{from{width:0}to{width:50%}}
+.co-grid{display:grid;grid-template-columns:1fr;gap:18px}
+.co h1{font-size:22px;margin:0 0 6px}
+.co-form .note{margin:0 0 14px}
+.co-summary{background:#fff;border:1px solid #ececec;border-radius:18px;padding:16px;order:-1}
+.co-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.co-head h2{font-size:15px;font-weight:600;margin:0}
+.co-head span{font-size:12px;color:#888}
+.co-item{display:grid;grid-template-columns:60px 1fr;gap:12px;padding:12px 0;border-top:1px solid #f0f0f0;animation:itemIn .6s cubic-bezier(.2,.9,.3,1) both}
+.co-item:nth-of-type(2){animation-delay:.08s}
+.co-item:nth-of-type(3){animation-delay:.16s}
+@keyframes itemIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
+.co-item img{width:60px;height:60px;border-radius:12px;object-fit:cover;background:#f4f4f2}
+.co-name{font-size:13px;font-weight:600;margin:0 0 2px;line-height:1.35}
+.co-each{font-size:12px;color:#888;margin:0 0 8px}
+.co-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.qty.mini{padding:2px}
+.qty.mini button{width:28px;height:28px;font-size:15px}
+.qty.mini span{min-width:22px;font-size:13px;text-align:center}
+.co-price{font-size:14px;font-weight:600}
+.co-totals{border-top:1px solid #111;margin-top:6px;padding-top:12px}
+.co-totals p{display:flex;justify-content:space-between;font-size:13px;color:#555;margin:0 0 6px}
+.co-totals .total{font-size:16px;color:#111;font-weight:600;margin-top:8px}
+@media (min-width:900px){
+  .co{padding:32px 48px 64px}
+  .co-grid{grid-template-columns:1fr .85fr;gap:40px;align-items:start}
+  .co-summary{order:0;position:sticky;top:96px;padding:22px}
+  .co h1{font-size:26px}
+}
+
 @media (prefers-reduced-motion:reduce){
   .blob,#ring,.bit,#curtain{display:none!important}
   .reveal:nth-child(odd),.reveal:nth-child(even){transform:none}
@@ -511,6 +613,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 }
 
 @media (prefers-reduced-motion:reduce){
+  .co-item,.co-bar i{animation:none!important}
   .h-collage img,.rv-orb{animation:none!important}
   .w{opacity:1!important;transform:none!important;animation:none!important}
   .spark,#glow,#progress{display:none}
@@ -882,7 +985,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     var details = '<details class="fold"><summary>Description</summary><p>' + esc(p.desc) + '</p></details>';
     if (p.care) details += '<details class="fold"><summary>Care</summary><p>' + esc(p.care) + '</p></details>';
     details += '<details class="fold"><summary>Delivery and returns</summary><p>Delivery is free. Damaged or wrong items are covered. See our <a href="#/policy/shipping">shipping and delivery</a> and <a href="#/policy/returns">returns and refunds</a> policies.</p></details>';
-    return '<div class="page premium">' +
+    return '<div class="page premium minimal">' +
       '<section class="product">' +
         '<div class="reveal">' + gallery(pid) + '<div class="ps-strip">' + strip + '</div></div>' +
         '<div class="reveal d1" id="buy-block">' +
@@ -948,22 +1051,51 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       (err ? '<span class="err" id="e-' + name + '">' + esc(err) + '</span>' : '') + '</div>';
   }
   function checkoutView() {
-    if (totals().count === 0) return emptyBag();
-    return '<section class="narrow page"><p class="steps-bar"><span class="on">1. Details</span> &nbsp;&middot;&nbsp; 2. Payment</p>' +
-      '<h1>Delivery details</h1><p class="note">Your details are used only to deliver your order and contact you about it.</p>' +
-      '<form id="checkout-form" novalidate class="panel" style="margin-top:24px"><div class="grid2">' +
-        field('name', 'Full name', 'text', { required: true, ac: 'name' }) +
-        field('phone', 'Mobile number', 'tel', { required: true, ac: 'tel-national' }) +
-        field('email', 'Email', 'email', { optional: true, ac: 'email' }) +
-        field('line1', 'House no., street and area', 'text', { required: true, ac: 'address-line1', full: true }) +
-        field('line2', 'Flat, floor or building', 'text', { optional: true, full: true }) +
-        field('landmark', 'Landmark', 'text', { optional: true, full: true }) +
-        field('city', 'City or town', 'text', { required: true, ac: 'address-level2' }) +
-        field('state', 'State', 'text', { required: true, ac: 'address-level1' }) +
-        field('pincode', 'PIN code', 'text', { required: true, ac: 'postal-code' }) +
-      '</div><div class="hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>' +
-      '<button class="btn block" type="submit" style="margin-top:8px">Continue to payment</button></form></section>';
+    var t = totals();
+    if (t.count === 0) return emptyBag();
+    var items = t.lines.map(function (l) {
+      return '<div class="co-item">' +
+        '<img src="/' + l.p.photos[0] + '" alt="' + esc(l.p.name) + '">' +
+        '<div><p class="co-name">' + esc(l.p.name) + '</p>' +
+        '<p class="co-each">' + money(l.p.price) + ' each</p>' +
+        '<div class="co-row"><div class="qty mini">' +
+          '<button data-action="dec" data-pid="' + l.pid + '" aria-label="Decrease">&minus;</button>' +
+          '<span aria-live="polite">' + l.qty + '</span>' +
+          '<button data-action="inc" data-pid="' + l.pid + '" aria-label="Increase">+</button>' +
+        '</div><span class="co-price">' + money(l.qty * l.p.price) + '</span></div></div></div>';
+    }).join('');
+    return '<section class="co page minimal">' +
+      '<div class="co-steps"><div class="co-step on"><span>1</span>Details</div><div class="co-bar"><i></i></div><div class="co-step"><span>2</span>Payment</div></div>' +
+      '<div class="co-grid">' +
+        '<aside class="co-summary reveal">' +
+          '<div class="co-head"><h2>Your order</h2><span>' + t.count + (t.count === 1 ? ' item' : ' items') + '</span></div>' +
+          items +
+          '<div class="co-totals">' +
+            '<p><span>Subtotal</span><span>' + money(t.subtotal) + '</span></p>' +
+            '<p><span>Delivery</span><span>Free</span></p>' +
+            '<p class="total"><span>Total, pay in cash</span><span>' + money(t.total) + '</span></p>' +
+          '</div>' +
+        '</aside>' +
+        '<div class="co-form reveal d1">' +
+          '<h1>Delivery details</h1>' +
+          '<p class="note">Used only to deliver your order and contact you about it.</p>' +
+          '<form id="checkout-form" novalidate class="panel"><div class="grid2">' +
+            field('name', 'Full name', 'text', { required: true, ac: 'name' }) +
+            field('phone', 'Mobile number', 'tel', { required: true, ac: 'tel-national' }) +
+            field('email', 'Email', 'email', { optional: true, ac: 'email' }) +
+            field('line1', 'House no., street and area', 'text', { required: true, ac: 'address-line1', full: true }) +
+            field('line2', 'Flat, floor or building', 'text', { optional: true, full: true }) +
+            field('landmark', 'Landmark', 'text', { optional: true, full: true }) +
+            field('city', 'City or town', 'text', { required: true, ac: 'address-level2' }) +
+            field('state', 'State', 'text', { required: true, ac: 'address-level1' }) +
+            field('pincode', 'PIN code', 'text', { required: true, ac: 'postal-code' }) +
+          '</div><div class="hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>' +
+          '<button class="btn block" type="submit" style="margin-top:8px">Continue to payment</button></form>' +
+        '</div>' +
+      '</div></section>';
   }
+
+  
   function paymentView() {
     var t = totals(), c = confirmed();
     if (t.count === 0) return emptyBag();
@@ -1282,7 +1414,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     // soft drifting light behind the page
     var b1 = document.createElement('div'); b1.className = 'blob b1';
     var b2 = document.createElement('div'); b2.className = 'blob b2';
-    document.body.appendChild(b1); document.body.appendChild(b2);
+
     // page curtain between pages
     var curtain = document.createElement('div'); curtain.id = 'curtain';
     document.body.appendChild(curtain);
