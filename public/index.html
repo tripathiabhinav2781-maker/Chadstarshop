@@ -308,6 +308,129 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .sale-ribbon span{margin-right:44px}
 .sale-ribbon em{color:#ffd9a0;font-style:normal}
 
+
+/* premium product pages */
+.premium h1{font-size:clamp(38px,5vw,58px);letter-spacing:-.01em}
+.premium .tagline{font-family:'Cormorant Garamond',serif;font-size:23px;line-height:1.35;color:var(--ink-soft);margin:0 0 20px}
+.ps-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.ps-item{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;font-size:12px;letter-spacing:.3px;color:var(--ink-soft)}
+.ps-item svg{width:26px;height:26px;stroke:var(--gold);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.spec{margin-top:20px;border-top:1px solid var(--ink)}
+.spec-row{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid var(--line);font-size:14px}
+.spec-row span:first-child{color:var(--muted)}
+.spec-row span:last-child{text-align:right}
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;margin-top:40px;max-width:1040px;margin-left:auto;margin-right:auto}
+.shop-card{display:block;background:#fff;border:1px solid var(--line);border-radius:26px;overflow:hidden;color:var(--ink);transition:transform .4s,box-shadow .4s,border-color .4s}
+.shop-card:hover{transform:translateY(-6px);box-shadow:0 30px 50px -30px rgba(20,17,15,.35);border-color:var(--gold)}
+.shop-img{aspect-ratio:1/1;overflow:hidden;background:#efe9df}
+.shop-img img{width:100%;height:100%;object-fit:cover;transition:transform 1s ease}
+.shop-card:hover .shop-img img{transform:scale(1.06)}
+.shop-info{padding:24px}
+.shop-info h3{font-size:26px;margin:4px 0 10px}
+.btn.small{padding:10px 18px;min-height:40px;font-size:14px;margin-top:14px;display:inline-flex}
+@media (max-width:900px){.ps-strip{grid-template-columns:repeat(2,1fr)}}
+
+
+/* minimal home page */
+.minimal{font-family:Inter,system-ui,Arial,sans-serif;color:#111}
+.minimal h1,.minimal h2{font-family:Inter,system-ui,Arial,sans-serif;font-weight:500;letter-spacing:-.01em;line-height:1.3}
+.m-hero{display:grid;grid-template-columns:1fr;gap:24px;padding:20px 20px 40px;max-width:1040px;margin:0 auto}
+.m-media .main-wrap{border-radius:16px;box-shadow:none;background:#f4f4f2}
+.m-info h1{font-size:20px;margin:0 0 10px}
+.m-info .pricebox{margin:0 0 12px;gap:4px 10px}
+.m-info .pricebox .now{font-family:Inter,sans-serif;font-size:24px;font-weight:600}
+.m-info .pricebox .was{font-family:Inter,sans-serif;font-size:15px}
+.m-info .pricebox .off-badge{font-size:11px;padding:4px 9px}
+.m-desc{color:#555;font-size:15px;margin:0 0 18px;line-height:1.6}
+.m-cta{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.m-cta .btn{min-width:170px;border-radius:12px;padding:14px 22px}
+.m-link{font-size:14px;color:#111;text-decoration:underline;text-underline-offset:3px}
+.m-meta{font-size:12px;color:#888;margin:14px 0 0;letter-spacing:.2px}
+.m-sec{padding:44px 20px;max-width:1040px;margin:0 auto;border-top:1px solid #eee}
+.m-sec.center{text-align:center}
+.m-grid{display:grid;grid-template-columns:1fr;gap:24px}
+.m-grid .m-media,.m-grid > div:first-child .main-wrap{border-radius:16px}
+.m-steps{display:grid;grid-template-columns:1fr;gap:28px}
+.m-steps h2{font-size:17px;margin:0 0 6px}
+.m-steps .m-desc{margin:0}
+.minimal .stamp{width:76px;height:76px;top:10px;right:10px}
+.minimal .stamp b{font-size:22px}
+.minimal .stamp span{font-size:9px}
+@media (min-width:900px){
+  .m-hero{grid-template-columns:1.15fr 1fr;align-items:center;gap:56px;padding:56px 48px 64px}
+  .m-info h1{font-size:28px}
+  .m-info .pricebox .now{font-size:30px}
+  .m-sec{padding:64px 48px}
+  .m-grid{grid-template-columns:1fr 1fr;align-items:center;gap:56px}
+  .m-steps{grid-template-columns:repeat(3,1fr);gap:40px}
+}
+
+
+/* trust badges */
+.m-trust{max-width:1040px;margin:0 auto;padding:0 20px 40px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.tb{border:1px solid #ececec;border-radius:16px;padding:18px 16px;background:#fff;transition:transform .35s,border-color .35s,box-shadow .35s}
+.tb:hover{transform:translateY(-4px);border-color:#111;box-shadow:0 18px 30px -22px rgba(0,0,0,.35)}
+.tb svg{width:26px;height:26px;stroke:#111;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
+.tb strong{display:block;font-size:14px;font-weight:600;line-height:1.3}
+.tb span{display:block;font-size:12px;color:#777;margin-top:4px;line-height:1.4}
+.tb.in svg{animation:iconPop .9s cubic-bezier(.2,1.5,.4,1) both}
+.tb.in:nth-child(2) svg{animation-delay:.1s}
+.tb.in:nth-child(3) svg{animation-delay:.2s}
+.tb.in:nth-child(4) svg{animation-delay:.3s}
+.tb.in:nth-child(5) svg{animation-delay:.4s}
+@keyframes iconPop{0%{transform:scale(.3) rotate(-12deg);opacity:0}70%{transform:scale(1.12) rotate(2deg);opacity:1}100%{transform:none;opacity:1}}
+.minimal .m-media .main-wrap{animation:softRise 1s ease both}
+@keyframes softRise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.minimal .m-info .btn{transition:transform .25s,box-shadow .25s}
+.minimal .m-info .btn:hover{box-shadow:0 14px 26px -12px rgba(0,0,0,.45)}
+@media (min-width:900px){
+  .m-trust{grid-template-columns:repeat(5,1fr);gap:16px;padding:0 48px 56px}
+}
+
+
+/* reviews */
+.rv-title{font-size:20px;font-weight:500;margin:0 0 22px;letter-spacing:-.01em}
+.rv-grid{display:grid;grid-template-columns:1fr;gap:14px}
+.rv{margin:0;border:1px solid #ececec;border-radius:16px;padding:20px;background:#fff;transition:transform .35s,box-shadow .35s}
+.rv:hover{transform:translateY(-4px);box-shadow:0 18px 30px -22px rgba(0,0,0,.35)}
+.stars{display:flex;gap:2px;margin-bottom:10px}
+.star{font-size:17px;color:#e2ddd3;transform:scale(.4);opacity:0;display:inline-block}
+.rv.in .star{animation:starIn .5s cubic-bezier(.2,1.6,.4,1) forwards}
+.rv.in .star.on{color:#b8893f}
+@keyframes starIn{to{transform:scale(1);opacity:1}}
+.rv blockquote{margin:0 0 12px;font-size:15px;line-height:1.6;color:#222}
+.rv figcaption{font-size:13px;color:#777}
+@media (min-width:900px){.rv-grid{grid-template-columns:repeat(3,1fr);gap:18px}}
+
+
+/* ===== Motion ===== */
+#progress{position:fixed;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,#a8844a,#e8cf98,#a8844a);transform-origin:left;transform:scaleX(0);z-index:70;pointer-events:none}
+#glow{position:fixed;left:0;top:0;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(184,137,63,.16),rgba(184,137,63,0) 62%);pointer-events:none;z-index:1;transition:transform .12s linear}
+.w{display:inline-block;opacity:0;transform:translateY(55%) rotate(4deg);animation:wordUp .9s cubic-bezier(.2,.9,.25,1) forwards}
+@keyframes wordUp{to{opacity:1;transform:none}}
+.m-media{position:relative}
+.spark{position:absolute;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle,#f3dfae,#a8844a);box-shadow:0 0 10px rgba(232,207,152,.9);opacity:0;pointer-events:none;animation:sparkle var(--d,4s) ease-in-out var(--dl,0s) infinite}
+@keyframes sparkle{0%{opacity:0;transform:translateY(0) scale(.4)}40%{opacity:.95;transform:translateY(-18px) scale(1)}100%{opacity:0;transform:translateY(-46px) scale(.3)}}
+.main-wrap{transition:transform .5s cubic-bezier(.2,.9,.3,1);transform-style:preserve-3d}
+.btn{position:relative;overflow:hidden}
+.btn.magnet{transition:transform .35s cubic-bezier(.2,.9,.3,1),box-shadow .25s,background .25s,color .25s}
+.ripple{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:rgba(255,255,255,.45);transform:scale(0);opacity:1;animation:rip .65s ease-out forwards;pointer-events:none}
+@keyframes rip{to{transform:scale(34);opacity:0}}
+.fly{position:fixed;left:0;top:0;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:radial-gradient(circle,#f3dfae,#a8844a);box-shadow:0 0 18px rgba(168,132,74,.9);z-index:80;pointer-events:none}
+.pricebox .now{display:inline-block}
+.rv,.tb,.shop-card,.card,.feature-card{transform-style:preserve-3d}
+.shop-card:hover .shop-img img{transform:scale(1.08) rotate(.6deg)}
+.cta-band{overflow:hidden}
+.cta-band::before{content:"";position:absolute;inset:-40% -20%;background:conic-gradient(from 0deg,transparent,rgba(232,207,152,.12),transparent 30%);animation:spin 14s linear infinite;pointer-events:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.minimal .m-hero .m-info h1{background:linear-gradient(90deg,#111 0%,#111 40%,#8a6a32 50%,#111 60%,#111 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:titleShine 6s ease-in-out 1.2s infinite}
+@keyframes titleShine{0%{background-position:100% 0}60%,100%{background-position:-100% 0}}
+@media (prefers-reduced-motion:reduce){
+  .w{opacity:1!important;transform:none!important;animation:none!important}
+  .spark,#glow,#progress{display:none}
+  .minimal .m-info h1{animation:none;background:none;-webkit-text-fill-color:#111;color:#111}
+}
+
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
@@ -319,8 +442,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 <header class="site-header" id="top">
   <a class="logo" href="#/">INDIAN<span>CHADSTARS</span></a>
   <nav class="nav" aria-label="Main">
-    <a href="#/" data-nav="">Shop</a>
-    <a href="#/product" data-nav="product">The pen</a>
+    <a href="#/shop" data-nav="shop">Shop</a>
     <a href="#/about" data-nav="about">Our story</a>
     <a href="#/faq" data-nav="faq">FAQ</a>
     <a href="#/contact" data-nav="contact">Contact</a>
@@ -340,7 +462,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     <div>
       <h4>Shop</h4>
       <a href="#/">Home</a>
-      <a href="#/product">The pen</a>
+      <a href="#/shop">Shop all</a>
       <a href="#/cart">Bag</a>
       <a href="#/checkout">Checkout</a>
     </div>
@@ -372,23 +494,59 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 (function () {
   'use strict';
 
-  // ===== Settings: change these =====
-  var CONFIG = {
-    product: { id: 'glass-pen-ink', name: 'Glass Dip Pen with Ink Bottle', price: 399, compareAt: 699, maxQty: 10 },
-    photos: ['pen-1.jpg', 'pen-2.jpg', 'pen-3.jpg', 'pen-4.jpg', 'pen-5.jpg', 'pen-6.jpg'],
-    currency: '₹',
-    shippingCharge: 0,        // delivery charge in rupees (0 = free)
-    freeShippingAbove: 0      // waive delivery above this amount (0 = no rule)
+  // ===== Products: edit prices and details here =====
+  var PRODUCTS = {
+    pen: {
+      id: 'glass-pen-ink', name: 'Glass Dip Pen with Ink Bottle', label: 'Glass Dip Pen',
+      price: 399, compareAt: 699, page: '#/product',
+      photos: ['pen-1.jpg', 'pen-2.jpg', 'pen-3.jpg', 'pen-4.jpg', 'pen-5.jpg', 'pen-6.jpg'],
+      eyebrow: 'Glass collection',
+      strip: [['hand', 'Handmade'], ['ink', 'Ink included'], ['gift', 'Gift box'], ['cash', 'Cash on delivery']],
+      specs: [['Material', 'Glass'], ['Includes', 'Pen, bottle of ink, gift box'], ['Care', 'Dry cloth after each use']],
+      lead: 'Twisted glass that catches the light, a tip made for fine strokes, and a bottle of ink to start writing straight away.',
+      desc: 'A handcrafted glass dip pen with a smooth, elegant finish, packed in a gift box with a bottle of ink. Ideal for calligraphy, journaling, sketching and gifting.',
+      tags: ['Twisted glass body', 'Ink included', 'Gift box'],
+      bullets: ['Glass dip pen with a twisted, colourful body', 'Includes one bottle of ink', 'Presented in a gift box'],
+      highlights: [
+        ['pen', 'Made to write', 'A smooth glass tip that holds ink for fine lines, sketches and calligraphy.'],
+        ['ink', 'Ink included', 'A bottle of ink comes with every pen, so you can start writing straight away.'],
+        ['gift', 'Gift box', 'Presented in a gift box, ready to give or keep for yourself.']
+      ],
+      care: 'Store in the gift box away from direct sunlight. Clean the tip gently with a soft dry cloth after each use. Handle with care, as glass can break if dropped.'
+    },
+    card: {
+      id: 'rfid-card-holder', name: 'Premium RFID Protected Wallet Card Holder', label: 'RFID Card Holder',
+      price: 699, compareAt: 0, page: '#/card',
+      photos: ['card-1.jpg', 'card-2.jpg', 'card-3.jpg', 'card-4.jpg', 'card-5.jpg'],
+      eyebrow: 'Card holders',
+      strip: [['shield', 'RFID protected'], ['pop', 'Pop-up design'], ['cash', 'Cash on delivery'], ['gift', 'Free delivery']],
+      specs: [['Protection', 'RFID protected'], ['Opening', 'Pop-up button'], ['Delivery', 'Free']],
+      lead: 'A premium wallet card holder with RFID protection. Press the button and your cards pop up, ready to use.',
+      desc: 'A premium wallet card holder with RFID protection. Its pop-up design lets you bring your cards up with one press of the button.',
+      tags: ['RFID protected', 'Pop-up design', 'Free delivery'],
+      bullets: ['Premium RFID protected', 'Pop-up design: press the button and your cards pop up', 'Free delivery'],
+      highlights: [
+        ['shield', 'RFID protected', 'Premium RFID protection for the cards you carry.'],
+        ['pop', 'Pop-up design', 'Press the button and your cards pop up for easy access.'],
+        ['gift', 'Free delivery', 'Delivery is free, so the price you see is the price you pay.']
+      ],
+      care: ''
+    }
   };
+  // ===== Reviews: add only real reviews, with the customer's permission =====
+  // Example: { name: 'Priya', city: 'Lucknow', product: 'pen', rating: 5, text: 'Exactly as pictured. Lovely gift.' }
+  var REVIEWS = [
+  ];
+  var ORDER = ['pen', 'card'];
+  var MAX_QTY = 10;
+  var CART_KEY = 'ic_cart', OLD_QTY_KEY = 'ic_qty', DRAFT_KEY = 'ic_draft', CUSTOMER_KEY = 'ic_customer', ORDER_KEY = 'ic_last_order';
 
-  var QTY_KEY = 'ic_qty', DRAFT_KEY = 'ic_draft', CUSTOMER_KEY = 'ic_customer', ORDER_KEY = 'ic_last_order';
   var app = document.getElementById('app');
   var formErrors = {};
-  var observer = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
-    entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); observer.unobserve(en.target); } });
-  }, { threshold: 0.12 }) : null;
+  var galleryIndex = { pen: 0, card: 0 };
+  var stickyIO = null;
 
-  function money(n) { return CONFIG.currency + Number(n).toLocaleString('en-IN'); }
+  function money(n) { return '\u20B9' + Number(n).toLocaleString('en-IN'); }
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -396,29 +554,43 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   }
   function getJSON(store, key) { try { return JSON.parse(store.getItem(key)) || null; } catch (e) { return null; } }
   function setJSON(store, key, v) { store.setItem(key, JSON.stringify(v)); }
+  function offPct(p) { return p.compareAt ? Math.round((1 - p.price / p.compareAt) * 100) : 0; }
 
-  // ===== Bag =====
-  function getQty() {
-    var n = parseInt(localStorage.getItem(QTY_KEY) || '0', 10);
-    return isNaN(n) ? 0 : Math.max(0, Math.min(CONFIG.product.maxQty, n));
+  // ===== Cart (one line per product) =====
+  function getCart() {
+    var c = getJSON(localStorage, CART_KEY);
+    if (!c) {
+      var old = parseInt(localStorage.getItem(OLD_QTY_KEY) || '0', 10);
+      c = { pen: isNaN(old) ? 0 : old, card: 0 };
+    }
+    ORDER.forEach(function (k) { c[k] = Math.max(0, Math.min(MAX_QTY, parseInt(c[k] || 0, 10) || 0)); });
+    return c;
   }
-  function setQty(n) {
-    localStorage.setItem(QTY_KEY, String(Math.max(0, Math.min(CONFIG.product.maxQty, n))));
+  function setLine(pid, n) {
+    var c = getCart();
+    c[pid] = Math.max(0, Math.min(MAX_QTY, n));
+    setJSON(localStorage, CART_KEY, c);
+    localStorage.removeItem(OLD_QTY_KEY);
     updateBadge(true);
   }
+  function lines() {
+    var c = getCart();
+    return ORDER.filter(function (k) { return c[k] > 0; }).map(function (k) { return { pid: k, qty: c[k], p: PRODUCTS[k] }; });
+  }
   function totals() {
-    var qty = getQty(), subtotal = qty * CONFIG.product.price, shipping = 0;
-    if (qty > 0) shipping = (CONFIG.freeShippingAbove && subtotal >= CONFIG.freeShippingAbove) ? 0 : CONFIG.shippingCharge;
-    return { qty: qty, subtotal: subtotal, shipping: shipping, total: subtotal + shipping };
+    var ls = lines();
+    var subtotal = ls.reduce(function (a, l) { return a + l.qty * l.p.price; }, 0);
+    var count = ls.reduce(function (a, l) { return a + l.qty; }, 0);
+    return { lines: ls, subtotal: subtotal, total: subtotal, count: count };
   }
   function updateBadge(bump) {
     var el = document.getElementById('bag-count');
     if (!el) return;
-    el.textContent = getQty();
+    el.textContent = totals().count;
     if (bump) { el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }
   }
 
-  // ===== Helpers for details =====
+  // ===== Customer details =====
   function normalizePhone(p) {
     var d = String(p || '').replace(/\D/g, '');
     if (d.length === 12 && d.indexOf('91') === 0) d = d.slice(2);
@@ -439,183 +611,204 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   function confirmed() { return getJSON(sessionStorage, CUSTOMER_KEY) || {}; }
   function fullAddress(c) { return [c.line1, c.line2, c.landmark, c.city, c.state, c.pincode].filter(Boolean).join(', '); }
 
-  // ===== Components =====
+  // ===== Icons =====
   var ICON = {
-    hand: '<svg viewBox="0 0 24 24"><path d="M12 3c-2 0-3 1.5-3 3v6l-2-1c-1-.6-2 .2-1.6 1.2L8 18c.8 2 2.6 3 4.8 3H14c3 0 5-2 5-5v-5c0-1-.8-2-2-2s-2 .8-2 2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    check: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    lock: '<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke-linecap="round"/></svg>',
+    cash: '<svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg>',
+    pen: '<svg viewBox="0 0 24 24"><path d="M15 4l5 5L9 20H4v-5z" stroke-linejoin="round"/></svg>',
     ink: '<svg viewBox="0 0 24 24"><path d="M12 3s-5 6-5 10a5 5 0 0 0 10 0c0-4-5-10-5-10z" stroke-linejoin="round"/></svg>',
     gift: '<svg viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="11" rx="1"/><path d="M3 9h18M12 9v11M12 9c-2-4-6-4-6-1s6 1 6 1zm0 0c2-4 6-4 6-1s-6 1-6 1z" stroke-linecap="round"/></svg>',
-    truck: '<svg viewBox="0 0 24 24"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7" stroke-linejoin="round"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>',
-    cash: '<svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg>',
-    pen: '<svg viewBox="0 0 24 24"><path d="M15 4l5 5L9 20H4v-5z" stroke-linejoin="round"/></svg>'
+    shield: '<svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    pop: '<svg viewBox="0 0 24 24"><rect x="6" y="5" width="12" height="15" rx="2"/><path d="M9 5V3h6v2M9 10h6" stroke-linecap="round"/></svg>',
+    hand: '<svg viewBox="0 0 24 24"><path d="M12 3c-2 0-3 1.5-3 3v6l-2-1c-1-.6-2 .2-1.6 1.2L8 18c.8 2 2.6 3 4.8 3H14c3 0 5-2 5-5v-5c0-1-.8-2-2-2s-2 .8-2 2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
   };
 
-  function priceBlock(big) {
-    var c = CONFIG.product, off = Math.round((1 - c.price / c.compareAt) * 100);
-    return '<div class="pricebox' + (big ? ' big' : '') + '">' +
-      '<span class="now">' + money(c.price) + '</span>' +
-      '<s class="was">' + money(c.compareAt) + '</s>' +
-      '<span class="off-badge">' + off + '% OFF</span></div>';
+  // ===== Components =====
+  function priceBlock(pid, big) {
+    var p = PRODUCTS[pid];
+    return '<div class="pricebox' + (big ? ' big' : '') + '"><span class="now">' + money(p.price) + '</span>' +
+      (p.compareAt ? '<s class="was">' + money(p.compareAt) + '</s><span class="off-badge">' + offPct(p) + '% OFF</span>' : '') +
+      '</div>';
   }
-  function gallery() {
-    var list = CONFIG.photos;
-    var thumbs = list.map(function (f, i) {
-      return '<button class="thumb' + (i === 0 ? ' on' : '') + '" type="button" data-thumb="/' + f + '" aria-label="Show photo ' + (i + 1) + '"><img data-hide src="/' + f + '" alt="" loading="lazy"></button>';
+  function gallery(pid) {
+    var p = PRODUCTS[pid];
+    var thumbs = p.photos.map(function (f, i) {
+      return '<button class="thumb' + (i === 0 ? ' on' : '') + '" type="button" data-pid="' + pid + '" data-src="/' + f + '" aria-label="Show photo ' + (i + 1) + '">' +
+        '<img data-hide src="/' + f + '" alt="" loading="lazy"></button>';
     }).join('');
+    var stamp = p.compareAt ? '<div class="stamp"><div class="stamp-inner"><b>' + offPct(p) + '%</b><span>off today</span></div></div>' : '';
     return '<div class="gallery">' +
-      '<div class="main-wrap" id="main-wrap">' +
-        '<div class="stamp"><div class="stamp-inner"><b>' + Math.round((1 - CONFIG.product.price / CONFIG.product.compareAt) * 100) + '%</b><span>off today</span></div></div>' +
-        '<img id="main-photo" src="/' + list[0] + '" alt="' + esc(CONFIG.product.name) + '" data-hide draggable="false">' +
-        '<button class="arrow prev" type="button" data-step="-1" aria-label="Previous photo">&#8249;</button>' +
-        '<button class="arrow next" type="button" data-step="1" aria-label="Next photo">&#8250;</button>' +
+      '<div class="main-wrap" data-wrap="' + pid + '">' + stamp +
+        '<img class="main-photo" data-main="' + pid + '" src="/' + p.photos[0] + '" alt="' + esc(p.name) + '" data-hide draggable="false">' +
+        '<button class="arrow prev" type="button" data-step="-1" data-pid="' + pid + '" aria-label="Previous photo">&#8249;</button>' +
+        '<button class="arrow next" type="button" data-step="1" data-pid="' + pid + '" aria-label="Next photo">&#8250;</button>' +
       '</div>' +
       '<div class="thumbs">' + thumbs + '</div>' +
     '</div>';
   }
-  var galleryIndex = 0;
-  function thumbList() { return Array.prototype.slice.call(document.querySelectorAll('.thumb')); }
-  function showPhoto(i) {
-    var list = thumbList();
+  function showPhoto(pid, i) {
+    var list = Array.prototype.slice.call(document.querySelectorAll('.thumb[data-pid="' + pid + '"]'));
     if (!list.length) return;
-    galleryIndex = (i + list.length) % list.length;
-    list.forEach(function (x, k) { x.classList.toggle('on', k === galleryIndex); });
-    var main = document.getElementById('main-photo');
+    var n = list.length;
+    galleryIndex[pid] = ((i % n) + n) % n;
+    list.forEach(function (x, k) { x.classList.toggle('on', k === galleryIndex[pid]); });
+    var main = document.querySelector('img[data-main="' + pid + '"]');
     if (!main) return;
-    var src = list[galleryIndex].getAttribute('data-thumb');
+    var src = list[galleryIndex[pid]].getAttribute('data-src');
     if (main.getAttribute('src') === src) return;
     main.classList.add('fade');
     setTimeout(function () { main.src = src; main.classList.remove('fade'); }, 220);
   }
   function bindSwipe() {
-    var wrap = document.getElementById('main-wrap');
-    if (!wrap) return;
-    var startX = null, startY = null;
-    wrap.addEventListener('pointerdown', function (e) { startX = e.clientX; startY = e.clientY; });
-    wrap.addEventListener('pointerup', function (e) {
-      if (startX === null) return;
-      var dx = e.clientX - startX, dy = e.clientY - startY;
-      startX = null;
-      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) showPhoto(galleryIndex + (dx < 0 ? 1 : -1));
+    document.querySelectorAll('.main-wrap').forEach(function (wrap) {
+      var pid = wrap.getAttribute('data-wrap');
+      var startX = null, startY = null;
+      wrap.addEventListener('pointerdown', function (e) { startX = e.clientX; startY = e.clientY; });
+      wrap.addEventListener('pointerup', function (e) {
+        if (startX === null) return;
+        var dx = e.clientX - startX, dy = e.clientY - startY;
+        startX = null;
+        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) showPhoto(pid, galleryIndex[pid] + (dx < 0 ? 1 : -1));
+      });
+      wrap.addEventListener('pointercancel', function () { startX = null; });
     });
-    wrap.addEventListener('pointercancel', function () { startX = null; });
-  }
-    function emptyBag() {
-    return '<section class="narrow center page"><h1>Your bag is empty</h1><p>Add the pen to your bag to continue.</p>' +
-      '<a class="btn" href="#/product">Shop the pen</a></section>';
   }
   function summaryHtml(t) {
     return '<div class="summary">' +
       '<p><span>Subtotal</span><span>' + money(t.subtotal) + '</span></p>' +
-      '<p><span>Delivery</span><span>' + (t.shipping ? money(t.shipping) : 'Free') + '</span></p>' +
+      '<p><span>Delivery</span><span>Free</span></p>' +
       '<p class="total"><span>Total, pay in cash</span><span>' + money(t.total) + '</span></p></div>';
+  }
+  function emptyBag() {
+    return '<section class="narrow center page"><h1>Your bag is empty</h1><p>Add a product to your bag to continue.</p>' +
+      '<div class="cta" style="justify-content:center"><a class="btn" href="#/product">The glass pen</a><a class="btn ghost" href="#/card">The card holder</a></div></section>';
   }
 
   // ===== Pages =====
   function homeView() {
-    var words = ['Handmade in India', 'Ink included', 'Packed in a gift box', 'Cash on delivery', 'Free delivery'];
-    var sale = ['Huge sale: 43% off', 'Was &#8377;699, now &#8377;399', 'Limited time offer', 'Cash on delivery'];
-    var ribbonRun = sale.map(function (w) { return '<span>' + w + '</span>'; }).join('');
-    var run = words.map(function (w, i) { return '<span>' + (i % 2 ? '<em>&#9671;</em> ' : '') + esc(w) + '</span>'; }).join('');
-    return '<div class="page">' +
-      '<div class="sale-ribbon" aria-hidden="true"><div class="track3">' + ribbonRun + ribbonRun + '</div></div>' +
-      '<section class="hero2">' +
-        '<div class="h-text reveal">' +
-          '<p class="eyebrow">Handmade in India</p>' +
-          '<h1>Write with <em>glass.</em></h1>' +
-          '<p class="lead">A handcrafted glass dip pen with a smooth, elegant finish, packed with a bottle of ink in a gift box. Made for calligraphy, journaling and gifting.</p>' +
-        '</div>' +
-        '<div class="h-media reveal d1 float">' + gallery() + '</div>' +
-        '<div class="h-cta reveal d2">' +
-          '<div class="cta"><button class="btn gold" data-action="buy">Buy now &middot; ' + money(CONFIG.product.price) + '</button><a class="btn ghost" href="#/product">See the pen</a></div>' +
-          '<ul class="perks"><li>Cash on delivery</li><li>Free delivery in 4 to 5 days</li><li>Ink included</li></ul>' +
+    var pen = PRODUCTS.pen, card = PRODUCTS.card;
+    return '<div class="page minimal">' +
+      '<section class="m-hero">' +
+        '<div class="m-media reveal">' + gallery('pen') + '</div>' +
+        '<div class="m-info reveal d1">' +
+          '<h1>' + esc(pen.name) + '</h1>' +
+          priceBlock('pen', false) +
+          '<p class="m-desc">Handcrafted glass with a smooth tip. Ink and gift box included.</p>' +
+          '<div class="m-cta"><button class="btn" data-action="buy" data-pid="pen">Buy now</button><a class="m-link" href="#/product">View details</a></div>' +
+          '<p class="m-meta">Cash on delivery &middot; Free delivery</p>' +
         '</div>' +
       '</section>' +
-      '<div class="strip" aria-hidden="true"><div class="track2">' + run + run + '</div></div>' +
-      '<section class="band">' +
-        '<div class="grid3">' +
-          '<div class="card reveal"><div class="icon">' + ICON.hand + '</div><h3>Handmade</h3><p>Each pen is shaped by hand, so no two are exactly alike.</p></div>' +
-          '<div class="card reveal d1"><div class="icon">' + ICON.ink + '</div><h3>Ink included</h3><p>Every set comes with a bottle of ink, ready to write.</p></div>' +
-          '<div class="card reveal d2"><div class="icon">' + ICON.gift + '</div><h3>Gift ready</h3><p>Packed in a gift box, ready to give to someone you love.</p></div>' +
-        '</div>' +
+      '<section class="m-trust" aria-label="Why shop with us">' +
+        '<div class="tb reveal">' + ICON.cash + '<strong>Cash on delivery</strong><span>Pay when it arrives</span></div>' +
+        '<div class="tb reveal d1">' + ICON.gift + '<strong>Free delivery</strong><span>Usually in 4 to 5 days</span></div>' +
+        '<div class="tb reveal d2">' + ICON.check + '<strong>Damaged items covered</strong><span>We replace or refund</span></div>' +
+        '<div class="tb reveal d3">' + ICON.lock + '<strong>Details kept private</strong><span>Used only for your order</span></div>' +
+        '<div class="tb reveal d4">' + ICON.hand + '<strong>Made by hand</strong><span>Every piece is handmade in India</span></div>' +
       '</section>' +
-      '<section class="band split">' +
-        '<div class="reveal">' +
-          '<div class="split-photo"><img data-hide src="/pen-1.jpg" alt="Glass Dip Pen with Ink Bottle" loading="lazy"></div>' +
-          '<p class="eyebrow">The pen</p>' +
-          '<h2>Glass Dip Pen with Ink Bottle</h2>' +
-          '<p class="lead" style="font-size:17px">Twisted glass that catches the light, a tip made for fine strokes, and a bottle of ink to start writing straight away.</p>' +
-          '<div style="margin:6px 0 22px"><span class="tag">Twisted glass body</span><span class="tag">Ink included</span><span class="tag">Gift box</span></div>' +
-          priceBlock(false) +
-          '<div class="cta"><button class="btn" data-action="buy">Buy now</button><a class="btn ghost" href="#/product">Full product details</a></div>' +
-        '</div>' +
-        '<div class="reveal d1"><div class="feature-card" style="grid-template-columns:1fr;padding:36px">' +
-          '<p class="quote">&ldquo;Dip the tip into the ink, write, and dip again when the ink runs low.&rdquo;</p>' +
-          '<p class="quote-by">How to use it</p>' +
-          '<p style="margin:0;color:var(--muted)">Store it in the gift box away from direct sunlight, and clean the tip gently with a soft dry cloth after each use.</p>' +
-        '</div></div>' +
-      '</section>' +
-      '<section class="band">' +
-        '<h2 class="center reveal">How it works</h2>' +
-        '<p class="lead-center reveal">Ordering takes about two minutes, and you pay when your order arrives.</p>' +
-        '<div class="steps">' +
-          '<div class="step reveal"><h3>Add to bag</h3><p>Add the pen to your bag and check your order.</p></div>' +
-          '<div class="step reveal d1"><h3>Share your details</h3><p>Enter your delivery address and mobile number.</p></div>' +
-          '<div class="step reveal d2"><h3>Pay on delivery</h3><p>Pay the delivery person in cash when your order arrives.</p></div>' +
-        '</div>' +
-      '</section>' +
-      '<section class="band">' +
-        '<div class="cta-band reveal">' +
-          '<h2>Ready to write?</h2>' +
-          '<p>Free delivery in 4 to 5 days. Pay in cash when it arrives.</p>' +
-          '<button class="btn" data-action="buy">Buy now &middot; ' + money(CONFIG.product.price) + '</button>' +
-        '</div>' +
-      '</section>' +
-    '</div>';
-  }
-    function productView() {
-    var name = esc(CONFIG.product.name), price = money(CONFIG.product.price);
-    return '<div class="page">' +
-      '<section class="product">' +
-        '<div class="reveal">' + gallery() + '</div>' +
-        '<div class="reveal d1" id="buy-block">' +
-          '<p class="crumbs"><a href="#/">Home</a> / ' + name + '</p>' +
-          '<p class="eyebrow">The pen</p>' +
-          '<h1 style="font-size:clamp(36px,5vw,52px)">' + name + '</h1>' +
-          '<div class="price">' + price + '</div>' +
-          '<p>A handcrafted glass dip pen with a smooth, elegant finish, packed in a gift box with a bottle of ink. Ideal for calligraphy, journaling, sketching and gifting.</p>' +
-          '<ul class="bullets"><li>Glass dip pen with a twisted, colourful body</li><li>Includes one bottle of ink</li><li>Presented in a gift box</li></ul>' +
-          '<p><span class="stock">In stock</span></p>' +
-          '<div class="buy"><button class="btn" data-action="buy">Buy now</button><button class="btn ghost" data-action="add">Add to bag</button></div>' +
-          '<p class="note">Cash on delivery. Free delivery, usually in 4 to 5 days.</p>' +
-          '<div style="margin-top:28px">' +
-            '<details class="fold" open><summary>Description</summary><p>Smooth, elegant glass with a twisted body. Packed in a gift box with one bottle of ink.</p></details>' +
-            '<details class="fold"><summary>Care</summary><p>Store in the gift box away from direct sunlight. Clean the tip gently with a soft dry cloth after each use. Handle with care, as glass can break if dropped.</p></details>' +
-            '<details class="fold"><summary>Delivery and returns</summary><p>See our <a href="#/policy/shipping">shipping and delivery</a> and <a href="#/policy/returns">returns and refunds</a> policies.</p></details>' +
+      '<section class="m-sec">' +
+        '<div class="m-grid">' +
+          '<div class="reveal">' + gallery('card') + '</div>' +
+          '<div class="m-info reveal d1">' +
+            '<h1>' + esc(card.name) + '</h1>' +
+            priceBlock('card', false) +
+            '<p class="m-desc">RFID protected. Press the button and your cards pop up.</p>' +
+            '<div class="m-cta"><button class="btn" data-action="buy" data-pid="card">Buy now</button><a class="m-link" href="#/card">View details</a></div>' +
+            '<p class="m-meta">Cash on delivery &middot; Free delivery</p>' +
           '</div>' +
         '</div>' +
       '</section>' +
-      '<section class="band">' +
-        '<div class="grid3">' +
-          '<div class="card reveal"><div class="icon">' + ICON.pen + '</div><h3>Made to write</h3><p>A smooth glass tip that holds ink for fine lines, sketches and calligraphy.</p></div>' +
-          '<div class="card reveal d1"><div class="icon">' + ICON.ink + '</div><h3>Ink included</h3><p>A bottle of ink comes with every pen, so you can start writing straight away.</p></div>' +
-          '<div class="card reveal d2"><div class="icon">' + ICON.gift + '</div><h3>Gift box</h3><p>Presented in a gift box, ready to give or keep for yourself.</p></div>' +
+      '<section class="m-sec">' +
+        '<div class="m-steps">' +
+          '<div class="reveal"><h2>Add to bag</h2><p class="m-desc">Choose what you like and check your order.</p></div>' +
+          '<div class="reveal d1"><h2>Share your details</h2><p class="m-desc">Your delivery address and mobile number.</p></div>' +
+          '<div class="reveal d2"><h2>Pay on delivery</h2><p class="m-desc">Pay in cash when your order arrives.</p></div>' +
         '</div>' +
+      '</section>' +
+      reviewsBlock(null) +
+      '<section class="m-sec center">' +
+        '<a class="btn ghost" href="#/shop">Shop the collection</a>' +
       '</section>' +
     '</div>';
   }
+
+    function reviewsBlock(pid) {
+    var list = REVIEWS.filter(function (r) { return !pid || r.product === pid; });
+    if (!list.length) return '';
+    var cards = list.map(function (r, i) {
+      var rating = Math.max(1, Math.min(5, parseInt(r.rating, 10) || 5));
+      var stars = '';
+      for (var k = 0; k < 5; k++) stars += '<span class="star' + (k < rating ? ' on' : '') + '" style="transition-delay:' + (k * 0.06) + 's">&#9733;</span>';
+      return '<figure class="rv reveal d' + (i % 4) + '"><div class="stars">' + stars + '</div>' +
+        '<blockquote>' + esc(r.text) + '</blockquote>' +
+        '<figcaption>' + esc(r.name) + (r.city ? ', ' + esc(r.city) : '') + '</figcaption></figure>';
+    }).join('');
+    return '<section class="m-sec"><h2 class="rv-title">What customers say</h2><div class="rv-grid">' + cards + '</div></section>';
+  }
+
+  function productPage(pid) {
+    var p = PRODUCTS[pid], name = esc(p.name);
+    var strip = p.strip.map(function (t) { return '<div class="ps-item">' + ICON[t[0]] + '<span>' + esc(t[1]) + '</span></div>'; }).join('');
+    var specs = p.specs.map(function (r) { return '<div class="spec-row"><span>' + esc(r[0]) + '</span><span>' + esc(r[1]) + '</span></div>'; }).join('');
+    var details = '<details class="fold"><summary>Description</summary><p>' + esc(p.desc) + '</p></details>';
+    if (p.care) details += '<details class="fold"><summary>Care</summary><p>' + esc(p.care) + '</p></details>';
+    details += '<details class="fold"><summary>Delivery and returns</summary><p>Delivery is free. Damaged or wrong items are covered. See our <a href="#/policy/shipping">shipping and delivery</a> and <a href="#/policy/returns">returns and refunds</a> policies.</p></details>';
+    return '<div class="page premium">' +
+      '<section class="product">' +
+        '<div class="reveal">' + gallery(pid) + '<div class="ps-strip">' + strip + '</div></div>' +
+        '<div class="reveal d1" id="buy-block">' +
+          '<p class="crumbs"><a href="#/shop">Shop</a> / ' + name + '</p>' +
+          '<p class="eyebrow">' + esc(p.eyebrow) + '</p>' +
+          '<h1>' + name + '</h1>' +
+          '<p class="tagline">' + esc(p.lead) + '</p>' +
+          priceBlock(pid, true) +
+          '<p><span class="stock">In stock</span></p>' +
+          '<div class="buy"><button class="btn gold" data-action="buy" data-pid="' + pid + '">Buy now</button><button class="btn ghost" data-action="add" data-pid="' + pid + '">Add to bag</button></div>' +
+          '<p class="note">Cash on delivery. Free delivery, usually in 4 to 5 days.</p>' +
+          '<div class="spec">' + specs + '</div>' +
+          '<div style="margin-top:24px">' + details + '</div>' +
+        '</div>' +
+      '</section>' +
+      '<section class="band"><div class="grid3">' +
+        p.highlights.map(function (h, i) {
+          return '<div class="card reveal' + (i ? ' d' + i : '') + '"><div class="icon">' + ICON[h[0]] + '</div><h3>' + esc(h[1]) + '</h3><p>' + esc(h[2]) + '</p></div>';
+        }).join('') +
+      '</div></section>' +
+      reviewsBlock(pid) +
+      '<section class="band"><div class="cta-band reveal"><h2>Ready when you are</h2><p>Free delivery. Pay in cash when it arrives.</p>' +
+        '<button class="btn gold" data-action="buy" data-pid="' + pid + '">Buy now &middot; ' + money(p.price) + '</button></div></section>' +
+    '</div>';
+  }
+
+  function shopView() {
+    var cards = ORDER.map(function (pid) {
+      var p = PRODUCTS[pid];
+      return '<a class="shop-card reveal" href="' + p.page + '"><div class="shop-img"><img data-hide src="/' + p.photos[0] + '" alt="' + esc(p.name) + '" loading="lazy"></div>' +
+        '<div class="shop-info"><p class="eyebrow">' + esc(p.eyebrow) + '</p><h3>' + esc(p.name) + '</h3>' + priceBlock(pid, false) +
+        '<span class="btn gold small">View product</span></div></a>';
+    }).join('');
+    return '<section class="band page"><p class="eyebrow center">Shop</p><h1 class="center">Our collection</h1>' +
+      '<p class="lead-center">Handmade and thoughtfully made, with cash on delivery and free delivery on every order.</p>' +
+      '<div class="shop-grid">' + cards + '</div></section>';
+  }
+
     function cartView() {
     var t = totals();
-    if (t.qty === 0) return emptyBag();
-    return '<section class="narrow wide page"><p class="steps-bar">Your bag</p><h1>Your bag</h1>' +
-      '<div class="cart-row">' +
-        '<img src="/' + CONFIG.photos[0] + '" alt="Glass Dip Pen" onerror="this.style.visibility=\'hidden\'">' +
-        '<div><h3 style="font-size:22px;margin:0 0 4px">' + esc(CONFIG.product.name) + '</h3><p class="note" style="margin:0">' + money(CONFIG.product.price) + ' each</p></div>' +
-        '<div class="qty"><button data-action="dec" aria-label="Decrease">&minus;</button><span aria-live="polite">' + t.qty + '</span><button data-action="inc" aria-label="Increase">+</button></div>' +
-        '<div class="end"><p style="margin:0 0 6px;font-weight:600">' + money(t.subtotal) + '</p><button class="link" data-action="remove">Remove</button></div>' +
-      '</div>' +
+    if (t.count === 0) return emptyBag();
+    var rows = t.lines.map(function (l) {
+      return '<div class="cart-row">' +
+        '<img src="/' + l.p.photos[0] + '" alt="' + esc(l.p.name) + '">' +
+        '<div><h3 style="font-size:22px;margin:0 0 4px">' + esc(l.p.name) + '</h3><p class="note" style="margin:0">' + money(l.p.price) + ' each</p></div>' +
+        '<div class="qty"><button data-action="dec" data-pid="' + l.pid + '" aria-label="Decrease">&minus;</button><span aria-live="polite">' + l.qty + '</span><button data-action="inc" data-pid="' + l.pid + '" aria-label="Increase">+</button></div>' +
+        '<div class="end"><p style="margin:0 0 6px;font-weight:600">' + money(l.qty * l.p.price) + '</p><button class="link" data-action="remove" data-pid="' + l.pid + '">Remove</button></div>' +
+      '</div>';
+    }).join('');
+    return '<section class="narrow wide page"><p class="steps-bar">Your bag</p><h1>Your bag</h1>' + rows +
       '<div style="max-width:380px;margin:30px 0 0 auto">' + summaryHtml(t) + '</div>' +
-      '<div class="cta" style="justify-content:flex-end"><a class="btn ghost" href="#/product">Keep shopping</a><a class="btn" href="#/checkout">Continue to delivery</a></div>' +
-      '</section>';
+      '<div class="cta" style="justify-content:flex-end"><a class="btn ghost" href="#/">Keep shopping</a><a class="btn" href="#/checkout">Continue to delivery</a></div>' +
+    '</section>';
   }
+
   function field(name, label, type, opts) {
     opts = opts || {};
     var d = draft(), value = esc(d[name] || ''), err = formErrors[name];
@@ -626,7 +819,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       (err ? '<span class="err" id="e-' + name + '">' + esc(err) + '</span>' : '') + '</div>';
   }
   function checkoutView() {
-    if (getQty() === 0) return emptyBag();
+    if (totals().count === 0) return emptyBag();
     return '<section class="narrow page"><p class="steps-bar"><span class="on">1. Details</span> &nbsp;&middot;&nbsp; 2. Payment</p>' +
       '<h1>Delivery details</h1><p class="note">Your details are used only to deliver your order and contact you about it.</p>' +
       '<form id="checkout-form" novalidate class="panel" style="margin-top:24px"><div class="grid2">' +
@@ -644,11 +837,12 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   }
   function paymentView() {
     var t = totals(), c = confirmed();
-    if (t.qty === 0) return emptyBag();
+    if (t.count === 0) return emptyBag();
     if (!c.name || !c.phone || !c.line1) { location.hash = '#/checkout'; return ''; }
+    var items = t.lines.map(function (l) { return '<p style="display:flex;justify-content:space-between;gap:12px"><span>' + esc(l.p.name) + ' &times; ' + l.qty + '</span><span>' + money(l.qty * l.p.price) + '</span></p>'; }).join('');
     return '<section class="narrow page"><p class="steps-bar">1. Details &nbsp;&middot;&nbsp; <span class="on">2. Payment</span></p>' +
       '<h1>Payment</h1>' +
-      '<div class="panel"><h3 style="font-size:24px">Order summary</h3><p class="note" style="margin:0 0 12px">' + esc(CONFIG.product.name) + ' &times; ' + t.qty + '</p>' + summaryHtml(t) + '</div>' +
+      '<div class="panel"><h3 style="font-size:24px">Order summary</h3>' + items + summaryHtml(t) + '</div>' +
       '<div class="panel"><h3 style="font-size:24px">Deliver to</h3><p style="margin:0">' + esc(c.name) + '<br>' + esc(c.phone) + (c.email ? '<br>' + esc(c.email) : '') + '<br>' + esc(fullAddress(c)) + '</p>' +
         '<p style="margin:14px 0 0"><a class="link" href="#/checkout">Edit details</a></p></div>' +
       '<form id="payment-form" class="panel"><h3 style="font-size:24px">Payment method</h3>' +
@@ -664,7 +858,8 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       '<p>Please keep <strong>' + money(o.total) + '</strong> ready in cash for the delivery person.</p>' +
       '<div class="cta" style="justify-content:center"><a class="btn" href="#/">Back to the shop</a></div></section>';
   }
-  function aboutView() {
+
+    function aboutView() {
     return '<section class="narrow page"><p class="eyebrow">Our story</p><h1>Handmade for people who <em>write.</em></h1>' +
       '<p class="lead">IndianChadstars makes and sells handmade glass dip pens with ink, for writers, artists, calligraphers and anyone who loves a thoughtful gift.</p>' +
       '<p>IndianChadstars started with a simple idea: a good pen should feel special in your hand. Glass dip pens do that. Each one is shaped by hand, with a twisted body that catches the light, and a smooth tip that gives every stroke a little character.</p><p>We sell them with a bottle of ink and a gift box, because a pen is most loved when it\'s ready to use or ready to give. Whether you\'re practising calligraphy, keeping a journal, or looking for a gift that feels personal, we hope our pens bring a little more joy to the page.</p><p>Every order is packed with care and delivered free across India. If you have a question or a special request, we would be happy to hear from you.</p>' +
@@ -752,6 +947,9 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     return '<section class="narrow center page"><p class="eyebrow">Error 404</p><h1>Page not found</h1><p>The page you were looking for does not exist.</p><a class="btn" href="#/">Back to the shop</a></section>';
   }
 
+
+
+
   // ===== Actions =====
   function toast(msg) {
     var t = document.getElementById('toast');
@@ -781,22 +979,24 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   function placeOrder() {
     var btn = document.getElementById('place-order'), err = document.getElementById('order-error');
     btn.disabled = true; btn.textContent = 'Placing order...'; err.textContent = '';
-    var t = totals(), c = confirmed();
+    var c = confirmed();
+    var items = lines().map(function (l) { return { id: l.p.id, qty: l.qty }; });
     fetch('/api/order', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ customer: c, items: [{ id: CONFIG.product.id, name: CONFIG.product.name, qty: t.qty }], payment: 'cod', website: '' })
+      body: JSON.stringify({ customer: c, items: items, payment: 'cod', website: '' })
     }).then(function (r) {
-      return r.json().catch(function () { return {}; }).then(function (data) {
-        if (!r.ok || !data.ok) throw new Error(data.error || ('We could not place your order (error ' + r.status + '). Please try again.'));
-        return data;
+      return r.json().catch(function () { return {}; }).then(function (d) {
+        if (!r.ok || !d.ok) throw new Error(d.error || ('We could not place your order (error ' + r.status + '). Please try again.'));
+        return d;
       });
-    }).then(function (data) {
-      setJSON(sessionStorage, ORDER_KEY, { id: data.orderId, total: t.total, name: c.name });
-      localStorage.removeItem(QTY_KEY);
+    }).then(function (d) {
+      setJSON(sessionStorage, ORDER_KEY, { id: d.orderId, total: d.total, name: c.name });
+      localStorage.removeItem(CART_KEY);
+      localStorage.removeItem(OLD_QTY_KEY);
       sessionStorage.removeItem(CUSTOMER_KEY);
       sessionStorage.removeItem(DRAFT_KEY);
       updateBadge(false);
-      location.hash = '#/success/' + encodeURIComponent(data.orderId);
+      location.hash = '#/success/' + encodeURIComponent(d.orderId);
     }).catch(function (ex) {
       err.textContent = ex.message || 'Something went wrong. Please try again.';
       btn.disabled = false; btn.textContent = 'Place order, pay on delivery';
@@ -817,6 +1017,119 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       .catch(function () { status.textContent = 'Could not send your message. Please email us instead.'; });
   }
 
+
+  // ===== Motion =====
+  var fine = !!(window.matchMedia && window.matchMedia('(pointer:fine)').matches);
+  var reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  function splitWords(el) {
+    if (!el || el.getAttribute('data-split')) return;
+    el.setAttribute('data-split', '1');
+    var words = el.textContent.trim().split(/\s+/);
+    el.innerHTML = words.map(function (w, i) {
+      return '<span class="w" style="animation-delay:' + (0.07 * i + 0.1) + 's">' + esc(w) + '</span>';
+    }).join(' ');
+  }
+  function countUp(el) {
+    var target = parseInt(String(el.textContent).replace(/[^\d]/g, ''), 10);
+    if (!target || reduced) return;
+    var start = null, from = Math.round(target * 1.35);
+    function step(ts) {
+      if (start === null) start = ts;
+      var p = Math.min(1, (ts - start) / 900), eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = money(Math.round(from + (target - from) * eased));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  function sparks() {
+    var box = document.querySelector('.m-media');
+    if (!box || box.querySelector('.spark')) return;
+    for (var i = 0; i < 12; i++) {
+      var d = document.createElement('span');
+      d.className = 'spark';
+      d.style.left = (8 + Math.random() * 84) + '%';
+      d.style.top = (20 + Math.random() * 70) + '%';
+      d.style.setProperty('--d', (3 + Math.random() * 3).toFixed(2) + 's');
+      d.style.setProperty('--dl', (Math.random() * 4).toFixed(2) + 's');
+      box.appendChild(d);
+    }
+  }
+  function bindTilt() {
+    if (!fine) return;
+    document.querySelectorAll('.main-wrap').forEach(function (wrap) {
+      if (wrap.getAttribute('data-tilt')) return;
+      wrap.setAttribute('data-tilt', '1');
+      wrap.addEventListener('pointermove', function (e) {
+        var r = wrap.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+        wrap.style.transform = 'perspective(900px) rotateY(' + (x * 9) + 'deg) rotateX(' + (-y * 9) + 'deg)';
+      });
+      wrap.addEventListener('pointerleave', function () { wrap.style.transform = ''; });
+    });
+  }
+  function flyToBag(from) {
+    var bag = document.querySelector('.bag');
+    if (!bag || reduced || !from.animate) return;
+    var a = from.getBoundingClientRect(), b = bag.getBoundingClientRect();
+    var sx = a.left + a.width / 2, sy = a.top + a.height / 2, ex = b.left + b.width / 2, ey = b.top + b.height / 2;
+    var dot = document.createElement('div');
+    dot.className = 'fly';
+    document.body.appendChild(dot);
+    var anim = dot.animate([
+      { transform: 'translate(' + sx + 'px,' + sy + 'px) scale(1)', opacity: 1 },
+      { transform: 'translate(' + ((sx + ex) / 2) + 'px,' + (Math.min(sy, ey) - 120) + 'px) scale(0.9)', opacity: 1, offset: 0.5 },
+      { transform: 'translate(' + ex + 'px,' + ey + 'px) scale(0.3)', opacity: 0.3 }
+    ], { duration: 850, easing: 'cubic-bezier(.5,0,.3,1)' });
+    anim.onfinish = function () { dot.remove(); };
+  }
+  function enhance() {
+    document.querySelectorAll('.m-info h1, .premium h1').forEach(splitWords);
+    document.querySelectorAll('.pricebox .now').forEach(countUp);
+    if (!reduced) { sparks(); bindTilt(); }
+  }
+  function initMotion() {
+    var bar = document.createElement('div');
+    bar.id = 'progress';
+    document.body.appendChild(bar);
+    window.addEventListener('scroll', function () {
+      var h = document.documentElement;
+      var p = h.scrollTop / ((h.scrollHeight - h.clientHeight) || 1);
+      bar.style.transform = 'scaleX(' + Math.min(1, Math.max(0, p)) + ')';
+    }, { passive: true });
+    if (fine && !reduced) {
+      var glow = document.createElement('div');
+      glow.id = 'glow';
+      document.body.appendChild(glow);
+      document.addEventListener('pointermove', function (e) {
+        glow.style.transform = 'translate(' + (e.clientX - 210) + 'px,' + (e.clientY - 210) + 'px)';
+      }, { passive: true });
+      document.addEventListener('pointermove', function (e) {
+        var b = e.target.closest && e.target.closest('.btn');
+        document.querySelectorAll('.btn.magnet').forEach(function (x) { if (x !== b) x.style.transform = ''; });
+        if (!b) return;
+        var r = b.getBoundingClientRect();
+        b.classList.add('magnet');
+        b.style.transform = 'translate(' + ((e.clientX - (r.left + r.width / 2)) * 0.18) + 'px,' + ((e.clientY - (r.top + r.height / 2)) * 0.25) + 'px)';
+      });
+      document.addEventListener('pointerout', function (e) {
+        var b = e.target.closest && e.target.closest('.btn.magnet');
+        if (b && !b.contains(e.relatedTarget)) b.style.transform = '';
+      });
+    }
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest('.btn');
+      if (!b || reduced) return;
+      var r = b.getBoundingClientRect();
+      var ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.left = (e.clientX - r.left) + 'px';
+      ripple.style.top = (e.clientY - r.top) + 'px';
+      b.appendChild(ripple);
+      setTimeout(function () { ripple.remove(); }, 650);
+    });
+  }
+
   // ===== Routing and rendering =====
   function route() {
     var h = location.hash.replace(/^#\/?/, '').split('/');
@@ -827,13 +1140,26 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       a.classList.toggle('on', a.getAttribute('data-nav') === name);
     });
   }
+  function updateChrome() {
+    var h = document.querySelector('.site-header');
+    if (h) h.classList.toggle('scrolled', window.scrollY > 8);
+    var sb = document.getElementById('sticky-buy');
+    if (!sb) return;
+    var r = route().name;
+    var hideOn = ['cart', 'checkout', 'payment', 'success'].indexOf(r) !== -1;
+    var btn = sb.querySelector('.btn');
+    if (btn) btn.setAttribute('data-pid', r === 'card' ? 'card' : 'pen');
+    sb.classList.toggle('show', !hideOn && window.scrollY > 520);
+  }
   function render() {
     var r = route();
     if (r.name !== 'checkout') formErrors = {};
     var html;
     switch (r.name) {
       case '': html = homeView(); break;
-      case 'product': html = productView(); break;
+      case 'shop': html = shopView(); break;
+      case 'product': html = productPage('pen'); break;
+      case 'card': html = productPage('card'); break;
       case 'cart': html = cartView(); break;
       case 'checkout': html = checkoutView(); break;
       case 'payment': html = paymentView(); break;
@@ -845,7 +1171,6 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       default: html = notFoundView();
     }
     setNav(r.name);
-    galleryIndex = 0;
     app.innerHTML = html;
     app.querySelectorAll('img[data-hide]').forEach(function (img) {
       img.addEventListener('error', function () {
@@ -857,26 +1182,36 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     app.querySelectorAll('.reveal').forEach(function (el) {
       if (observer) observer.observe(el); else el.classList.add('in');
     });
-
     bindSwipe();
+    enhance();
     updateBadge(false);
     updateChrome();
-    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+    window.scrollTo(0, 0);
   }
 
+  var observer = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); observer.unobserve(en.target); } });
+  }, { threshold: 0.12 }) : null;
+
   document.addEventListener('click', function (e) {
-    var t = e.target.closest('[data-thumb]');
-    if (t) { showPhoto(thumbList().indexOf(t)); return; }
+    var t = e.target.closest('.thumb[data-pid]');
+    if (t) {
+      var list = Array.prototype.slice.call(document.querySelectorAll('.thumb[data-pid="' + t.getAttribute('data-pid') + '"]'));
+      showPhoto(t.getAttribute('data-pid'), list.indexOf(t));
+      return;
+    }
     var ar = e.target.closest('[data-step]');
-    if (ar) { showPhoto(galleryIndex + parseInt(ar.getAttribute('data-step'), 10)); return; }
+    if (ar) { var pid = ar.getAttribute('data-pid'); showPhoto(pid, galleryIndex[pid] + parseInt(ar.getAttribute('data-step'), 10)); return; }
     var b = e.target.closest('[data-action]');
     if (!b) return;
     var a = b.getAttribute('data-action');
-    if (a === 'add') { setQty(getQty() + 1); toast('Added to your bag'); render(); }
-    else if (a === 'buy') { if (getQty() === 0) { setQty(1); toast('Added to your bag'); } location.hash = '#/checkout'; }
-    else if (a === 'inc') { setQty(getQty() + 1); render(); }
-    else if (a === 'dec') { setQty(getQty() - 1); render(); }
-    else if (a === 'remove') { setQty(0); render(); }
+    var p = b.getAttribute('data-pid') || 'pen';
+    var cur = getCart()[p];
+    if (a === 'add') { setLine(p, cur + 1); flyToBag(b); toast('Added to your bag'); render(); }
+    else if (a === 'buy') { if (cur === 0) { setLine(p, 1); flyToBag(b); toast('Added to your bag'); } location.hash = '#/checkout'; }
+    else if (a === 'inc') { setLine(p, cur + 1); render(); }
+    else if (a === 'dec') { setLine(p, cur - 1); render(); }
+    else if (a === 'remove') { setLine(p, 0); render(); }
   });
 
   document.addEventListener('submit', function (e) {
@@ -894,20 +1229,14 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     setJSON(sessionStorage, DRAFT_KEY, d);
   });
 
-  function updateChrome() {
-    var h = document.querySelector('.site-header');
-    if (h) h.classList.toggle('scrolled', window.scrollY > 8);
-    var sb = document.getElementById('sticky-buy');
-    var r = route().name;
-    var hideOn = ['cart', 'checkout', 'payment', 'success'].indexOf(r) !== -1;
-    if (sb) sb.classList.toggle('show', !hideOn && window.scrollY > 520);
-  }
+  stickyIO = null;
   window.addEventListener('scroll', updateChrome, { passive: true });
-
   document.getElementById('year').textContent = new Date().getFullYear();
   window.addEventListener('hashchange', render);
+  initMotion();
   render();
 })();
+
 </script>
 </body>
 </html>
