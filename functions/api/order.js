@@ -1,12 +1,16 @@
 // Cloudflare Pages Function: receives a cash-on-delivery order and sends it to your Telegram.
 // Required environment variables (Cloudflare Pages → Settings → Environment variables):
 //   TELEGRAM_BOT_TOKEN - token from @BotFather
-//   TELEGRAM_CHAT_ID   - your chat id (see README)
+//   TELEGRAM_CHAT_ID   - your chat id
 // Optional:
 //   SHIPPING_CHARGE     - delivery charge in rupees (default 0)
 //   FREE_SHIPPING_ABOVE - waive delivery above this amount (default 0 = no rule)
 
-const PRICE = 399;
+// Prices are set here, on the server, so the browser cannot change them.
+const PRODUCTS = {
+  'glass-pen-ink': { name: 'Glass Dip Pen with Ink Bottle', price: 399 },
+  'rfid-card-holder': { name: 'Premium RFID Protected Wallet Card Holder', price: 699 }
+};
 const MAX_QTY = 10;
 
 const json = (body, status = 200) =>
@@ -23,7 +27,7 @@ export async function onRequestPost({ request, env }) {
   let body;
   try { body = await request.json(); } catch { return json({ ok: false, error: 'Invalid request.' }, 400); }
 
-  if (body.website) return json({ ok: true, orderId: 'IC-0000' }); // honeypot: pretend success for bots
+  if (body.website) return json({ ok: true, orderId: 'IC-0000', total: 0 }); // honeypot: pretend success for bots
 
   const c = body.customer || {};
   const customer = {
@@ -45,11 +49,19 @@ export async function onRequestPost({ request, env }) {
     return json({ ok: false, error: 'Please check your address and PIN code.' }, 400);
   }
 
-  const qty = parseInt(body.items?.[0]?.qty, 10);
-  if (!(qty >= 1 && qty <= MAX_QTY)) return json({ ok: false, error: 'Invalid quantity.' }, 400);
+  // Check every item against the product list.
+  const items = Array.isArray(body.items) ? body.items : [];
+  const lines = [];
+  for (const it of items) {
+    const product = PRODUCTS[it && it.id];
+    const qty = parseInt(it && it.qty, 10);
+    if (!product) return json({ ok: false, error: 'One of the products is no longer available.' }, 400);
+    if (!(qty >= 1 && qty <= MAX_QTY)) return json({ ok: false, error: 'Invalid quantity.' }, 400);
+    lines.push({ name: product.name, price: product.price, qty });
+  }
+  if (lines.length === 0) return json({ ok: false, error: 'Your bag is empty.' }, 400);
 
-  // Price is set on the server, so the browser cannot change it.
-  const subtotal = qty * PRICE;
+  const subtotal = lines.reduce((a, l) => a + l.price * l.qty, 0);
   const freeAbove = Number(env.FREE_SHIPPING_ABOVE || 0);
   const shipping = freeAbove && subtotal >= freeAbove ? 0 : Number(env.SHIPPING_CHARGE || 0);
   const total = subtotal + shipping;
@@ -65,8 +77,9 @@ export async function onRequestPost({ request, env }) {
   const text = [
     `NEW CASH ON DELIVERY ORDER ${orderId}`,
     '',
-    `Product: Glass Dip Pen with Ink Bottle`,
-    `Quantity: ${qty}`,
+    'ITEMS',
+    ...lines.map((l) => `${l.name} x ${l.qty} = ${money(l.price * l.qty)}`),
+    '',
     `Delivery: ${shipping ? money(shipping) : 'Free'}`,
     `Collect in cash: ${money(total)}`,
     '',
@@ -86,12 +99,11 @@ export async function onRequestPost({ request, env }) {
   });
 
   if (!res.ok) {
-    // Explain the likely cause so the owner can fix the settings quickly.
     const hint = res.status === 401 ? 'The bot token is wrong. Check TELEGRAM_BOT_TOKEN.'
       : res.status === 400 ? 'The chat ID is wrong. Check TELEGRAM_CHAT_ID.'
       : res.status === 403 ? 'Open your bot in Telegram and tap Start, then try again.'
       : 'Please try again.';
     return json({ ok: false, error: 'Your order could not be sent. ' + hint }, 502);
   }
-  return json({ ok: true, orderId });
+  return json({ ok: true, orderId, total });
 }
