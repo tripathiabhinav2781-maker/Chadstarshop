@@ -641,6 +641,23 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .stock.out::before{background:#999;animation:none}
 @keyframes pulseRed{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.6);opacity:.5}}
 
+
+/* title and short description */
+.page.minimal .product h1{font-size:21px;text-wrap:balance;line-height:1.3;max-width:20em}
+.page.minimal .tagline{position:relative;padding-bottom:14px;margin-bottom:16px;font-size:15px;color:#444}
+.page.minimal .tagline::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:44px;background:linear-gradient(90deg,#a8844a,#e8cf98);border-radius:2px;animation:underline 1.2s cubic-bezier(.2,.9,.3,1) both}
+@keyframes underline{from{width:0}to{width:44px}}
+/* savings and free delivery */
+.save-banner{background:#eef7f0;color:#1f5a2e;border:1px solid #cfe7d6;border-radius:14px;padding:12px 16px;font-size:14px;margin-bottom:14px;animation:bannerIn .7s cubic-bezier(.2,1.2,.4,1) both}
+.save-banner strong{font-weight:700}
+@keyframes bannerIn{from{opacity:0;transform:translateY(-8px) scale(.97)}to{opacity:1;transform:none}}
+.old-ship{color:#999;margin-right:4px}
+.free-tag{background:#1f5a2e;color:#fff;font-size:11px;letter-spacing:.4px;padding:3px 8px;border-radius:999px;font-weight:600;animation:freePop .6s .3s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes freePop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+.save-row{color:#1f5a2e!important;font-weight:600}
+.save-amt{animation:countGlow 1.6s ease-in-out infinite}
+@keyframes countGlow{50%{text-shadow:0 0 12px rgba(31,90,46,.35)}}
+
 @media (prefers-reduced-motion:reduce){
   .blob,#ring,.bit,#curtain{display:none!important}
   .reveal:nth-child(odd),.reveal:nth-child(even){transform:none}
@@ -650,6 +667,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 }
 
 @media (prefers-reduced-motion:reduce){
+  .stock.low::before,.save-banner,.free-tag,.save-amt,.page.minimal .tagline::after{animation:none!important}
   .stock.low::before{animation:none!important}
   .pb,.pb::after,.pdp-n{animation:none!important}
   .co-item,.co-bar i{animation:none!important}
@@ -726,13 +744,13 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   var PRODUCTS = {
     pen: {
       id: 'glass-pen-ink', name: 'Glass Dip Pen with Ink Bottle', label: 'Glass Dip Pen',
-      price: 399, compareAt: 699, page: '#/product',
+      price: 399, compareAt: 999, page: '#/product',
       stock: null, // set the real number of units left, e.g. 3. Leave null to hide the message.
       photos: ['pen-1.jpg', 'pen-2.jpg', 'pen-3.jpg', 'pen-4.jpg', 'pen-5.jpg', 'pen-6.jpg'],
       eyebrow: 'Glass collection',
       strip: [['hand', 'Handmade'], ['ink', 'Ink included'], ['gift', 'Gift box'], ['cash', 'Cash on delivery']],
       specs: [['Material', 'Glass'], ['Includes', 'Pen, bottle of ink, gift box'], ['Care', 'Dry cloth after each use']],
-      lead: 'Twisted glass that catches the light, a tip made for fine strokes, and a bottle of ink to start writing straight away.',
+      lead: 'Twisted glass, a smooth tip, and ink in the box.',
       desc: 'A handcrafted glass dip pen with a smooth, elegant finish, packed in a gift box with a bottle of ink. Ideal for calligraphy, journaling, sketching and gifting.',
       tags: ['Twisted glass body', 'Ink included', 'Gift box'],
       bullets: ['Glass dip pen with a twisted, colourful body', 'Includes one bottle of ink', 'Presented in a gift box'],
@@ -745,13 +763,13 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     },
     card: {
       id: 'rfid-card-holder', name: 'Premium RFID Protected Wallet Card Holder', label: 'RFID Card Holder',
-      price: 699, compareAt: 0, page: '#/card',
+      price: 699, compareAt: 1199, page: '#/card',
       stock: null,
       photos: ['card-1.jpg', 'card-2.jpg', 'card-3.jpg', 'card-4.jpg', 'card-5.jpg'],
       eyebrow: 'Card holders',
       strip: [['shield', 'RFID protected'], ['pop', 'Pop-up design'], ['cash', 'Cash on delivery'], ['gift', 'Free delivery']],
       specs: [['Protection', 'RFID protected'], ['Opening', 'Pop-up button'], ['Delivery', 'Free']],
-      lead: 'A premium wallet card holder with RFID protection. Press the button and your cards pop up, ready to use.',
+      lead: 'RFID protection with a one-press pop-up.',
       desc: 'A premium wallet card holder with RFID protection. Its pop-up design lets you bring your cards up with one press of the button.',
       tags: ['RFID protected', 'Pop-up design', 'Free delivery'],
       bullets: ['Premium RFID protected', 'Pop-up design: press the button and your cards pop up', 'Free delivery'],
@@ -768,6 +786,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   var REVIEWS = [
   ];
   var ORDER = ['pen', 'card'];
+  var REGULAR_DELIVERY = 99; // shown crossed out while delivery is free
   var MAX_QTY = 10;
   var CART_KEY = 'ic_cart', OLD_QTY_KEY = 'ic_qty', DRAFT_KEY = 'ic_draft', CUSTOMER_KEY = 'ic_customer', ORDER_KEY = 'ic_last_order';
 
@@ -811,7 +830,8 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     var ls = lines();
     var subtotal = ls.reduce(function (a, l) { return a + l.qty * l.p.price; }, 0);
     var count = ls.reduce(function (a, l) { return a + l.qty; }, 0);
-    return { lines: ls, subtotal: subtotal, total: subtotal, count: count };
+    var savings = ls.reduce(function (a, l) { return a + (l.p.compareAt ? (l.p.compareAt - l.p.price) * l.qty : 0); }, 0);
+    return { lines: ls, subtotal: subtotal, total: subtotal, count: count, savings: savings };
   }
   function updateBadge(bump) {
     var el = document.getElementById('bag-count');
@@ -904,10 +924,16 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       wrap.addEventListener('pointercancel', function () { startX = null; });
     });
   }
+  function deliveryRow() {
+    return '<p><span>Delivery</span><span><s class="old-ship">' + money(REGULAR_DELIVERY) + '</s> <b class="free-tag">Free</b></span></p>';
+  }
+  function savingsRow(t) {
+    return t.savings ? '<p class="save-row"><span>You save</span><span class="save-amt">' + money(t.savings) + '</span></p>' : '';
+  }
   function summaryHtml(t) {
     return '<div class="summary">' +
       '<p><span>Subtotal</span><span>' + money(t.subtotal) + '</span></p>' +
-      '<p><span>Delivery</span><span>Free</span></p>' +
+      deliveryRow() + savingsRow(t) +
       '<p class="total"><span>Total, pay in cash</span><span>' + money(t.total) + '</span></p></div>';
   }
   function emptyBag() {
@@ -1148,6 +1174,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
         '</div><span class="co-price">' + money(l.qty * l.p.price) + '</span></div></div></div>';
     }).join('');
     return '<section class="co page minimal">' +
+      (t.savings ? '<div class="save-banner">You are saving <strong>' + money(t.savings) + '</strong> on this order</div>' : '') +
       '<div class="co-steps"><div class="co-step on"><span>1</span>Details</div><div class="co-bar"><i></i></div><div class="co-step"><span>2</span>Payment</div></div>' +
       '<div class="co-grid">' +
         '<aside class="co-summary reveal">' +
@@ -1155,7 +1182,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
           items +
           '<div class="co-totals">' +
             '<p><span>Subtotal</span><span>' + money(t.subtotal) + '</span></p>' +
-            '<p><span>Delivery</span><span>Free</span></p>' +
+            deliveryRow() + savingsRow(t) +
             '<p class="total"><span>Total, pay in cash</span><span>' + money(t.total) + '</span></p>' +
           '</div>' +
         '</aside>' +
