@@ -811,6 +811,10 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .hd-icon{width:34px;height:34px;border-radius:10px}
 .hd-icon svg{width:18px;height:18px}
 
+
+/* show the whole photo */
+.main-wrap img.main-photo{object-fit:contain;background:#fff}
+
 @media (prefers-reduced-motion:reduce){
   .ch{animation:none!important;opacity:1;transform:none}
   .h-title{background:none;color:#111}
@@ -987,7 +991,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 
   var app = document.getElementById('app');
   var formErrors = {};
-  var galleryIndex = { pen: 0, card: 0 };
+  var galleryIndex = { pen: 0, card: 0, glasses: 0 };
   var stickyIO = null;
 
   function money(n) { return '\u20B9' + Number(n).toLocaleString('en-IN'); }
@@ -1100,6 +1104,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     if (!list.length) return;
     var n = list.length;
     galleryIndex[pid] = ((i % n) + n) % n;
+    if (!list[galleryIndex[pid]]) return;
     list.forEach(function (x, k) { x.classList.toggle('on', k === galleryIndex[pid]); });
     var main = document.querySelector('img[data-main="' + pid + '"]');
     if (!main) return;
@@ -1117,7 +1122,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
         if (startX === null) return;
         var dx = e.clientX - startX, dy = e.clientY - startY;
         startX = null;
-        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) showPhoto(pid, galleryIndex[pid] + (dx < 0 ? 1 : -1));
+        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) showPhoto(pid, (galleryIndex[pid] || 0) + (dx < 0 ? 1 : -1));
       });
       wrap.addEventListener('pointercancel', function () { startX = null; });
     });
@@ -1913,7 +1918,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       return;
     }
     var ar = e.target.closest('[data-step]');
-    if (ar) { var pid = ar.getAttribute('data-pid'); showPhoto(pid, galleryIndex[pid] + parseInt(ar.getAttribute('data-step'), 10)); return; }
+    if (ar) { var pid = ar.getAttribute('data-pid'); showPhoto(pid, (galleryIndex[pid] || 0) + parseInt(ar.getAttribute('data-step'), 10)); return; }
     var ft = e.target.closest('[data-feat]');
     if (ft) { ft.classList.toggle('on'); return; }
     var star = e.target.closest('[data-star]');
