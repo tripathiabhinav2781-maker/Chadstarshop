@@ -731,6 +731,42 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   .feats{grid-template-columns:repeat(2,1fr);gap:20px}
   .pdp-intro{font-size:18px}
 }
+
+/* glasses and huge discount */
+.huge-tag{position:absolute;top:10px;left:10px;z-index:2;background:#b3261e;color:#fff;font-weight:700;font-size:13px;padding:7px 12px;border-radius:999px;box-shadow:0 10px 20px -8px rgba(179,38,30,.7);animation:hugePop .8s cubic-bezier(.2,1.6,.4,1) both,hugePulse 2s ease-in-out 1s infinite}
+@keyframes hugePop{from{transform:scale(0) rotate(-15deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes hugePulse{50%{box-shadow:0 0 0 10px rgba(179,38,30,0)}}
+.t-img{position:relative}
+.teaser:last-child{grid-column:1/-1}
+.huge-deal{display:flex;align-items:center;gap:14px;background:linear-gradient(120deg,#b3261e,#d6483a);color:#fff;border-radius:16px;padding:14px 16px;margin:0 0 16px;box-shadow:0 18px 30px -18px rgba(179,38,30,.7);animation:dealIn .8s cubic-bezier(.2,1.3,.4,1) both}
+.huge-deal strong{display:block;font-size:17px;font-weight:700;letter-spacing:-.01em}
+.huge-deal span:not(.hd-icon){display:block;font-size:13px;opacity:.9;margin-top:2px}
+.hd-icon{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.18);display:grid;place-items:center;flex-shrink:0;animation:tagWiggle 2.6s ease-in-out infinite}
+.hd-icon svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:1.8}
+@keyframes dealIn{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes tagWiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+.v-uv{position:relative;width:120px;height:90px}
+.v-uv .sun{position:absolute;left:8px;top:18px;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,#f3c96b,#c9952f)}
+.v-uv i{position:absolute;left:44px;top:30px;width:58px;height:3px;border-radius:2px;background:#c9952f;transform-origin:left center;animation:ray 2s ease-in-out infinite}
+.v-uv i:nth-child(3){top:18px;transform:rotate(-20deg);animation-delay:.3s}
+.v-uv i:nth-child(4){top:42px;transform:rotate(20deg);animation-delay:.6s}
+@keyframes ray{50%{opacity:.25;transform:translateX(10px)}}
+.v-feather{width:120px;height:70px;animation:float 3.4s ease-in-out infinite}
+.v-feather svg{width:100%;height:100%;fill:none;stroke:#111;stroke-width:2.2;stroke-linecap:round}
+@keyframes float{50%{transform:translateY(-8px)}}
+.v-leopard{position:relative;width:120px;height:70px}
+.v-leopard i{position:absolute;width:12px;height:12px;border-radius:50%;background:#8a6a32;animation:spot 2.6s ease-in-out infinite}
+.v-leopard i:nth-child(1){left:6px;top:8px}.v-leopard i:nth-child(2){left:40px;top:30px;animation-delay:.3s}.v-leopard i:nth-child(3){left:76px;top:6px;animation-delay:.6s}
+.v-leopard i:nth-child(4){left:24px;top:46px;animation-delay:.9s}.v-leopard i:nth-child(5){left:90px;top:44px;animation-delay:1.2s}.v-leopard i:nth-child(6){left:56px;top:12px;animation-delay:1.5s}
+@keyframes spot{50%{transform:scale(1.4);opacity:.5}}
+.v-frame{width:150px;height:70px}
+.v-frame svg{width:100%;height:100%;overflow:visible}
+.v-frame path{fill:none;stroke:#8a8a8a;stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2s cubic-bezier(.4,0,.2,1)}
+.feat.in .v-frame path,.feat:hover .v-frame path,.feat.on .v-frame path{stroke-dashoffset:0}
+@media (prefers-reduced-motion:reduce){
+  .huge-tag,.huge-deal,.hd-icon,.v-uv i,.v-feather,.v-leopard i{animation:none!important}
+}
+
 @media (prefers-reduced-motion:reduce){
   .v-draw path,.v-spiral,.v-drop i,.v-drop b::after,.v-wave i,.v-slim span,.v-gift span{animation:none!important}
   .v-draw path{stroke-dashoffset:0}
@@ -825,6 +861,19 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 
   // ===== Products: edit prices and details here =====
   var PRODUCTS = {
+    glasses: {
+      id: 'rimless-leopard-glasses', name: 'Rimless Leopard Arm Glasses', label: 'Leopard Arm Glasses',
+      price: 399, compareAt: 1199, page: '#/glasses', stock: 5000,
+      photos: ['glasses-1.jpg', 'glasses-2.jpg', 'glasses-3.jpg', 'glasses-4.jpg'],
+      eyebrow: 'Eyewear',
+      lead: '',
+      desc: 'Vintage-inspired rimless rectangular glasses with lightweight silver metal frames and bold leopard print arms. Designed for men and women, with UV400 protection, clear lenses and adjustable silicone nose pads for comfortable all-day wear.',
+      tags: ['UV400 protection', 'Rimless', 'Free delivery'],
+      strip: [['uv', 'UV400 protection'], ['feather', 'Only 20 g'], ['leopard', 'Leopard arms'], ['gift', 'Free delivery']],
+      bullets: ['Rimless silver metal frame', 'Clear lenses with UV400 protection', 'Adjustable silicone nose pads', 'Leopard print arms'],
+      specs: [['Frame', 'Rimless, silver metal'], ['Lenses', 'Clear, UV400 protection'], ['Weight', '20 g'], ['Fit', 'Unisex, adjustable nose pads']],
+      highlights: [['uv', 'UV400 protection', 'Clear lenses with UV400 protection.'], ['feather', 'Featherlight', 'Only 20 grams.'], ['leopard', 'Leopard arms', 'Bold leopard print temples.']]
+    },
     pen: {
       id: 'glass-pen-ink', name: 'Glass Dip Pen with Ink Bottle', label: 'Glass Dip Pen',
       price: 399, compareAt: 999, page: '#/product',
@@ -868,7 +917,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   // Example: { name: 'Priya', city: 'Lucknow', product: 'pen', rating: 5, text: 'Exactly as pictured. Lovely gift.' }
   var REVIEWS = [
   ];
-  var ORDER = ['pen', 'card'];
+  var ORDER = ['pen', 'card', 'glasses'];
   var REGULAR_DELIVERY = 99; // shown crossed out while delivery is free
   var MAX_QTY = 10;
   var CART_KEY = 'ic_cart', OLD_QTY_KEY = 'ic_qty', DRAFT_KEY = 'ic_draft', CUSTOMER_KEY = 'ic_customer', ORDER_KEY = 'ic_last_order';
@@ -1007,6 +1056,12 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       wrap.addEventListener('pointercancel', function () { startX = null; });
     });
   }
+  function hugeDeal(p) {
+    var off = offPct(p);
+    if (off < 50) return '';
+    return '<div class="huge-deal"><span class="hd-icon"><svg viewBox="0 0 24 24"><path d="M3 12l9-9h8v8l-9 9z" stroke-linejoin="round"/><circle cx="16" cy="8" r="1.5"/></svg></span>' +
+      '<div><strong>Huge discount: ' + off + '% off</strong><span>Was ' + money(p.compareAt) + ', now ' + money(p.price) + '</span></div></div>';
+  }
   function deliveryRow() {
     return '<p><span>Delivery</span><span><s class="old-ship">' + money(REGULAR_DELIVERY) + '</s> <b class="free-tag">Free</b></span></p>';
   }
@@ -1026,10 +1081,10 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 
   // ===== Pages =====
   function homeView() {
-    var pen = PRODUCTS.pen, card = PRODUCTS.card;
+    var pen = PRODUCTS.pen, card = PRODUCTS.card, glasses = PRODUCTS.glasses;
     function teaser(p, i) {
       return '<a class="teaser reveal d' + i + '" href="' + p.page + '">' +
-        '<div class="t-img"><img data-hide src="/' + p.photos[0] + '" alt="' + esc(p.name) + '" loading="lazy"></div>' +
+        '<div class="t-img">' + (p.compareAt ? '<span class="huge-tag">' + offPct(p) + '% OFF</span>' : '') + '<img data-hide src="/' + p.photos[0] + '" alt="' + esc(p.name) + '" loading="lazy"></div>' +
         '<div class="t-info"><p class="eyebrow">' + esc(p.eyebrow) + '</p><h3>' + esc(p.name) + '</h3>' +
         '<p class="t-price">' + money(p.price) + (p.compareAt ? ' <s>' + money(p.compareAt) + '</s>' : '') + '</p>' +
         '<span class="t-go">View product &rarr;</span></div></a>';
@@ -1044,7 +1099,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
         '</div>' +
         '<div class="h-collage" aria-hidden="true"><img class="c1" data-hide src="/pen-1.jpg" alt=""><img class="c2" data-hide src="/card-1.jpg" alt=""></div>' +
       '</section>' +
-      '<section class="m-sec"><div class="teaser-grid">' + teaser(pen, 0) + teaser(card, 1) + '</div></section>' +
+      '<section class="m-sec"><div class="teaser-grid">' + teaser(pen, 0) + teaser(card, 1) + teaser(glasses, 2) + '</div></section>' +
       '<section class="m-trust" aria-label="Why shop with us">' +
         '<div class="tb reveal">' + ICON.cash + '<strong>Cash on delivery</strong><span>Pay when it arrives</span></div>' +
         '<div class="tb reveal d1">' + ICON.gift + '<strong>Free delivery</strong><span>Usually in 4 to 5 days</span></div>' +
@@ -1138,6 +1193,15 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       ? '<div class="reveal pdp-demo"><svg class="ink-svg" viewBox="0 0 240 56" aria-hidden="true"><path pathLength="1" d="M8 38 C40 8 62 50 92 26 S140 8 168 34 S214 18 232 30"/></svg><span class="demo-cap">Glass tip for fine strokes</span></div>'
       : '<div class="reveal pdp-demo"><div class="stack" aria-hidden="true"><i style="--n:0"></i><i style="--n:1"></i><i style="--n:2"></i><i style="--n:3"></i></div><div><span class="demo-cap">One press, and your cards pop up</span><button type="button" class="pop-btn">Try it</button></div></div>';
     var A = {
+      glasses: {
+        intro: 'Vintage-inspired rimless rectangular glasses with lightweight silver metal frames and bold leopard print arms. Designed to suit men and women, they pair UV400 protection and clear lenses with adjustable silicone nose pads, so they stay comfortable all day. A 90s hip hop look with a modern, luxury finish.',
+        feats: [
+          ['uv', 'UV400 protection', 'Clear lenses with UV400 protection, so your eyes are shielded from harmful rays while you wear them.'],
+          ['feather', 'Featherlight, 20 g', 'At just 20 grams, with adjustable silicone nose pads, they sit lightly and do not press on your face.'],
+          ['leopard', 'Leopard print arms', 'The bold leopard-print temples add a statement detail that stands out without shouting.'],
+          ['frame', 'Rimless silver frame', 'A slim silver metal frame with no rim around the lenses, for a clean, modern look.']
+        ]
+      },
       pen: {
         intro: 'A handcrafted glass dip pen made to be used, not just displayed. The body and tip are shaped by hand, so every pen has its own quiet character. Dip the tip in the ink that comes with it, write a few lines, and dip again when the ink runs low. It is a calm, lasting way to write letters, keep a journal, practise calligraphy or sketch, and it arrives ready to give in a gift box.',
         feats: [
@@ -1158,6 +1222,10 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       }
     }[pid];
     var VIS = {
+      uv: '<div class="v-uv" aria-hidden="true"><span class="sun"></span><i></i><i></i><i></i></div>',
+      feather: '<div class="v-feather" aria-hidden="true"><svg viewBox="0 0 120 60"><circle cx="30" cy="30" r="20"/><circle cx="90" cy="30" r="20"/><path d="M50 30 Q60 24 70 30"/></svg></div>',
+      leopard: '<div class="v-leopard" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>',
+      frame: '<div class="v-frame" aria-hidden="true"><svg viewBox="0 0 160 70"><path pathLength="1" d="M10 40 Q30 14 60 22 Q80 26 100 22 Q130 14 150 40"/></svg></div>',
       draw: '<svg viewBox="0 0 160 70" class="v-draw" aria-hidden="true"><path pathLength="1" d="M10 50 C35 15 55 60 85 32 S130 12 150 40"/></svg>',
       spiral: '<svg viewBox="0 0 100 100" class="v-spiral" aria-hidden="true"><path d="M50 50 m0 -40 a40 40 0 1 1 -40 40 a30 30 0 1 1 30 -30 a18 18 0 1 1 -18 18"/></svg>',
       drop: '<div class="v-drop" aria-hidden="true"><i></i><b></b></div>',
@@ -1210,6 +1278,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 
 
 
+          hugeDeal(p) +
           priceBlock(pid, true) +
           stockLine(p) +
           '<div class="pdp-buy">' +
@@ -1714,6 +1783,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       case 'shop': html = shopView(); break;
       case 'product': html = productPage('pen'); break;
       case 'card': html = productPage('card'); break;
+      case 'glasses': html = productPage('glasses'); break;
       case 'cart': html = cartView(); break;
       case 'checkout': html = checkoutView(); break;
       case 'payment': html = paymentView(); break;
