@@ -1205,8 +1205,15 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     '</div>';
   }
 
+  // Reviews can name a product by its id (pen, card, glasses) or by its full name
+  function reviewProduct(r) {
+    var v = String(r.product || '').trim();
+    if (PRODUCTS[v]) return v;
+    var key = Object.keys(PRODUCTS).find(function (k) { return PRODUCTS[k].name.toLowerCase() === v.toLowerCase(); });
+    return key || v;
+  }
   function ratingFor(pid) {
-    var list = REVIEWS.filter(function (r) { return !pid || r.product === pid; });
+    var list = REVIEWS.filter(function (r) { return !pid || reviewProduct(r) === pid; });
     if (!list.length) return null;
     var sum = list.reduce(function (a, r) { return a + Math.max(1, Math.min(5, parseInt(r.rating, 10) || 5)); }, 0);
     return { avg: sum / list.length, count: list.length };
@@ -1241,7 +1248,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       '<div class="rv-grid">' + cards + '</div></section>';
   }
   function reviewSection(pid) {
-    var list = REVIEWS.filter(function (r) { return r.product === pid; });
+    var list = REVIEWS.filter(function (r) { return reviewProduct(r) === pid; });
     if (!list.length) return '';
     var cards = list.map(function (r, i) {
       var rating = Math.max(1, Math.min(5, parseInt(r.rating, 10) || 5)), stars = '';
