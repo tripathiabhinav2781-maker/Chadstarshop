@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "name": "Priya",
+    "city": "Lucknow",
+    "product": "pen",
+    "rating": 5,
+    "text": "Exactly as pictured. Lovely gift.",
+    "date": "2026-11-15"
+  }
+]
