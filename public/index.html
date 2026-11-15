@@ -432,7 +432,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .thumb{flex:0 0 52px;width:52px;height:52px;border-radius:10px}
 .thumb img{width:100%;height:100%;object-fit:cover}
 /* home showcase */
-.h-showcase{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;padding:56px 48px 40px;max-width:1040px;margin:0 auto}
+.h-showcase{display:block;padding:56px 48px 40px;max-width:1040px;margin:0 auto}
 .h-title{font-family:Inter,sans-serif;font-weight:600;font-size:clamp(30px,4.4vw,48px);letter-spacing:-.02em;line-height:1.15;margin:0 0 14px}
 .h-title em{font-style:normal;color:#8a6a32}
 .h-sub{color:#555;font-size:16px;line-height:1.6;margin:0 0 22px;max-width:460px}
@@ -453,7 +453,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .t-price s{color:#999;font-weight:400;margin-left:4px;font-size:12px}
 .t-go{font-size:12px;color:#8a6a32}
 @media (max-width:900px){
-  .h-showcase{grid-template-columns:1fr;padding:32px 20px 24px;gap:24px}
+  .h-showcase{padding:32px 20px 24px}
   .h-collage{height:250px}
 }
 /* reviews */
@@ -770,6 +770,53 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .h-title em{background:linear-gradient(90deg,#8a6a32,#f0d9a2,#8a6a32);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 4.5s linear infinite}
 @keyframes shimmer{from{background-position:100% 0}to{background-position:-100% 0}}
 .h-collage img{transition:transform .35s cubic-bezier(.2,.9,.3,1)}
+
+/* ===== Home page text ===== */
+.h-title{animation:titleIn 1s cubic-bezier(.2,.9,.3,1) both}
+@keyframes titleIn{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.rotor{position:relative;display:inline-block;color:#8a6a32;min-height:1.3em;vertical-align:bottom}
+.rotor span{position:absolute;left:0;top:0;white-space:nowrap;opacity:0;animation:rotorFade 9s ease-in-out infinite}
+.rotor span:nth-child(2){animation-delay:3s}
+.rotor span:nth-child(3){animation-delay:6s}
+@keyframes rotorFade{0%{opacity:0;transform:translateY(60%)}6%,28%{opacity:1;transform:none}34%,100%{opacity:0;transform:translateY(-60%)}}
+.split-in .w{animation-duration:.7s}
+.trust-marquee{overflow:hidden;border-top:1px solid #ececec;border-bottom:1px solid #ececec;padding:14px 0;background:#fff;margin:8px 0 0}
+.tm-track{display:inline-flex;white-space:nowrap;animation:tmSlide 30s linear infinite}
+.tm-track span{font-size:13px;letter-spacing:.4px;color:#222;padding:0 26px;position:relative}
+.tm-track span::after{content:"";position:absolute;right:-3px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:#c9a46a}
+@keyframes tmSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.sec-head{max-width:1040px;margin:0 auto 22px;padding:0 20px}
+.sec-kicker{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#8a6a32;margin:0 0 6px;font-weight:600}
+.line-up{overflow:hidden;margin:0;font-family:Inter,sans-serif;font-weight:600;font-size:clamp(22px,4vw,32px);letter-spacing:-.02em;line-height:1.2}
+.line-up span{display:inline-block;transform:translateY(110%);animation:lineUp 1s .15s cubic-bezier(.2,.9,.3,1) forwards}
+@keyframes lineUp{to{transform:none}}
+.reveal .line-up span{animation-play-state:paused}
+.reveal.in .line-up span{animation-play-state:running}
+
+/* ===== Mind-blowing home page motion ===== */
+.ch{display:inline-block;opacity:0;transform:translateY(.7em) rotateX(-75deg);transform-origin:50% 100%;animation:chIn .9s cubic-bezier(.2,.9,.3,1) forwards}
+@keyframes chIn{to{opacity:1;transform:none}}
+.h-title{background:radial-gradient(circle 240px at var(--tx,25%) var(--ty,40%),#8a6a32 0%,#8a6a32 18%,#141414 65%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.h-title .rotor{-webkit-text-fill-color:#8a6a32}
+.teaser.in{animation:cardIn 1.1s cubic-bezier(.2,.9,.3,1) backwards}
+@keyframes cardIn{from{opacity:0;transform:perspective(900px) rotateX(28deg) translateY(50px) scale(.92)}to{opacity:1;transform:none}}
+.teaser.in:nth-child(2){animation-delay:.12s}
+.teaser.in:nth-child(3){animation-delay:.24s}
+.tm-track span{transition:color .3s}
+.tm-track:hover{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){
+  .ch{animation:none!important;opacity:1;transform:none}
+  .h-title{background:none;color:#111}
+  .h-title .rotor{color:#8a6a32;-webkit-text-fill-color:#8a6a32}
+  .teaser.in{animation:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .rotor span{animation:none!important;opacity:0}
+  .rotor span:first-child{opacity:1}
+  .tm-track,.h-title,.line-up span{animation:none!important;transform:none;opacity:1}
+}
+
 @media (prefers-reduced-motion:reduce){.h-title em{animation:none;background:none;color:#8a6a32;-webkit-text-fill-color:#8a6a32}}
 
 @media (prefers-reduced-motion:reduce){
@@ -1004,6 +1051,9 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 
   // ===== Icons =====
   var ICON = {
+    uv: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" stroke-linecap="round"/></svg>',
+    feather: '<svg viewBox="0 0 24 24"><path d="M20 4c-7 0-12 5-12 12v4M8 16c4 0 8-3 8-8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    leopard: '<svg viewBox="0 0 24 24"><circle cx="7" cy="8" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="11" cy="13" r="1.6"/><circle cx="18" cy="14" r="1.6"/><circle cx="6" cy="17" r="1.6"/></svg>',
     check: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     lock: '<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke-linecap="round"/></svg>',
     cash: '<svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg>',
@@ -1102,13 +1152,15 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       '<section class="h-showcase">' +
         '<div class="h-words">' +
           '<p class="eyebrow">Handmade in India &middot; Cash on delivery</p>' +
-          '<h1 class="h-title">Everyday pieces, <em>thoughtfully made.</em></h1>' +
-          '<p class="h-sub">Glass dip pens for writing and gifting, and RFID protected card holders. Free delivery on every order.</p>' +
+          '<h1 class="h-title"><span class="chars">Everyday pieces,</span><br><span class="rotor"><span>written with care.</span><span>gifted with pride.</span><span>carried every day.</span></span></h1>' +
+          '<p class="h-sub split-in">Glass dip pens for writing and gifting, and RFID protected card holders. Cash on delivery, and free delivery on every order.</p>' +
           '<div class="cta"><a class="btn" href="#/shop">Shop the collection</a></div>' +
         '</div>' +
-        '<div class="h-collage" aria-hidden="true"><img class="c1" data-hide src="/pen-1.jpg" alt=""><img class="c2" data-hide src="/card-1.jpg" alt=""></div>' +
       '</section>' +
-      '<section class="m-sec"><div class="teaser-grid">' + teaser(pen, 0) + teaser(card, 1) + teaser(glasses, 2) + '</div></section>' +
+      '<div class="trust-marquee" aria-hidden="true"><div class="tm-track"><span>Cash on delivery</span><span>Free delivery</span><span>Damaged items covered</span><span>Details kept private</span><span>Made by hand in India</span><span>Cash on delivery</span><span>Free delivery</span><span>Damaged items covered</span><span>Details kept private</span><span>Made by hand in India</span></div></div>' +
+      '<section class="m-sec"><div class="sec-head"><p class="sec-kicker">The collection</p>' +
+      '<h2 class="line-up"><span>Three pieces, chosen with care.</span></h2></div>' +
+      '<div class="teaser-grid">' + teaser(pen, 0) + teaser(card, 1) + teaser(glasses, 2) + '</div></section>' +
       '<section class="m-trust" aria-label="Why shop with us">' +
         '<div class="tb reveal">' + ICON.cash + '<strong>Cash on delivery</strong><span>Pay when it arrives</span></div>' +
         '<div class="tb reveal d1">' + ICON.gift + '<strong>Free delivery</strong><span>Usually in 4 to 5 days</span></div>' +
@@ -1266,7 +1318,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
         ['What if it arrives damaged?', 'Contact us within 48 hours with a photo. We will replace it or refund you.']
       ]
     };
-    var faq = FAQS[pid].map(function (q, i) {
+    var faq = (FAQS[pid] || []).map(function (q, i) {
       return '<details class="fold reveal d' + (i % 4) + '"><summary>' + esc(q[0]) + '</summary><p>' + esc(q[1]) + '</p></details>';
     }).join('');
     var strip = p.strip.map(function (t) { return '<div class="ps-item">' + ICON[t[0]] + '<span>' + esc(t[1]) + '</span></div>'; }).join('');
@@ -1604,6 +1656,13 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       return '<span class="w" style="animation-delay:' + (0.07 * i + 0.1) + 's">' + esc(w) + '</span>';
     }).join(' ');
   }
+  function splitChars(el) {
+    if (!el || el.getAttribute('data-c')) return;
+    el.setAttribute('data-c', '1');
+    el.innerHTML = el.textContent.split('').map(function (c, i) {
+      return '<span class="ch" style="animation-delay:' + (0.04 * i + 0.2) + 's">' + (c === ' ' ? '&nbsp;' : esc(c)) + '</span>';
+    }).join('');
+  }
   function countUp(el) {
     var target = parseInt(String(el.textContent).replace(/[^\d]/g, ''), 10);
     if (!target || reduced) return;
@@ -1658,7 +1717,9 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     anim.onfinish = function () { dot.remove(); burst(ex, ey); };
   }
   function enhance() {
-    document.querySelectorAll('.m-info h1, .premium h1, .h-title, .pdp-intro').forEach(splitWords);
+    document.querySelectorAll('.m-info h1, .premium h1, .h-sub, .pdp-intro').forEach(splitWords);
+    document.querySelectorAll('.line-up').forEach(function (el) { el.style.animationPlayState = 'running'; });
+    document.querySelectorAll('.chars').forEach(splitChars);
     document.querySelectorAll('.pricebox .now').forEach(countUp);
     if (!reduced) { sparks(); bindTilt(); }
   }
@@ -1918,6 +1979,15 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
         if (c2) c2.style.transform = 'translate(' + (x * 34) + 'px,' + (y * 26) + 'px) rotate(' + (x * 5) + 'deg)';
       }, { passive: true });
     }
+  if (fine && !reduced) {
+    document.addEventListener('pointermove', function (e) {
+      var h = document.querySelector('.h-title');
+      if (!h) return;
+      var r = h.getBoundingClientRect();
+      h.style.setProperty('--tx', (e.clientX - r.left) + 'px');
+      h.style.setProperty('--ty', (e.clientY - r.top) + 'px');
+    }, { passive: true });
+  }
   render();
 })();
 
