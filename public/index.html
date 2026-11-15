@@ -804,6 +804,13 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .teaser.in:nth-child(3){animation-delay:.24s}
 .tm-track span{transition:color .3s}
 .tm-track:hover{animation-play-state:paused}
+
+/* compact discount strip */
+.huge-deal{display:inline-flex;align-items:center;gap:10px;padding:9px 16px 9px 10px;border-radius:14px;margin:0 0 16px;max-width:100%}
+.huge-deal strong{font-size:15px;margin:0}
+.hd-icon{width:34px;height:34px;border-radius:10px}
+.hd-icon svg{width:18px;height:18px}
+
 @media (prefers-reduced-motion:reduce){
   .ch{animation:none!important;opacity:1;transform:none}
   .h-title{background:none;color:#111}
@@ -1078,7 +1085,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       return '<button class="thumb' + (i === 0 ? ' on' : '') + '" type="button" data-pid="' + pid + '" data-src="/' + f + '" aria-label="Show photo ' + (i + 1) + '">' +
         '<img data-hide src="/' + f + '" alt="" loading="lazy"></button>';
     }).join('');
-    var stamp = p.compareAt ? '<div class="stamp"><div class="stamp-inner"><b>' + offPct(p) + '%</b><span>off today</span></div></div>' : '';
+    var stamp = '';
     return '<div class="gallery">' +
       '<div class="main-wrap" data-wrap="' + pid + '">' + stamp +
         '<img class="main-photo" data-main="' + pid + '" src="/' + p.photos[0] + '" alt="' + esc(p.name) + '" data-hide draggable="false">' +
@@ -1119,7 +1126,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     var off = offPct(p);
     if (off < 50) return '';
     return '<div class="huge-deal"><span class="hd-icon"><svg viewBox="0 0 24 24"><path d="M3 12l9-9h8v8l-9 9z" stroke-linejoin="round"/><circle cx="16" cy="8" r="1.5"/></svg></span>' +
-      '<div><strong>Huge discount: ' + off + '% off</strong><span>Was ' + money(p.compareAt) + ', now ' + money(p.price) + '</span></div></div>';
+      '<div><strong>Huge discount: ' + off + '% off</strong></div></div>';
   }
   function deliveryRow() {
     return '<p><span>Delivery</span><span><s class="old-ship">' + money(REGULAR_DELIVERY) + '</s> <b class="free-tag">Free</b></span></p>';
