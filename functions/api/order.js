@@ -9,7 +9,8 @@
 // Prices are set here, on the server, so the browser cannot change them.
 const PRODUCTS = {
   'glass-pen-ink': { name: 'Glass Dip Pen with Ink Bottle', price: 399 },
-  'rfid-card-holder': { name: 'Premium RFID Protected Wallet Card Holder', price: 699 }
+  'rfid-card-holder': { name: 'Premium RFID Protected Wallet Card Holder', price: 699 },
+  'rimless-leopard-glasses': { name: 'Rimless Leopard Arm Glasses', price: 399 }
 };
 const MAX_QTY = 10;
 
