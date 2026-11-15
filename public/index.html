@@ -815,8 +815,22 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 /* show the whole photo */
 .main-wrap img.main-photo{object-fit:contain;background:#fff}
 
+
+/* rating system */
+.rating-sum{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 18px}
+.rs-num{font-family:Inter,sans-serif;font-size:28px;font-weight:700;letter-spacing:-.02em}
+.rs-count{font-size:13px;color:#777}
+.star-row{position:relative;display:inline-block;font-size:18px;line-height:1;letter-spacing:2px;white-space:nowrap}
+.star-base{color:#e2ddd3}
+.star-fill{position:absolute;left:0;top:0;overflow:hidden;white-space:nowrap;color:#b8893f;animation:fillStars 1.4s cubic-bezier(.2,.9,.3,1) both}
+@keyframes fillStars{from{width:0!important}}
+.t-rate{display:flex;align-items:center;gap:6px;font-size:12px;color:#666;margin:0 0 8px}
+.t-rate .star-row{font-size:13px;letter-spacing:1px}
+.page.minimal .rating-sum{margin:0 0 14px}
+
 @media (prefers-reduced-motion:reduce){
   .ch{animation:none!important;opacity:1;transform:none}
+  .star-fill{animation:none!important}
   .h-title{background:none;color:#111}
   .h-title .rotor{color:#8a6a32;-webkit-text-fill-color:#8a6a32}
   .teaser.in{animation:none}
@@ -982,8 +996,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   };
   // ===== Reviews: add only real reviews, with the customer's permission =====
   // Example: { name: 'Priya', city: 'Lucknow', product: 'pen', rating: 5, text: 'Exactly as pictured. Lovely gift.' }
-  var REVIEWS = [
-  ];
+  var REVIEWS = []; // filled from /reviews.json
   var ORDER = ['pen', 'card', 'glasses'];
   var REGULAR_DELIVERY = 99; // shown crossed out while delivery is free
   var MAX_QTY = 10;
@@ -1158,6 +1171,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
         '<div class="t-img">' + (p.compareAt ? '<span class="huge-tag">' + offPct(p) + '% OFF</span>' : '') + '<img data-hide src="/' + p.photos[0] + '" alt="' + esc(p.name) + '" loading="lazy"></div>' +
         '<div class="t-info"><p class="eyebrow">' + esc(p.eyebrow) + '</p><h3>' + esc(p.name) + '</h3>' +
         '<p class="t-price">' + money(p.price) + (p.compareAt ? ' <s>' + money(p.compareAt) + '</s>' : '') + '</p>' +
+        ratingMini(p) +
         '<span class="t-go">View product &rarr;</span></div></a>';
     }
     return '<div class="page minimal">' +
@@ -1187,73 +1201,54 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
           '<div class="reveal d2"><h2>Pay on delivery</h2><p class="m-desc">Pay in cash when your order arrives.</p></div>' +
         '</div>' +
       '</section>' +
-      reviewsBlock(null) +
+      homeReviews() +
     '</div>';
   }
 
-  function reviewSection(pid) {
-    var p = PRODUCTS[pid];
-    var list = REVIEWS.filter(function (r) { return r.product === pid; });
-    var body;
-    if (list.length) {
-      body = '<div class="rv-grid">' + list.map(function (r, i) {
-        var rating = Math.max(1, Math.min(5, parseInt(r.rating, 10) || 5)), stars = '';
-        for (var k = 0; k < 5; k++) stars += '<span class="star' + (k < rating ? ' on' : '') + '" style="transition-delay:' + (k * 0.06) + 's">&#9733;</span>';
-        return '<figure class="rv reveal d' + (i % 4) + '"><div class="stars">' + stars + '</div><blockquote>' + esc(r.text) + '</blockquote><figcaption>' + esc(r.name) + (r.city ? ', ' + esc(r.city) : '') + '</figcaption></figure>';
-      }).join('') + '</div>';
-    } else {
-      body = '<div class="rv-empty reveal"><div class="rv-orb">&#9733;</div>' +
-        '<p class="rv-empty-title">No reviews yet</p>' +
-        '<p class="note">Bought the ' + esc(p.label) + '? Share your experience and help others choose.</p>' +
-        '<button class="btn ghost" data-action="review">Write a review</button></div>';
-    }
-    var form = '<div class="rv-form-wrap" id="rv-form-wrap"><form id="review-form" class="panel" novalidate data-pid="' + pid + '">' +
-      '<p class="note" style="margin:0 0 10px">Your rating</p>' +
-      '<div class="stars-input" role="radiogroup" aria-label="Rating">' +
-        [1, 2, 3, 4, 5].map(function (n) { return '<button type="button" data-star="' + n + '" class="' + (n <= 5 ? 'on' : '') + '" aria-label="' + n + ' stars">&#9733;</button>'; }).join('') +
-      '</div><input type="hidden" name="rating" value="5">' +
-      '<div class="field"><label for="rv-name">Your name</label><input id="rv-name" name="name" autocomplete="name" required></div>' +
-      '<div class="field"><label for="rv-email">Email (kept private)</label><input id="rv-email" name="email" type="email" autocomplete="email" required></div>' +
-      '<div class="field"><label for="rv-text">Your review</label><textarea id="rv-text" name="review" required></textarea></div>' +
-      '<div class="hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>' +
-      '<button class="btn" type="submit">Send review</button>' +
-      '<p id="review-status" role="status" class="note" style="margin:12px 0 0"></p>' +
-    '</form></div>';
-    return '<section class="m-sec reviews"><h2 class="rv-title">Customer reviews</h2>' + body + form + '</section>';
-  }
-  function sendReview(form) {
-    var status = document.getElementById('review-status');
-    var fd = new FormData(form);
-    if (fd.get('website')) return;
-    var pid = form.getAttribute('data-pid');
-    var name = String(fd.get('name') || '').trim(), email = String(fd.get('email') || '').trim();
-    var text = String(fd.get('review') || '').trim(), rating = String(fd.get('rating') || '5');
-    status.textContent = 'Sending...';
-    fetch('/api/contact', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: name, email: email, message: 'REVIEW (check before publishing)\nProduct: ' + PRODUCTS[pid].name + '\nRating: ' + rating + '/5\n\n' + text })
-    }).then(function (r) {
-      return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok && d.ok, error: d.error }; });
-    }).then(function (res) {
-      if (res.ok) { form.reset(); status.textContent = 'Thank you. Your review will appear after we check it.'; }
-      else { status.textContent = res.error || 'Could not send your review. Please try again.'; }
-    }).catch(function () { status.textContent = 'Could not send your review. Please try again.'; });
-  }
-
-  
-
-    function reviewsBlock(pid) {
+  function ratingFor(pid) {
     var list = REVIEWS.filter(function (r) { return !pid || r.product === pid; });
+    if (!list.length) return null;
+    var sum = list.reduce(function (a, r) { return a + Math.max(1, Math.min(5, parseInt(r.rating, 10) || 5)); }, 0);
+    return { avg: sum / list.length, count: list.length };
+  }
+  function starRow(avg) {
+    var row = '<span class="star-row"><span class="star-base">' + '&#9733;'.repeat(5) + '</span>' +
+      '<span class="star-fill" style="width:' + Math.round((avg / 5) * 100) + '%">' + '&#9733;'.repeat(5) + '</span></span>';
+    return row;
+  }
+  function ratingSummary(pid) {
+    var r = ratingFor(pid);
+    if (!r) return '';
+    return '<div class="rating-sum reveal"><span class="rs-num">' + r.avg.toFixed(1) + '</span>' + starRow(r.avg) +
+      '<span class="rs-count">' + r.count + (r.count === 1 ? ' review' : ' reviews') + '</span></div>';
+  }
+  function ratingMini(p) {
+    var key = Object.keys(PRODUCTS).find(function (k) { return PRODUCTS[k] === p; });
+    var r = key ? ratingFor(key) : null;
+    if (!r) return '';
+    return '<p class="t-rate">' + starRow(r.avg) + '<span>' + r.avg.toFixed(1) + ' (' + r.count + ')</span></p>';
+  }
+  function homeReviews() {
+    if (!REVIEWS.length) return '';
+    var cards = REVIEWS.slice(0, 6).map(function (r, i) {
+      var rating = Math.max(1, Math.min(5, parseInt(r.rating, 10) || 5)), stars = '';
+      for (var k = 0; k < 5; k++) stars += '<span class="star' + (k < rating ? ' on' : '') + '" style="transition-delay:' + (k * 0.06) + 's">&#9733;</span>';
+      return '<figure class="rv reveal d' + (i % 4) + '"><div class="stars">' + stars + '</div><blockquote>' + esc(r.text) + '</blockquote><figcaption>' + esc(r.name) + (r.city ? ', ' + esc(r.city) : '') + '</figcaption></figure>';
+    }).join('');
+    var all = ratingFor(null);
+    return '<section class="m-sec reviews"><h2 class="rv-title">What customers say</h2>' +
+      (all ? '<div class="rating-sum reveal"><span class="rs-num">' + all.avg.toFixed(1) + '</span>' + starRow(all.avg) + '<span class="rs-count">' + all.count + (all.count === 1 ? ' review' : ' reviews') + '</span></div>' : '') +
+      '<div class="rv-grid">' + cards + '</div></section>';
+  }
+  function reviewSection(pid) {
+    var list = REVIEWS.filter(function (r) { return r.product === pid; });
     if (!list.length) return '';
     var cards = list.map(function (r, i) {
-      var rating = Math.max(1, Math.min(5, parseInt(r.rating, 10) || 5));
-      var stars = '';
+      var rating = Math.max(1, Math.min(5, parseInt(r.rating, 10) || 5)), stars = '';
       for (var k = 0; k < 5; k++) stars += '<span class="star' + (k < rating ? ' on' : '') + '" style="transition-delay:' + (k * 0.06) + 's">&#9733;</span>';
-      return '<figure class="rv reveal d' + (i % 4) + '"><div class="stars">' + stars + '</div>' +
-        '<blockquote>' + esc(r.text) + '</blockquote>' +
-        '<figcaption>' + esc(r.name) + (r.city ? ', ' + esc(r.city) : '') + '</figcaption></figure>';
+      return '<figure class="rv reveal d' + (i % 4) + '"><div class="stars">' + stars + '</div><blockquote>' + esc(r.text) + '</blockquote><figcaption>' + esc(r.name) + (r.city ? ', ' + esc(r.city) : '') + '</figcaption></figure>';
     }).join('');
-    return '<section class="m-sec"><h2 class="rv-title">What customers say</h2><div class="rv-grid">' + cards + '</div></section>';
+    return '<section class="m-sec reviews"><h2 class="rv-title">Customer reviews</h2>' + ratingSummary(pid) + '<div class="rv-grid">' + cards + '</div></section>';
   }
 
   function productPage(pid) {
@@ -1353,6 +1348,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 
           hugeDeal(p) +
           priceBlock(pid, true) +
+          ratingSummary(pid) +
           stockLine(p) +
           '<div class="pdp-buy">' +
             '<div class="pdp-qty"><button data-action="pdp-dec" data-pid="' + pid + '" aria-label="Less">&minus;</button>' +
@@ -1833,6 +1829,16 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   }
 
   function initHeroDepth() {}
+  function loadReviews() {
+    fetch('/reviews.json', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (list) {
+        REVIEWS = Array.isArray(list) ? list : [];
+        if (route().name === '' || route().name === 'product' || route().name === 'card' || route().name === 'glasses') render();
+      })
+      .catch(function () { REVIEWS = []; });
+  }
+
   // ===== Routing and rendering =====
   function route() {
     var h = location.hash.replace(/^#\/?/, '').split('/');
@@ -1930,11 +1936,6 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     }
     var b = e.target.closest('[data-action]');
     if (!b) return;
-    if (b.getAttribute('data-action') === 'review') {
-      var w = document.getElementById('rv-form-wrap');
-      if (w) { w.classList.toggle('open'); if (w.classList.contains('open')) w.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-      return;
-    }
     var a = b.getAttribute('data-action');
     var p = b.getAttribute('data-pid') || 'pen';
     var cur = getCart()[p];
@@ -1958,7 +1959,6 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     if (f.id === 'checkout-form') { e.preventDefault(); submitCheckout(f); }
     else if (f.id === 'payment-form') { e.preventDefault(); placeOrder(); }
     else if (f.id === 'contact-form') { e.preventDefault(); sendContact(f); }
-    else if (f.id === 'review-form') { e.preventDefault(); sendReview(f); }
   });
 
   document.addEventListener('input', function (e) {
@@ -2000,6 +2000,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       h.style.setProperty('--ty', (e.clientY - r.top) + 'px');
     }, { passive: true });
   }
+  loadReviews();
   render();
 })();
 
