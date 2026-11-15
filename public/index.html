@@ -438,12 +438,8 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .h-sub{color:#555;font-size:16px;line-height:1.6;margin:0 0 22px;max-width:460px}
 .h-collage{position:relative;height:300px}
 .h-collage img{position:absolute;width:58%;aspect-ratio:1/1;object-fit:cover;border-radius:20px;box-shadow:0 26px 50px -28px rgba(0,0,0,.45);transition:transform .6s cubic-bezier(.2,.9,.3,1)}
-.h-collage .c1{left:0;top:24px;animation:floatA 7s ease-in-out infinite}
-.h-collage .c2{right:0;top:0;width:52%;animation:floatB 8s ease-in-out infinite}
-.h-collage:hover .c1{transform:translate(-6px,-4px) rotate(-2deg)}
-.h-collage:hover .c2{transform:translate(6px,4px) rotate(2deg)}
-@keyframes floatA{50%{transform:translateY(-12px) rotate(-1.5deg)}}
-@keyframes floatB{50%{transform:translateY(10px) rotate(1.5deg)}}
+.h-collage .c1{left:0;top:24px}
+.h-collage .c2{right:0;top:0;width:52%}
 .teaser-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .teaser{display:block;border:1px solid #ececec;border-radius:16px;overflow:hidden;background:#fff;color:#111;transition:transform .4s,box-shadow .4s,border-color .4s}
 .teaser:hover{transform:translateY(-5px);box-shadow:0 22px 40px -26px rgba(0,0,0,.4);border-color:#111}
@@ -763,6 +759,19 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .v-frame svg{width:100%;height:100%;overflow:visible}
 .v-frame path{fill:none;stroke:#8a8a8a;stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2s cubic-bezier(.4,0,.2,1)}
 .feat.in .v-frame path,.feat:hover .v-frame path,.feat.on .v-frame path{stroke-dashoffset:0}
+
+/* whole photos, no cropping in cards */
+.t-img img,.shop-img img{object-fit:contain;background:#fff}
+/* teaser light that follows the cursor */
+.teaser{position:relative}
+.teaser::after{content:"";position:absolute;inset:0;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.45),rgba(255,255,255,0) 60%);opacity:0;transition:opacity .35s;pointer-events:none;z-index:3}
+.teaser:hover::after{opacity:1}
+/* hero title highlight shimmer */
+.h-title em{background:linear-gradient(90deg,#8a6a32,#f0d9a2,#8a6a32);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 4.5s linear infinite}
+@keyframes shimmer{from{background-position:100% 0}to{background-position:-100% 0}}
+.h-collage img{transition:transform .35s cubic-bezier(.2,.9,.3,1)}
+@media (prefers-reduced-motion:reduce){.h-title em{animation:none;background:none;color:#8a6a32;-webkit-text-fill-color:#8a6a32}}
+
 @media (prefers-reduced-motion:reduce){
   .huge-tag,.huge-deal,.hd-icon,.v-uv i,.v-feather,.v-leopard i{animation:none!important}
 }
@@ -1740,19 +1749,17 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
         if (!c) return;
         var r = c.getBoundingClientRect();
         var x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+        c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        c.style.setProperty('--my', (e.clientY - r.top) + 'px');
         c.classList.add('tilt');
         c.style.transform = 'perspective(800px) rotateY(' + (x * 8) + 'deg) rotateX(' + (-y * 8) + 'deg) translateY(-4px)';
       });
     }
     // the hero collage drifts slower than the page as you scroll
-    window.addEventListener('scroll', function () {
-      var c = document.querySelector('.h-collage');
-      if (!c || reduced) return;
-      var r = c.getBoundingClientRect();
-      c.style.transform = 'translate3d(0,' + ((r.top - innerHeight / 2) * -0.06) + 'px,0)';
-    }, { passive: true });
+
   }
 
+  function initHeroDepth() {}
   // ===== Routing and rendering =====
   function route() {
     var h = location.hash.replace(/^#\/?/, '').split('/');
@@ -1778,6 +1785,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     var r = route();
     if (r.name !== 'checkout') formErrors = {};
     var html;
+    try {
     switch (r.name) {
       case '': html = homeView(); break;
       case 'shop': html = shopView(); break;
@@ -1793,6 +1801,10 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       case 'contact': html = contactView(); break;
       case 'policy': html = policyView(r.arg); break;
       default: html = notFoundView();
+    }
+    } catch (err) {
+      console.error(err);
+      html = '<section class="narrow center page"><h1>This page could not load</h1><p>Please go back to the shop and try again.</p><a class="btn" href="#/">Back to the shop</a></section>';
     }
     setNav(r.name);
     app.innerHTML = html;
@@ -1819,6 +1831,13 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   }, { threshold: 0.12 }) : null;
 
   document.addEventListener('click', function (e) {
+    var link = e.target.closest('a[href^="#/"]');
+    if (link) {
+      e.preventDefault();
+      var href = link.getAttribute('href');
+      if (location.hash === href) render(); else location.hash = href;
+      return;
+    }
     var t = e.target.closest('.thumb[data-pid]');
     if (t) {
       var list = Array.prototype.slice.call(document.querySelectorAll('.thumb[data-pid="' + t.getAttribute('data-pid') + '"]'));
@@ -1888,6 +1907,17 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   });
   initMotion();
   initPack();
+  if (fine && !reduced) {
+      document.addEventListener('pointermove', function (e) {
+        var hc = document.querySelector('.h-collage');
+        if (!hc) return;
+        var r = hc.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+        var c1 = hc.querySelector('.c1'), c2 = hc.querySelector('.c2');
+        if (c1) c1.style.transform = 'translate(' + (x * -28) + 'px,' + (y * -24) + 'px) rotate(' + (x * -4) + 'deg)';
+        if (c2) c2.style.transform = 'translate(' + (x * 34) + 'px,' + (y * 26) + 'px) rotate(' + (x * 5) + 'deg)';
+      }, { passive: true });
+    }
   render();
 })();
 
