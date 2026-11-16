@@ -828,6 +828,19 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .t-rate .star-row{font-size:13px;letter-spacing:1px}
 .page.minimal .rating-sum{margin:0 0 14px}
 
+
+/* coupons */
+.coupon-box{display:flex;gap:8px;align-items:center;margin:14px 0 6px;flex-wrap:wrap}
+.coupon-box input{flex:1;min-width:160px;padding:12px 14px;font:inherit;font-size:14px;border:1px solid #111;border-radius:12px;background:#fff}
+.coupon-box .btn-outline{border-radius:12px;padding:12px 18px;min-height:46px;margin:0}
+.coupon-box.applied{justify-content:space-between;background:#eef7f0;border:1px dashed #1f5a2e;border-radius:12px;padding:12px 14px;color:#1f5a2e;font-size:14px}
+.coupon-deal{display:flex;align-items:center;gap:12px;background:#111;color:#fff;border-radius:16px;padding:12px 16px;margin:0 0 16px;position:relative;overflow:hidden;animation:dealIn .8s cubic-bezier(.2,1.3,.4,1) both}
+.coupon-deal::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(232,207,152,.5),transparent);transform:skewX(-20deg);animation:badgeShine 3.4s ease-in-out infinite}
+.coupon-deal strong{display:block;font-size:15px;font-weight:600}
+.coupon-deal span:not(.cd-icon){font-size:13px;color:#e8cf98}
+.cd-icon{width:34px;height:34px;border-radius:50%;background:#c9a46a;color:#111;display:grid;place-items:center;font-size:16px;flex-shrink:0;animation:tagWiggle 2.6s ease-in-out infinite}
+.t-code{display:block;font-size:12px;color:#1f5a2e;font-weight:600;margin-top:4px}
+
 @media (prefers-reduced-motion:reduce){
   .ch{animation:none!important;opacity:1;transform:none}
   .star-fill{animation:none!important}
@@ -944,7 +957,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   var PRODUCTS = {
     glasses: {
       id: 'rimless-leopard-glasses', name: 'Rimless Leopard Arm Glasses', label: 'Leopard Arm Glasses',
-      price: 399, compareAt: 1199, page: '#/glasses', stock: 5000,
+      price: 1199, compareAt: 0, page: '#/glasses', stock: 5000,
       photos: ['glasses-1.jpg', 'glasses-2.jpg', 'glasses-3.jpg', 'glasses-4.jpg'],
       eyebrow: 'Eyewear',
       lead: '',
@@ -1038,12 +1051,46 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     var c = getCart();
     return ORDER.filter(function (k) { return c[k] > 0; }).map(function (k) { return { pid: k, qty: c[k], p: PRODUCTS[k] }; });
   }
+  // ===== Coupons =====
+  var COUPONS = { GLASSES299: { pid: 'glasses', price: 299 } };
+  var COUPON_KEY = 'ic_coupon';
+  function getCouponCode() {
+    var c = sessionStorage.getItem(COUPON_KEY) || '';
+    return COUPONS[c] ? c : '';
+  }
+  function unitPrice(l) {
+    var code = getCouponCode();
+    return (code && COUPONS[code].pid === l.pid) ? COUPONS[code].price : l.p.price;
+  }
+  function couponTag(p) {
+    var key = Object.keys(PRODUCTS).find(function (k) { return PRODUCTS[k] === p; });
+    var code = Object.keys(COUPONS).find(function (c) { return COUPONS[c].pid === key; });
+    return code ? '<span class="t-code">Code ' + code + ': ' + money(COUPONS[code].price) + '</span>' : '';
+  }
+  function couponBanner(pid) {
+    var code = Object.keys(COUPONS).find(function (c) { return COUPONS[c].pid === pid; });
+    if (!code) return '';
+    return '<div class="coupon-deal"><span class="cd-icon">&#9733;</span><div><strong>Use code ' + code + ' at checkout</strong>' +
+      '<span>Pay just ' + money(COUPONS[code].price) + '</span></div></div>';
+  }
+  function couponBox() {
+    var code = getCouponCode();
+    if (code) {
+      return '<div class="coupon-box applied"><span>Coupon <strong>' + esc(code) + '</strong> applied</span>' +
+        '<button type="button" class="link" data-action="remove-coupon">Remove</button></div>';
+    }
+    return '<div class="coupon-box"><label for="coupon-code" class="visually-hidden">Coupon code</label>' +
+      '<input id="coupon-code" placeholder="Have a coupon code?" autocomplete="off">' +
+      '<button type="button" class="btn-outline" data-action="apply-coupon">Apply</button></div>' +
+      '<p id="coupon-msg" class="note" role="status"></p>';
+  }
+
   function totals() {
     var ls = lines();
-    var subtotal = ls.reduce(function (a, l) { return a + l.qty * l.p.price; }, 0);
+    var subtotal = ls.reduce(function (a, l) { return a + l.qty * unitPrice(l); }, 0);
+    var reference = ls.reduce(function (a, l) { return a + l.qty * (l.p.compareAt || l.p.price); }, 0);
     var count = ls.reduce(function (a, l) { return a + l.qty; }, 0);
-    var savings = ls.reduce(function (a, l) { return a + (l.p.compareAt ? (l.p.compareAt - l.p.price) * l.qty : 0); }, 0);
-    return { lines: ls, subtotal: subtotal, total: subtotal, count: count, savings: savings };
+    return { lines: ls, subtotal: subtotal, total: subtotal, count: count, savings: reference - subtotal };
   }
   function updateBadge(bump) {
     var el = document.getElementById('bag-count');
@@ -1171,7 +1218,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
         '<div class="t-img">' + (p.compareAt ? '<span class="huge-tag">' + offPct(p) + '% OFF</span>' : '') + '<img data-hide src="/' + p.photos[0] + '" alt="' + esc(p.name) + '" loading="lazy"></div>' +
         '<div class="t-info"><p class="eyebrow">' + esc(p.eyebrow) + '</p><h3>' + esc(p.name) + '</h3>' +
         '<p class="t-price">' + money(p.price) + (p.compareAt ? ' <s>' + money(p.compareAt) + '</s>' : '') + '</p>' +
-        ratingMini(p) +
+        ratingMini(p) + couponTag(p) +
         '<span class="t-go">View product &rarr;</span></div></a>';
     }
     return '<div class="page minimal">' +
@@ -1354,6 +1401,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 
 
           hugeDeal(p) +
+          couponBanner(pid) +
           priceBlock(pid, true) +
           ratingSummary(pid) +
           stockLine(p) +
@@ -1409,9 +1457,9 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     var rows = t.lines.map(function (l) {
       return '<div class="cart-row">' +
         '<img src="/' + l.p.photos[0] + '" alt="' + esc(l.p.name) + '">' +
-        '<div><h3 style="font-size:22px;margin:0 0 4px">' + esc(l.p.name) + '</h3><p class="note" style="margin:0">' + money(l.p.price) + ' each</p></div>' +
+        '<div><h3 style="font-size:22px;margin:0 0 4px">' + esc(l.p.name) + '</h3><p class="note" style="margin:0">' + money(unitPrice(l)) + ' each</p></div>' +
         '<div class="qty"><button data-action="dec" data-pid="' + l.pid + '" aria-label="Decrease">&minus;</button><span aria-live="polite">' + l.qty + '</span><button data-action="inc" data-pid="' + l.pid + '" aria-label="Increase">+</button></div>' +
-        '<div class="end"><p style="margin:0 0 6px;font-weight:600">' + money(l.qty * l.p.price) + '</p><button class="link" data-action="remove" data-pid="' + l.pid + '">Remove</button></div>' +
+        '<div class="end"><p style="margin:0 0 6px;font-weight:600">' + money(l.qty * unitPrice(l)) + '</p><button class="link" data-action="remove" data-pid="' + l.pid + '">Remove</button></div>' +
       '</div>';
     }).join('');
     return '<section class="narrow wide page"><p class="steps-bar">Your bag</p><h1>Your bag</h1>' + rows +
@@ -1436,12 +1484,12 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       return '<div class="co-item">' +
         '<img src="/' + l.p.photos[0] + '" alt="' + esc(l.p.name) + '">' +
         '<div><p class="co-name">' + esc(l.p.name) + '</p>' +
-        '<p class="co-each">' + money(l.p.price) + ' each</p>' +
+        '<p class="co-each">' + money(unitPrice(l)) + ' each</p>' +
         '<div class="co-row"><div class="qty mini">' +
           '<button data-action="dec" data-pid="' + l.pid + '" aria-label="Decrease">&minus;</button>' +
           '<span aria-live="polite">' + l.qty + '</span>' +
           '<button data-action="inc" data-pid="' + l.pid + '" aria-label="Increase">+</button>' +
-        '</div><span class="co-price">' + money(l.qty * l.p.price) + '</span></div></div></div>';
+        '</div><span class="co-price">' + money(l.qty * unitPrice(l)) + '</span></div></div></div>';
     }).join('');
     return '<section class="co page minimal">' +
       (t.savings ? '<div class="save-banner">You are saving <strong>' + money(t.savings) + '</strong> on this order</div>' : '') +
@@ -1455,6 +1503,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
             deliveryRow() + savingsRow(t) +
             '<p class="total"><span>Total, pay in cash</span><span>' + money(t.total) + '</span></p>' +
           '</div>' +
+        couponBox() +
         '</aside>' +
         '<div class="co-form reveal d1">' +
           '<h1>Delivery details</h1>' +
@@ -1480,7 +1529,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     var t = totals(), c = confirmed();
     if (t.count === 0) return emptyBag();
     if (!c.name || !c.phone || !c.line1) { location.hash = '#/checkout'; return ''; }
-    var items = t.lines.map(function (l) { return '<p style="display:flex;justify-content:space-between;gap:12px"><span>' + esc(l.p.name) + ' &times; ' + l.qty + '</span><span>' + money(l.qty * l.p.price) + '</span></p>'; }).join('');
+    var items = t.lines.map(function (l) { return '<p style="display:flex;justify-content:space-between;gap:12px"><span>' + esc(l.p.name) + ' &times; ' + l.qty + '</span><span>' + money(l.qty * unitPrice(l)) + '</span></p>'; }).join('');
     return '<section class="narrow page"><p class="steps-bar">1. Details &nbsp;&middot;&nbsp; <span class="on">2. Payment</span></p>' +
       '<h1>Payment</h1>' +
       '<div class="panel"><h3 style="font-size:24px">Order summary</h3>' + items + summaryHtml(t) + '</div>' +
@@ -1624,7 +1673,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     var items = lines().map(function (l) { return { id: l.p.id, qty: l.qty }; });
     fetch('/api/order', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ customer: c, items: items, payment: 'cod', website: '' })
+      body: JSON.stringify({ customer: c, items: items, coupon: getCouponCode(), payment: 'cod', website: '' })
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (d) {
         if (!r.ok || !d.ok) throw new Error(d.error || ('We could not place your order (error ' + r.status + '). Please try again.'));
@@ -1636,6 +1685,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       localStorage.removeItem(OLD_QTY_KEY);
       sessionStorage.removeItem(CUSTOMER_KEY);
       sessionStorage.removeItem(DRAFT_KEY);
+      sessionStorage.removeItem(COUPON_KEY);
       updateBadge(false);
       location.hash = '#/success/' + encodeURIComponent(d.orderId);
     }).catch(function (ex) {
@@ -1943,6 +1993,21 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     }
     var b = e.target.closest('[data-action]');
     if (!b) return;
+    if (b.getAttribute('data-action') === 'apply-coupon') {
+      var input = document.getElementById('coupon-code');
+      var code = (input ? input.value : '').trim().toUpperCase();
+      var msg = document.getElementById('coupon-msg');
+      var c = COUPONS[code];
+      if (c && lines().some(function (l) { return l.pid === c.pid; })) {
+        sessionStorage.setItem(COUPON_KEY, code);
+        toast('Coupon applied');
+        render();
+      } else if (msg) {
+        msg.textContent = 'This code is not valid for the items in your bag.';
+      }
+      return;
+    }
+    if (b.getAttribute('data-action') === 'remove-coupon') { sessionStorage.removeItem(COUPON_KEY); render(); return; }
     var a = b.getAttribute('data-action');
     var p = b.getAttribute('data-pid') || 'pen';
     var cur = getCart()[p];
