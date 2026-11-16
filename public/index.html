@@ -841,6 +841,14 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .cd-icon{width:34px;height:34px;border-radius:50%;background:#c9a46a;color:#111;display:grid;place-items:center;font-size:16px;flex-shrink:0;animation:tagWiggle 2.6s ease-in-out infinite}
 .t-code{display:block;font-size:12px;color:#1f5a2e;font-weight:600;margin-top:4px}
 
+
+/* highlighted coupon price */
+.hl-price{display:inline-block;position:relative;overflow:hidden;background:linear-gradient(120deg,#c9a46a,#f3dfae,#c9a46a);background-size:200% 100%;color:#111;font-weight:700;padding:3px 12px;border-radius:999px;box-shadow:0 10px 22px -10px rgba(168,132,74,.9);animation:hlGlow 2.4s ease-in-out infinite,goldShift 6s ease infinite}
+.hl-price::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.8),transparent);transform:skewX(-20deg);animation:badgeShine 3s ease-in-out infinite}
+@keyframes hlGlow{50%{box-shadow:0 0 0 7px rgba(201,164,106,0)}0%{box-shadow:0 0 0 0 rgba(201,164,106,.55)}}
+.coupon-box.applied.auto{background:#f4ecdd;border-color:#a8844a;color:#6a4f22}
+@media (prefers-reduced-motion:reduce){.hl-price,.hl-price::after{animation:none!important}}
+
 @media (prefers-reduced-motion:reduce){
   .ch{animation:none!important;opacity:1;transform:none}
   .star-fill{animation:none!important}
@@ -1052,11 +1060,19 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     return ORDER.filter(function (k) { return c[k] > 0; }).map(function (k) { return { pid: k, qty: c[k], p: PRODUCTS[k] }; });
   }
   // ===== Coupons =====
-  var COUPONS = { GLASSES299: { pid: 'glasses', price: 299 } };
+  var COUPONS = { GLASSES299: { pid: 'glasses', price: 299, auto: true } };
   var COUPON_KEY = 'ic_coupon';
   function getCouponCode() {
     var c = sessionStorage.getItem(COUPON_KEY) || '';
-    return COUPONS[c] ? c : '';
+    if (COUPONS[c]) return c;
+    var auto = Object.keys(COUPONS).find(function (k) {
+      return COUPONS[k].auto && lines().some(function (l) { return l.pid === COUPONS[k].pid; });
+    });
+    return auto || '';
+  }
+  function couponOn() { return getCouponCode() !== ''; }
+  function hlMoney(v, on) {
+    return on ? '<span class="hl-price">' + money(v) + '</span>' : money(v);
   }
   function unitPrice(l) {
     var code = getCouponCode();
@@ -1070,11 +1086,14 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   function couponBanner(pid) {
     var code = Object.keys(COUPONS).find(function (c) { return COUPONS[c].pid === pid; });
     if (!code) return '';
-    return '<div class="coupon-deal"><span class="cd-icon">&#9733;</span><div><strong>Use code ' + code + ' at checkout</strong>' +
+    return '<div class="coupon-deal"><span class="cd-icon">&#9733;</span><div><strong>' + (COUPONS[code].auto ? 'Coupon ' + code + ' applied automatically' : 'Use code ' + code + ' at checkout') + '</strong>' +
       '<span>Pay just ' + money(COUPONS[code].price) + '</span></div></div>';
   }
   function couponBox() {
     var code = getCouponCode();
+    if (code && COUPONS[code].auto) {
+      return '<div class="coupon-box applied auto"><span>Coupon <strong>' + esc(code) + '</strong> applied automatically</span></div>';
+    }
     if (code) {
       return '<div class="coupon-box applied"><span>Coupon <strong>' + esc(code) + '</strong> applied</span>' +
         '<button type="button" class="link" data-action="remove-coupon">Remove</button></div>';
@@ -1203,7 +1222,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     return '<div class="summary">' +
       '<p><span>Subtotal</span><span>' + money(t.subtotal) + '</span></p>' +
       deliveryRow() + savingsRow(t) +
-      '<p class="total"><span>Total, pay in cash</span><span>' + money(t.total) + '</span></p></div>';
+      '<p class="total"><span>Total, pay in cash</span><span>' + hlMoney(t.total, couponOn()) + '</span></p></div>';
   }
   function emptyBag() {
     return '<section class="narrow center page"><h1>Your bag is empty</h1><p>Add a product to your bag to continue.</p>' +
@@ -1457,9 +1476,9 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     var rows = t.lines.map(function (l) {
       return '<div class="cart-row">' +
         '<img src="/' + l.p.photos[0] + '" alt="' + esc(l.p.name) + '">' +
-        '<div><h3 style="font-size:22px;margin:0 0 4px">' + esc(l.p.name) + '</h3><p class="note" style="margin:0">' + money(unitPrice(l)) + ' each</p></div>' +
+        '<div><h3 style="font-size:22px;margin:0 0 4px">' + esc(l.p.name) + '</h3><p class="note" style="margin:0">' + hlMoney(unitPrice(l), unitPrice(l) < l.p.price) + ' each</p></div>' +
         '<div class="qty"><button data-action="dec" data-pid="' + l.pid + '" aria-label="Decrease">&minus;</button><span aria-live="polite">' + l.qty + '</span><button data-action="inc" data-pid="' + l.pid + '" aria-label="Increase">+</button></div>' +
-        '<div class="end"><p style="margin:0 0 6px;font-weight:600">' + money(l.qty * unitPrice(l)) + '</p><button class="link" data-action="remove" data-pid="' + l.pid + '">Remove</button></div>' +
+        '<div class="end"><p style="margin:0 0 6px;font-weight:600">' + hlMoney(l.qty * unitPrice(l), unitPrice(l) < l.p.price) + '</p><button class="link" data-action="remove" data-pid="' + l.pid + '">Remove</button></div>' +
       '</div>';
     }).join('');
     return '<section class="narrow wide page"><p class="steps-bar">Your bag</p><h1>Your bag</h1>' + rows +
@@ -1484,12 +1503,12 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
       return '<div class="co-item">' +
         '<img src="/' + l.p.photos[0] + '" alt="' + esc(l.p.name) + '">' +
         '<div><p class="co-name">' + esc(l.p.name) + '</p>' +
-        '<p class="co-each">' + money(unitPrice(l)) + ' each</p>' +
+        '<p class="co-each">' + hlMoney(unitPrice(l), unitPrice(l) < l.p.price) + ' each</p>' +
         '<div class="co-row"><div class="qty mini">' +
           '<button data-action="dec" data-pid="' + l.pid + '" aria-label="Decrease">&minus;</button>' +
           '<span aria-live="polite">' + l.qty + '</span>' +
           '<button data-action="inc" data-pid="' + l.pid + '" aria-label="Increase">+</button>' +
-        '</div><span class="co-price">' + money(l.qty * unitPrice(l)) + '</span></div></div></div>';
+        '</div><span class="co-price">' + hlMoney(l.qty * unitPrice(l), unitPrice(l) < l.p.price) + '</span></div></div></div>';
     }).join('');
     return '<section class="co page minimal">' +
       (t.savings ? '<div class="save-banner">You are saving <strong>' + money(t.savings) + '</strong> on this order</div>' : '') +
@@ -1501,7 +1520,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
           '<div class="co-totals">' +
             '<p><span>Subtotal</span><span>' + money(t.subtotal) + '</span></p>' +
             deliveryRow() + savingsRow(t) +
-            '<p class="total"><span>Total, pay in cash</span><span>' + money(t.total) + '</span></p>' +
+            '<p class="total"><span>Total, pay in cash</span><span>' + hlMoney(t.total, couponOn()) + '</span></p>' +
           '</div>' +
         couponBox() +
         '</aside>' +
@@ -1529,7 +1548,7 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
     var t = totals(), c = confirmed();
     if (t.count === 0) return emptyBag();
     if (!c.name || !c.phone || !c.line1) { location.hash = '#/checkout'; return ''; }
-    var items = t.lines.map(function (l) { return '<p style="display:flex;justify-content:space-between;gap:12px"><span>' + esc(l.p.name) + ' &times; ' + l.qty + '</span><span>' + money(l.qty * unitPrice(l)) + '</span></p>'; }).join('');
+    var items = t.lines.map(function (l) { return '<p style="display:flex;justify-content:space-between;gap:12px"><span>' + esc(l.p.name) + ' &times; ' + l.qty + '</span><span>' + hlMoney(l.qty * unitPrice(l), unitPrice(l) < l.p.price) + '</span></p>'; }).join('');
     return '<section class="narrow page"><p class="steps-bar">1. Details &nbsp;&middot;&nbsp; <span class="on">2. Payment</span></p>' +
       '<h1>Payment</h1>' +
       '<div class="panel"><h3 style="font-size:24px">Order summary</h3>' + items + summaryHtml(t) + '</div>' +
