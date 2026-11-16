@@ -10,9 +10,14 @@
 const PRODUCTS = {
   'glass-pen-ink': { name: 'Glass Dip Pen with Ink Bottle', price: 399 },
   'rfid-card-holder': { name: 'Premium RFID Protected Wallet Card Holder', price: 699 },
-  'rimless-leopard-glasses': { name: 'Rimless Leopard Arm Glasses', price: 399 }
+  'rimless-leopard-glasses': { name: 'Rimless Leopard Arm Glasses', price: 1199 }
 };
 const MAX_QTY = 10;
+
+// Coupon codes. A coupon only applies to the product it names.
+const COUPONS = {
+  GLASSES299: { id: 'rimless-leopard-glasses', price: 299 }
+};
 
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
@@ -58,7 +63,10 @@ export async function onRequestPost({ request, env }) {
     const qty = parseInt(it && it.qty, 10);
     if (!product) return json({ ok: false, error: 'One of the products is no longer available.' }, 400);
     if (!(qty >= 1 && qty <= MAX_QTY)) return json({ ok: false, error: 'Invalid quantity.' }, 400);
-    lines.push({ name: product.name, price: product.price, qty });
+    const code = String(body.coupon || '').trim().toUpperCase();
+    const coupon = COUPONS[code];
+    const unit = (coupon && coupon.id === it.id) ? coupon.price : product.price;
+    lines.push({ name: product.name + (unit !== product.price ? ' (coupon ' + code + ')' : ''), price: unit, qty });
   }
   if (lines.length === 0) return json({ ok: false, error: 'Your bag is empty.' }, 400);
 
