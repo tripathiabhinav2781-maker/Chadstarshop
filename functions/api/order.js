@@ -16,7 +16,7 @@ const MAX_QTY = 10;
 
 // Coupon codes. A coupon only applies to the product it names.
 const COUPONS = {
-  GLASSES299: { id: 'rimless-leopard-glasses', price: 299 }
+  GLASSES299: { id: 'rimless-leopard-glasses', price: 299, auto: true }
 };
 
 const json = (body, status = 200) =>
@@ -63,10 +63,11 @@ export async function onRequestPost({ request, env }) {
     const qty = parseInt(it && it.qty, 10);
     if (!product) return json({ ok: false, error: 'One of the products is no longer available.' }, 400);
     if (!(qty >= 1 && qty <= MAX_QTY)) return json({ ok: false, error: 'Invalid quantity.' }, 400);
-    const code = String(body.coupon || '').trim().toUpperCase();
-    const coupon = COUPONS[code];
-    const unit = (coupon && coupon.id === it.id) ? coupon.price : product.price;
-    lines.push({ name: product.name + (unit !== product.price ? ' (coupon ' + code + ')' : ''), price: unit, qty });
+    // Automatic coupons apply to their product; other coupons need the code typed in
+    const typed = String(body.coupon || '').trim().toUpperCase();
+    const applied = Object.entries(COUPONS).find(([code, c]) => c.id === it.id && (c.auto || typed === code));
+    const unit = applied ? applied[1].price : product.price;
+    lines.push({ name: product.name + (applied ? ' (coupon ' + applied[0] + ')' : ''), price: unit, qty });
   }
   if (lines.length === 0) return json({ ok: false, error: 'Your bag is empty.' }, 400);
 
