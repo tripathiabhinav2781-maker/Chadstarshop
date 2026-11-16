@@ -847,6 +847,12 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
 .hl-price::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.8),transparent);transform:skewX(-20deg);animation:badgeShine 3s ease-in-out infinite}
 @keyframes hlGlow{50%{box-shadow:0 0 0 7px rgba(201,164,106,0)}0%{box-shadow:0 0 0 0 rgba(201,164,106,.55)}}
 .coupon-box.applied.auto{background:#f4ecdd;border-color:#a8844a;color:#6a4f22}
+
+/* highlighted coupon price in the price block */
+.pricebox .now-hl{font-size:inherit;font-family:Inter,sans-serif;font-weight:700;padding:4px 14px;margin-right:2px}
+.pricebox.big .now-hl{font-size:30px}
+.page.minimal .pricebox .now-hl{font-size:24px}
+
 @media (prefers-reduced-motion:reduce){.hl-price,.hl-price::after{animation:none!important}}
 
 @media (prefers-reduced-motion:reduce){
@@ -1158,7 +1164,13 @@ details.fold p{margin:12px 0 0;color:var(--muted)}
   // ===== Components =====
   function priceBlock(pid, big) {
     var p = PRODUCTS[pid];
-    return '<div class="pricebox' + (big ? ' big' : '') + '"><span class="now">' + money(p.price) + '</span>' +
+    var code = Object.keys(COUPONS).find(function (c) { return COUPONS[c].pid === pid && COUPONS[c].auto; });
+    var cls = 'pricebox' + (big ? ' big' : '');
+    if (code) {
+      return '<div class="' + cls + '"><span class="hl-price now-hl">' + money(COUPONS[code].price) + '</span>' +
+        '<s class="was">' + money(p.price) + '</s><span class="off-badge">' + Math.round((1 - COUPONS[code].price / p.price) * 100) + '% OFF</span></div>';
+    }
+    return '<div class="' + cls + '"><span class="now">' + money(p.price) + '</span>' +
       (p.compareAt ? '<s class="was">' + money(p.compareAt) + '</s><span class="off-badge">' + offPct(p) + '% OFF</span>' : '') +
       '</div>';
   }
